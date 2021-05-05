@@ -56,6 +56,11 @@ class Auth extends CI_Controller {
 						redirect(base_url('auth/login'));
 						exit;
 			    	}
+					if($result['is_active'] == 0){
+			    		$this->session->set_flashdata('warning', 'Your account has been deactivated!');
+						redirect(base_url('auth/login'));
+						exit;
+			    	}
 					//if($result['is_admin'] == 1){
 						$admin_data = array(
 							'admin_id' => $result['id'],

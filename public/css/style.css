@@ -8739,6 +8739,42 @@ table.dataTable tbody tr.selected_tr {
   color: #E0E0E0;
 }
 
+
+.edit_btn {
+  cursor: pointer;
+  font-size: 16px;
+  visibility: hidden;
+}
+.edit_btn:hover {
+  
+  visibility: visible;
+}
+
+
+.selected_tr .show_tag_names:hover .edit_btn{
+  visibility:visible;
+
+}
+
+input[type="text"]:disabled {
+  background: transparent;
+  border: 1px solid transparent;
+}
+
+.selected_tr td {
+  color: black ! important;
+  font-weight: 600;
+}
+
+.table-responsive {
+  max-height: 670px;
+}
+
+.add_profile_wrap {
+  display: none;
+  padding: 0;
+}
+
 @media (max-width: 1170px) {
   .theme-red .navbar {
     display: inline-block;

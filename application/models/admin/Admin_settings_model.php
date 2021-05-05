@@ -8,10 +8,8 @@
 			return $result = $query->row_array();
 		}
 		//--------------------------------------------------------------------
-		public function update_user($data){
-			$id = $this->session->userdata('admin_id');
-			$this->db->where('id', $id);
-			$this->db->update('ci_users', $data);
+		public function register($data){
+			$this->db->insert('ci_users', $data);
 			return true;
 		}
 		//--------------------------------------------------------------------
@@ -28,10 +26,34 @@
 			return $result = $query->result_array();
 		}
 
-		//get my notes counts 
-		public function get_my_counts_notes(){
+		//Get all users
+		public function get_info_users() {
+		
+			$this->db->select('ci_users.id, ci_users.username, ci_users.email, ci_users.company, ci_users.position_title, ci_users.is_active, ci_users.created_at, COUNT(ci_templates.user_id) AS note_counts');
+			$this->db->from('ci_users');
+			$this->db->join('ci_templates', 'ci_users.id = ci_templates.user_id', 'left');
+			$this->db->group_by('ci_users.id');
+			$query = $this->db->get();
+			return $result = $query->result_array();
+		}
+		
+
+		//get all notes counts 
+		public function get_all_counts_notes(){
 			
 			$counts = $this->db->count_all_results('ci_templates');
+			return $counts;
+		}
+
+		//get all tags counts
+		public function get_all_counts_tags() {
+			$counts = $this->db->count_all_results('ci_tags');
+			return $counts;
+		}
+
+		//get all users counts
+		public function get_all_counts_users() {
+			$counts = $this->db->count_all_results('ci_users');
 			return $counts;
 		}
 
@@ -58,12 +80,53 @@
 			//redirect(base_url('admin/users'));
 		}
 
+		//Delete tag
+		public function del_tag($ids){
+			
+			$this->db->where('id',$ids);
+			$this->db->delete('ci_tags');
+
+			return true;
+	 
+			
+
+			//$this->session->set_flashdata('msg', 'Notes has been deleted successfully!');
+			//redirect(base_url('admin/users'));
+		}
+
+		//Delete user
+		public function del_user($id) {
+			$this->db->where('id',$id);
+			$this->db->delete('ci_users');
+
+			return true;
+	 
+		}
+
+		//Rename tags
+		public function rename_tags($id, $data) {
+			
+			$this->db->where('id', $id);
+			$this->db->update('ci_tags', $data);
+			return true;
+		}
+
 		//active/inactive notes
 		public function active_inactive_notes($id, $data) {
 			
 
 			$this->db->where('id', $id);
 			$this->db->update('ci_templates', $data);
+			return true;
+
+		}
+
+		//active/inactive users
+		public function active_inactive_users($id, $data) {
+			
+
+			$this->db->where('id', $id);
+			$this->db->update('ci_users', $data);
 			return true;
 
 		}
@@ -108,6 +171,7 @@
 			return true;
 		}
 
+		
 
 	}
 

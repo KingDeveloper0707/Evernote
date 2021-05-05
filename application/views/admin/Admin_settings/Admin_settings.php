@@ -24,9 +24,9 @@
 <div class="manage_row_wrap col-lg-3 col-md-3 col-sm-12 col-xs-12">
     <div class="manage_title">Manage</div>
 
-    <div class="manage_body selected" id="admin_manage_users">Users</div>
+    <div class="manage_body selected" id="admin_manage_users">Users ( total <span class="my_cur_users_counts"><?= $user_counts; ?></span> )</div>
     <div class="manage_body" id="admin_manage_notes">Notes ( total <span class="my_cur_notes_counts"><?= $counts; ?></span> )</div>
-    <div class="manage_body" id="admin_manage_tags">Tags</div>
+    <div class="manage_body" id="admin_manage_tags">Tags ( total <span class="my_cur_tags_counts"><?= $tag_counts; ?></span> )</div>
 </div>
 
 
@@ -34,7 +34,188 @@
 
 <div class=" users_row_wrap col-lg-9 col-md-9 col-sm-12 col-xs-12">
       
-Users
+    <div class="action_bar_wrap">
+        <div class="action_bar_title">Actions</div>
+        <div class="action_bar_line">|</div>
+        <div class="action_bar_action" id="add_users_btn">Add New</div>      
+        <div class="action_bar_action" id="delete_users_btn">Delete</div>
+        <div class="action_bar_action" id="active_users_btn">Active/Inactive</div>
+        <div class="action_bar_action" id="post_users_btn">See Posts</div> 
+    </div>
+
+    <div class="row clearfix admin_user_tap_wrap">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card">
+               
+                <div class="body">
+                    <div class="table-responsive">
+                       
+
+                        <table id="show_user_datatable" class="table table-bordered table-striped table-hover dataTable">
+                            <thead>
+                            <tr>
+                                <th class="show_user_table_check"></th>
+                                <th class="show_user_table_name">Title</th>
+                                <th class="show_user_table_date">Date Added</th> 
+                                <th class="show_user_table_notes">Total Notes</th> 
+                                <th class="show_user_table_email">Email</th> 
+                                <th class="show_user_table_status">Status</th> 
+                                <th class="show_user_table_company">Company</th> 
+                                <th class="show_user_table_role">Role</th>                                 
+                                <th class="hide_user_id"></th>                              
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th class="show_user_table_check"></th>
+                                <th class="show_user_table_name">Title</th>
+                                <th class="show_user_table_date">Date Added</th> 
+                                <th class="show_user_table_notes">Total Notes</th> 
+                                <th class="show_user_table_email">Email</th> 
+                                <th class="show_user_table_status">Status</th> 
+                                <th class="show_user_table_company">Company</th> 
+                                <th class="show_user_table_role">Role</th>                                 
+                                <th class="hide_user_id"></th> 
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+
+
+    <div class="add_profile_wrap col-lg-9 col-md-9 col-sm-12 col-xs-12">
+       
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                
+                    <div class="body">
+                        <div class="row clearfix">
+                            <div class="col-md-12">
+                            <?php echo form_open(base_url('admin/admin_settings'), 'class="form-horizontal"' )?> 
+                                <div class="row clearfix">
+                                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                            <label for="email">Email</label>
+                                        </div>
+                                        <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                            <div class="form-group">
+                                                <div class="form-line">
+                                                    <input type="text" value="" name="email" class="form-control" placeholder="Enter your email address" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="row clearfix">
+                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                        <label for="password">Password</label>
+                                    </div>
+                                    <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <input type="text" name="password" class="form-control" placeholder="Enter your Password" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row clearfix">
+                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                        <label for="confirm_pwd">Confirm Pwd</label>
+                                    </div>
+                                    <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <input type="text" name="confirm_pwd" class="form-control" placeholder="Enter your confirm_pwd" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row clearfix">
+                                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                            <label for="username">Username</label>
+                                        </div>
+                                        <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                            <div class="form-group">
+                                                <div class="form-line">
+                                                    <input type="text" name="username" value="" class="form-control" placeholder="Enter your username" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix">
+                                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                            <label for="position_title">Position / Title</label>
+                                        </div>
+                                        <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                            <div class="form-group">
+                                                <div class="form-line">
+                                                    <input type="text" value="" name="position_title" class="form-control" placeholder="Enter your Position and Title">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix">
+                                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                            <label for="company">Company</label>
+                                        </div>
+                                        <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                            <div class="form-group">
+                                                <div class="form-line">
+                                                    <input type="text" value="" name="company" class="form-control" placeholder="Enter your Company">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix">
+                                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                            <label for="expertise">EXPERTISE</label>
+                                        </div>
+                                        <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                            <div class="form-group">
+                                                <div class="form-line">
+                                                    <input type="text" value="" name="expertise" class="form-control" placeholder="Enter your Expertise">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row clearfix">
+                                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                            <label for="bio">Bio</label>
+                                        </div>
+                                        <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                            <div class="form-group">
+                                                <div class="form-line">
+                                                
+                                                    <textarea name="bio" rows="4" class="form-control no-resize" spellcheck="false" placeholder="Enter your Bio"></textarea>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    
+                                    <div class="row clearfix">
+                                        <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-4 col-xs-offset-5">
+                                        <input type="submit" name="submit" value="Add" class="btn btn-primary m-t-15 waves-effect">
+                                        </div>
+                                    </div>
+                                <?php echo form_close(); ?>
+                            </div>   
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
 
 </div>
 
@@ -75,9 +256,15 @@ Users
                             </thead>
                             <tfoot>
                             <tr>
-                                <th></th>
-                                <th>Title</th>
+                                <th class="show_note_table_check"></th>
+                                <th class="show_note_table_title">Title</th>
                                 <th>Date Added</th> 
+                                <th class="hide_note_tags"></th>
+                                <th class="hide_note_id"></th>
+                                <th class="hide_note_content"></th>
+                                <th class="hide_note_userid"></th>
+                                <th class="hide_note_username"></th>
+                                <th class="hide_note_active"></th>
                             </tr>
                             </tfoot>
                         </table>
@@ -90,7 +277,53 @@ Users
 
 
 <div class=" tags_row_wrap col-lg-9 col-md-9 col-sm-12 col-xs-12">
-Tags
+
+
+    <div class="action_bar_wrap">
+        <div class="action_bar_title">Actions</div>
+        <div class="action_bar_line">|</div>
+        <div class="action_bar_action" id="rename_tag_btn">Rename</div>
+        <?php echo form_open(base_url('admin/profile/delete_tags'), 'class="form-horizontal"' )?>  
+            <div class="action_bar_action" id="delete_tag_btn">Delete</div>
+        <?php echo form_close(); ?>
+       
+        <div class="action_bar_action" id="add_tag_btn">Add New</div>
+    </div>
+
+    <div class="row clearfix">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card">
+               
+                <div class="body">
+                    <div class="table-responsive">
+                       
+
+                        <table id="show_tag_datatable" class="table table-bordered table-striped table-hover dataTable">
+                            <thead>
+                            <tr>
+                                <th class="show_note_table_check"></th>
+                                <th class="show_tag_name">Tag Name</th>
+                                <th>Date Added</th> 
+                                <th class="show_tag_user">Added By</th>
+                                <th class="hide_tag_id">Tag ID</th>                                
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th class="show_note_table_check"></th>
+                                <th class="show_tag_name">Tag Name</th>
+                                <th>Date Added</th> 
+                                <th class="show_tag_user">Added By</th>
+                                <th class="hide_tag_id">Tag ID</th>    
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+
 </div>
 
 
@@ -233,6 +466,10 @@ $(document).ready(function() {
             $(".users_row_wrap ").css("display", "block");
             $(".notes_row_wrap  ").css("display", "none");
             $(".tags_row_wrap  ").css("display", "none");
+
+            $(".admin_user_tap_wrap ").css("display", "block");
+            $(".add_profile_wrap").css("display", "none");
+
         }else if (current_id == "admin_manage_notes"){
             $(".users_row_wrap ").css("display", "none");
             $(".notes_row_wrap  ").css("display", "block");
@@ -248,7 +485,96 @@ $(document).ready(function() {
 
     
     
-
+    var show_user_datatable = $('#show_user_datatable').DataTable( {
+        
+        "ordering": true,
+        "searchHighlight": true,
+        "deferRender": true,   
+        "order": [[ 2, "desc" ]],   
+        "select": true,
+        "iDisplayLength": 25,
+        "language": {
+            "lengthMenu": "Display _MENU_ Users per page",
+            "zeroRecords": "Nothing found - sorry",
+            "info": "Showing page _PAGE_ of _PAGES_ ",
+            "infoEmpty": "No users available",
+            "infoFiltered": "(filtered from _MAX_ total users)"
+        },
+        "ajax": "<?=base_url('admin/admin_settings/datatable_users_json')?>",       
+        "columnDefs": [
+              {
+                  "targets": [ 0 ],
+                  "orderable": false,
+                  "searchable": false, 
+                  "width":"5%",
+                  "visible": true
+              },
+              {
+                  "targets": [ 1 ],
+                  "visible": true,
+                  "orderable": true,
+                  "searchable": true,
+                  "width":"20%",
+                  "className": "name_users"
+              },
+              {
+                  "targets": [ 2 ],
+                  "visible": true,
+                  "orderable": true,
+                  "searchable": false,
+                  "width":"20%",
+                  "className": "created_users"
+              },
+              {
+                  "targets": [ 3 ],
+                  "visible": true,
+                  "orderable": true,
+                  "searchable": false,
+                  "width":"20%",
+                  "className": "total_notes_users"
+              },
+              {
+                  "targets": [ 4 ],
+                  "visible": true,
+                  "orderable": true,
+                  "searchable": true,
+                  "width":"10%",
+                  "className": "email_users"
+              },
+              {
+                  "targets": [ 5 ],
+                  "visible": true,
+                  "orderable": true,
+                  "searchable": false,
+                  "width":"10%",
+                  "className": "status_users"
+              },
+              {
+                  "targets": [ 6 ],
+                  "visible": true,
+                  "orderable": true,
+                  "searchable": true,
+                  "width":"20%",
+                  "className": "company_users"
+              },
+              {
+                  "targets": [ 7 ],
+                  "visible": true,
+                  "orderable": true,
+                  "searchable": true,
+                  "width":"10%",
+                  "className": "role_users"
+              },
+              {
+                  "targets": [ 8 ],
+                  "visible": true,
+                  "orderable": true,
+                  "searchable": false,
+                  "width":"10%",
+                  "className": "id_users"
+              }
+          ]
+    });
     
 
     var show_note_datatable = $('#show_note_datatable').DataTable( {
@@ -344,6 +670,513 @@ $(document).ready(function() {
 
 
 
+    
+    var show_tag_datatable = $('#show_tag_datatable').DataTable( {
+        
+        "ordering": true,
+        "searchHighlight": true,
+        "deferRender": true,   
+        "order": [[ 2, "desc" ]],   
+        "select": true,
+        "iDisplayLength": 25,
+        "language": {
+            "lengthMenu": "Display _MENU_ Tags per page",
+            "zeroRecords": "Nothing found - sorry",
+            "info": "Showing page _PAGE_ of _PAGES_ ",
+            "infoEmpty": "No Tags available",
+            "infoFiltered": "(filtered from _MAX_ total tags)"
+        },
+        "ajax": "<?=base_url('admin/admin_settings/datatable_tags_json')?>",       
+        "columnDefs": [
+              {
+                  "targets": [ 0 ],
+                  "orderable": false,
+                  "searchable": false, 
+                  "width":"5%",
+                  "visible": true
+              },
+              {
+                  "targets": [ 1 ],
+                  "visible": true,
+                  "orderable": true,
+                  "searchable": true,
+                  "width":"75%",
+                  "className": "show_tag_names"
+              },
+              {
+                  "targets": [ 2 ],
+                  "visible": true,
+                  "orderable": true,
+                  "searchable": false,
+                  "width":"20%",
+                  "className": "show_tag_added"
+              },
+              {
+                  "targets": [ 3 ],
+                  "visible": true,
+                  "orderable": true,
+                  "searchable": true,
+                  "width":"20%",
+                  "className": "show_tag_user"
+              },
+              {
+                  "targets": [ 4 ],
+                  "visible": true,
+                  "orderable": true,
+                  "searchable": false,
+                  "width":"20%",
+                  "className": "hide_tag_id"
+              }
+             
+          ]
+    });
+
+    //user table
+    
+    $(document).on('click', '#show_user_datatable tbody tr', function(e){ 
+       
+          
+
+       $( "#show_user_datatable tbody tr" ).each(function( index ) {
+           if ($(this).hasClass("selected_tr") ){
+               $(this).removeClass("selected_tr");
+           }
+
+           if($(this).find(".chkclass").is(':checked',true))  
+           {
+               
+               $(this).find(".chkclass").prop('checked', false);  
+           }
+       });
+
+      
+
+
+       $(this).addClass("selected_tr");
+       if($(this).find(".chkclass").is(':checked',true))  
+       {
+           
+           $(this).find(".chkclass").prop('checked', false);  
+       } else {  
+           
+           $(this).find(".chkclass").prop('checked',true);  
+       }  
+      
+  });
+
+
+   //User status
+
+	$(document).on('click', '#active_users_btn', function(event){ 
+		
+		event.stopPropagation();
+        var allVals = [];  
+            $("#show_user_datatable .chkclass:checked").each(function() {  
+                allVals.push($(this).attr('value'));
+            });  
+ 
+            if(allVals.length <=0)  
+            {  
+                bootbox.alert("Please select User!");
+            }  else {  
+                var ajax_url = '<?php echo base_url();?>admin/admin_settings/active_users';
+                var user_id = $("#show_user_datatable tbody tr.selected_tr .id_users").text();
+                var active_val = $("#show_user_datatable tbody tr.selected_tr .status_users").text();
+                
+
+                $.ajax({
+                    type: "POST",
+                    url: ajax_url,   
+                    data: {user_id: user_id, active_val: active_val},
+                    success: function(res) {
+
+                            if (active_val == "Active"){
+                                $("#show_user_datatable tbody tr.selected_tr .status_users").text("Inactive");
+                                if (!$("#show_user_datatable tbody tr.selected_tr .show_note_title").hasClass("inactive_title")){
+                                    $("#show_user_datatable tbody tr.selected_tr .show_note_title").addClass("inactive_title");
+                                }
+
+                            }else{
+                                $("#show_user_datatable tbody tr.selected_tr .status_users").text("Active");
+                                if ($("#show_user_datatable tbody tr.selected_tr .show_note_title").hasClass("inactive_title")){
+                                    $("#show_user_datatable tbody tr.selected_tr .show_note_title").removeClass("inactive_title");
+                                }
+                            }
+                            
+                    
+
+                        }, error: function(res) {
+                            console.log('error');
+                    }
+                });
+
+            }
+   });
+
+   //Delete user 
+   $(document).on('click', '#delete_users_btn', function(event){ 
+		
+   
+        var allVals = [];  
+            $("#show_user_datatable .chkclass:checked").each(function() {  
+                allVals.push($(this).attr('value'));
+            });  
+ 
+            if(allVals.length <=0)  
+            {  
+                bootbox.alert("Please select User!");
+            }  else {  
+                //var check = confirm("Are you sure you want to delete this row?");  
+
+                bootbox.confirm({
+                    message: "Are you sure you want to delete this User?",
+                    buttons: {
+                        confirm: {
+                        label: 'Delete'//,
+                        //className: 'btn-class-here'
+                        },
+                        cancel: {
+                        label: 'No'//,
+                        //className: 'btn-class-here'
+                        }
+                    },
+                    callback:function(result){
+                        /* your callback code */ 
+                        if(result){  
+    
+                            var ajax_url = '<?php echo base_url();?>admin/admin_settings/delete_users';
+                            var user_id = $("#show_user_datatable tbody tr.selected_tr .id_users").text();
+
+
+
+                            $.ajax({
+                                type: "POST",
+                                url: ajax_url,   
+                                data: 'user_id='+user_id,
+                                success: function(res) {
+                                
+                                    
+                                    $(".chkclass:checked").each(function() {  
+                                        show_user_datatable.row( $(this).parents('tr') ).remove().draw();
+                                    });                           
+
+                                    $(".my_cur_users_counts").text(show_user_datatable.rows().count());
+
+                                   
+
+                                    }, error: function(res) {
+                                        console.log('error');
+                                }
+                            });
+                                    
+                        } 
+                    } 
+                }                   
+                )                
+
+            }
+   	});
+
+
+    //tag table
+  
+
+
+    $(document).on('click', '#show_tag_datatable tbody tr', function(e){ 
+       
+          
+
+        $( "#show_tag_datatable tbody tr" ).each(function( index ) {
+            if ($(this).hasClass("selected_tr") ){
+                $(this).removeClass("selected_tr");
+            }
+
+            if($(this).find(".chkclass").is(':checked',true))  
+            {
+                
+                $(this).find(".chkclass").prop('checked', false);  
+            }
+        });
+
+        $( ".input_tag_name" ).each(function( index ) {
+			$(this).prop("disabled", true);			
+		});
+
+
+        $(this).addClass("selected_tr");
+        if($(this).find(".chkclass").is(':checked',true))  
+        {
+            
+            $(this).find(".chkclass").prop('checked', false);  
+        } else {  
+            
+            $(this).find(".chkclass").prop('checked',true);  
+        }  
+       
+   });
+
+
+    //rename tag function
+    function rename_tag() {
+        var ajax_url = '<?php echo base_url();?>admin/admin_settings/rename_tags';
+        var tag_id = $("#show_tag_datatable tbody tr.selected_tr .hide_tag_id").text();
+        var tag_name = $("#show_tag_datatable .selected_tr .input_tag_name").val();
+
+
+        $.ajax({
+            type: "POST",
+            url: ajax_url,   
+            data: {tag_id: tag_id, tag_name: tag_name},
+            success: function(res) {
+            
+                    console.log("complete", res); 
+            
+
+                }, error: function(res) {
+                    console.log('error');
+            }
+        });
+
+
+        if( $("#show_note_datatable tbody tr.selected_tr").find(".hide_notes_active").text() == "0"){
+            $("#show_note_datatable tbody tr.selected_tr .show_note_title").removeClass("inactive_title");
+            $("#show_note_datatable tbody tr.selected_tr").find(".hide_notes_active").text("1");
+        }else {
+            $("#show_note_datatable tbody tr.selected_tr .show_note_title").addClass("inactive_title");
+            $("#show_note_datatable tbody tr.selected_tr").find(".hide_notes_active").text("0");
+        }
+    }
+
+    //Edit possible
+
+	$(document).on('click', '.edit_btn', function(event){ 
+		$( ".input_tag_name" ).each(function( index ) {
+			$(this).prop("disabled", true);			
+		});
+		event.stopPropagation();
+		$(this).parent().find(".input_tag_name").prop("disabled", false);
+		$(this).parent().find(".input_tag_name").focus(); 
+   });
+
+
+   
+   $(document).on('click', '#rename_tag_btn', function(event){ 
+		
+   
+        var allVals = [];  
+            $("#show_tag_datatable .chkclass:checked").each(function() {  
+                allVals.push($(this).attr('value'));
+            });  
+ 
+            if(allVals.length <=0)  
+            {  
+                bootbox.alert("Please select Tag!");
+            }  else {  
+                $("#show_tag_datatable .selected_tr .edit_btn").trigger("click");
+
+            }
+   	});
+
+
+	$(document).on('click', '.input_tag_name', function(event){ 
+		event.stopPropagation();
+   	});
+
+   $(document).on('keypress', '.input_tag_name', function(e){ 
+	if (e.which == 13) {
+		$(this).prop("disabled", true);
+        rename_tag();
+		 return false;    //<---- Add this line
+	   }
+	});
+
+
+
+    //Delete tag 
+    $(document).on('click', '#delete_tag_btn', function(event){ 
+		
+   
+        var allVals = [];  
+            $("#show_tag_datatable .chkclass:checked").each(function() {  
+                allVals.push($(this).attr('value'));
+            });  
+ 
+            if(allVals.length <=0)  
+            {  
+                bootbox.alert("Please select Tag!");
+            }  else {  
+                //var check = confirm("Are you sure you want to delete this row?");  
+
+                bootbox.confirm({
+                    message: "Are you sure you want to delete this tag?",
+                    buttons: {
+                        confirm: {
+                        label: 'Delete'//,
+                        //className: 'btn-class-here'
+                        },
+                        cancel: {
+                        label: 'No'//,
+                        //className: 'btn-class-here'
+                        }
+                    },
+                    callback:function(result){
+                        /* your callback code */ 
+                        if(result){  
+    
+                            var ajax_url = '<?php echo base_url();?>admin/admin_settings/delete_tags';
+                            var tag_id = $("#show_tag_datatable tbody tr.selected_tr .hide_tag_id").text();
+                            var tag_name = $("#show_tag_datatable .selected_tr .input_tag_name").val();
+
+
+
+                            $.ajax({
+                                type: "POST",
+                                url: ajax_url,   
+                                data: {tag_id: tag_id, tag_name: tag_name},
+                                success: function(res) {
+                                
+                                    
+                                    $(".chkclass:checked").each(function() {  
+                                        show_tag_datatable.row( $(this).parents('tr') ).remove().draw();
+                                    });                           
+
+                                    $(".my_cur_tags_counts").text(show_tag_datatable.rows().count());
+
+                                   
+
+                                    }, error: function(res) {
+                                        console.log('error');
+                                }
+                            });
+                                    
+                        } 
+                    } 
+                }                   
+                )                
+
+            }
+   	});
+
+    /// ADD tag
+    
+	$("#add_tag_btn").click(function(event){
+
+       
+		$( "#show_tag_datatable tr" ).each(function( index ) {
+		if ($(this).hasClass("selected_tr"))
+			$(this).removeClass("selected_tr");
+            $(this).find(".chkclass").prop('checked', false);  
+		});
+
+        var new_row = '<tr role="row" class="selected_tr new_tag_row">';
+        new_row += '<td><input type="checkbox" class="chkclass" value=""></td>';
+        new_row += '<td class=" show_tag_names"><input type="text" name="tagname" value="" class="input_tag_name" id="new_tag_item"> <i class="material-icons edit_btn">edit</i></td>';
+        new_row += '<td class="show_tag_added sorting_1"></td>';
+        new_row += '<td class=" show_tag_user "></td>';
+        new_row += '<td class=" hide_tag_id"></td>';
+        new_row += '</tr>';
+        
+        var d = new Date();
+		var n = ("0" + (d.getDate() )).slice(-2);
+		var m = ("0" + (d.getMonth() + 1)).slice(-2);
+		var y = d.getFullYear();
+        var h = ("0" + (d.getHours()  )).slice(-2);
+        var i = ("0" + (d.getMinutes() + 1 )).slice(-2);
+        var s = ("0" + (d.getSeconds() + 1 )).slice(-2);
+		var created_date = y+'-'+m+'-'+n+' '+h+':'+i+':'+s;
+
+
+        show_tag_datatable.row.add([
+            '<td><input type="checkbox" class="chkclass" value=""></td>',
+            '<td class=" show_tag_names"><input type="text" name="tagname" value="" class="input_tag_name" id="new_tag_item"> <i class="material-icons edit_btn">edit</i></td>',
+            '<td class="show_tag_added">'+""+'</td>',
+            '<td class=" show_tag_user">'+" "+'</td>',
+            '<td class=" hide_tag_id">'+ " "+'</td>',
+          ]).draw(false);
+
+
+          show_tag_datatable.order( [[ 3, 'asc' ]] ).draw( false );
+            //select tr
+            $( "#show_tag_datatable tbody tr" ).each(function( index ) {
+                
+                if ($(this).hasClass("selected_tr") ){
+                    $(this).removeClass("selected_tr");
+                }
+            
+          });
+
+
+          $( "#show_tag_datatable tbody tr" ).first().addClass( "selected_tr" );
+          $( "#show_tag_datatable tbody tr" ).first().find(".chkclass").prop("checked", true);
+
+	
+          
+		//$("#show_tag_datatable").prepend(new_row);
+
+        //show_tag_datatable.row.add([new_row]).draw(false);
+        $("#new_tag_item").focus();
+        $(".new_tag_row").find(".chkclass").prop('checked',true);  
+
+
+		
+	});
+
+
+    //click new tag button
+    $(document).on('click', '#new_tag_item', function(event){ 
+		event.stopPropagation();
+        
+       
+   	});
+
+
+    $(document).on('keypress', '#new_tag_item', function(e){ 
+
+        e.stopPropagation();
+
+	    if (e.which == 13) {
+          
+            if ($(this).val() != ""){
+                var ajax_url = '<?php echo base_url();?>admin/admin_settings/add_new_tag';
+                var tag_name = $(this).val();
+
+
+                    $.ajax({
+                        type: "POST",
+                        url: ajax_url,   
+                        data: 'tag_name='+tag_name,
+                        success: function(res) {
+                        
+                            
+                            console.log(res);
+
+                            show_tag_datatable.order( [[ 2, 'desc' ]] ).draw( false );
+                            show_tag_datatable.ajax.reload();
+
+
+                            setTimeout(function() {
+                                $( "#show_tag_datatable tbody tr" ).first().addClass( "selected_tr" );
+                                $( "#show_tag_datatable tbody tr" ).first().find(".chkclass").prop("checked", true);
+
+                            }, 500);
+
+                          
+                            $(".my_cur_tags_counts").text(show_tag_datatable.rows().count());
+
+                        
+
+                            }, error: function(res) {
+                                console.log('error');
+                        }
+                    });
+            }
+
+            return false;    //<---- Add this line
+	   }
+	});
+
+
+        //active/inactive notes
 
         $('#active_notes_btn').on('click', function(e) {
             
@@ -462,13 +1295,31 @@ $(document).ready(function() {
             }  
         });
 
-        $(document).on('click', '#show_note_datatable tbody tr', function(){ 
+
+        $(document).on('click', '.chkclass', function(e){ 
+        
+          
+            if($(this).is(':checked',true))  
+            {
+                
+                $(this).prop('checked', false);  
+              
+            } else {  
+                
+                $(this).prop('checked',true);  
+            }  
+        });
+
+
+        $(document).on('click', '#show_note_datatable tbody tr', function(e){ 
        
-                    
+          
+
             if($(this).find(".chkclass").is(':checked',true))  
             {
                 
                 $(this).find(".chkclass").prop('checked', true);  
+               
             } else {  
                 
                 $(this).find(".chkclass").prop('checked',true);  
@@ -478,19 +1329,7 @@ $(document).ready(function() {
         });
 
 
-        $(document).on('click', '.chkclass', function(){ 
         
-            
-            if($(this).is(':checked',true))  
-            {
-                
-                $(this).prop('checked', false);  
-            } else {  
-                
-                $(this).prop('checked',true);  
-            }  
-        });
-
 
         
 
@@ -791,6 +1630,17 @@ $(document).ready(function() {
     
       });
     
+
+
+      //Show add user wrap
+
+      $("#add_users_btn").on( "click", function() {
+
+        $(".admin_user_tap_wrap ").css("display", "none");
+        $(".add_profile_wrap").css("display", "block");
+
+      });
+
 
 
 });

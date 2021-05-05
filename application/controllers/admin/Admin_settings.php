@@ -10,30 +10,38 @@ class Admin_settings extends MY_Controller {
 		if($this->input->post('submit')){
 			$data = array(
 				'username' => $this->input->post('username'),
-				'firstname' => $this->input->post('firstname'),
 				'position_title' => $this->input->post('position_title'),
-				'email' => $this->input->post('email'),
 				'company' => $this->input->post('company'),
+				'email' => $this->input->post('email'),
 				'expertise' => $this->input->post('expertise'),
 				'bio' => $this->input->post('bio'),
+				'password' =>  password_hash($this->input->post('password'), PASSWORD_BCRYPT),
+				'is_active' => 1,
+				'is_verify' => 1,				
+				'last_ip' => '',
+				'created_at' => date('Y-m-d H:i:s'),
 				'updated_at' => date('Y-m-d H:i:s'),
 			);
+
+			
 			$data = $this->security->xss_clean($data);
-			$result = $this->admin_settings_model->update_user($data);
+			$result = $this->admin_settings_model->register($data);
 			if($result){
 
 				// Add User Activity
 				$this->activity_model->add(6);
 
 				$this->session->set_flashdata('msg', 'Profile has been Updated Successfully!');
-				redirect(base_url('admin/profile'), 'refresh');
+				redirect(base_url('admin/admin_settings'), 'refresh');
 			}
 		}
 		else{
 			$id = $this->session->userdata('admin_id');
 
 			$data['user'] = $this->admin_settings_model->get_user_detail();
-			$data['counts'] = $this->admin_settings_model->get_my_counts_notes ();
+			$data['counts'] = $this->admin_settings_model->get_all_counts_notes ();
+			$data['tag_counts'] = $this->admin_settings_model->get_all_counts_tags ();
+			$data['user_counts'] = $this->admin_settings_model->get_all_counts_users ();
 			$data['title'] = 'User Profile';
 			$data['view'] = 'admin/Admin_settings/Admin_settings';
 			
@@ -77,6 +85,128 @@ class Admin_settings extends MY_Controller {
 			$data['view'] = 'admin/profile';
 			$this->load->view('layout', $data);
 		}
+	}
+
+
+	public function datatable_users_json() {
+        $id = $this->session->userdata('admin_id');
+
+      
+		
+		$data = array();
+
+		//get tags information
+		$tags_info = $this->admin_settings_model->get_info_users();
+		
+
+		foreach ($tags_info as $row)
+		{
+			
+
+			$active_state = "";
+			$title_class = "show_note_title";
+
+
+			if ($row['is_active'] == 0){
+				$title_class = $title_class." inactive_title";
+				$active_state = "Inactive";
+			}else {
+				$active_state = "Active";
+			} 
+				
+
+				$data[] = array(
+					'<input type="checkbox" class="chkclass"  value="'. $row['id'] .'">',
+					'<div class="'.$title_class.'">'.$row['username'].'</div>',
+					$row['created_at'],	
+					$row['note_counts'],						
+					$row['email'],
+					$active_state,
+					$row['company'],
+					$row['position_title'],
+					$row['id'],
+				);
+			
+				
+		}
+
+		$recods["data"] = $data;
+	
+		echo json_encode($recods);	
+	}
+
+	//active users
+	public function active_users() {
+		$id = $this->input->post('user_id');
+		$active_val = $this->input->post('active_val');
+
+		if ($active_val == "Active" ){
+			$data = array(
+				'is_active' => 0,
+			);
+		}else {
+			$data = array(
+				'is_active' => 1,
+			);
+		}
+		
+
+		$edit = $this->admin_settings_model->active_inactive_users($id, $data);
+
+
+
+	}
+
+
+	public function datatable_tags_json() {
+        $id = $this->session->userdata('admin_id');
+
+      
+		
+		$data = array();
+
+		//get tags information
+		$tags_info = $this->admin_settings_model->get_tags_info_by_id();
+		
+
+		foreach ($tags_info as $row)
+		{
+				$user_name = $this->admin_settings_model->get_current_username($row['user_id']);
+				if($user_name != null){
+					$cur_user_name = $user_name->username;
+				}else {
+					$cur_user_name = "";
+				}
+
+				
+
+				$data[] = array(
+					'<input type="checkbox" class="chkclass"  value="'. $row['id'] .'">',
+					'<input type="text" name="tagname"  value="'.$row['tagname'].'" class="input_tag_name" disabled> <i class="material-icons edit_btn">edit</i>',					
+					$row['created_at'],							
+					$cur_user_name,
+					$row['id'],
+				);
+			
+				
+		}
+
+		$recods["data"] = $data;
+	
+		echo json_encode($recods);	
+	}
+
+
+	public function rename_tags() {
+		$id = $this->input->post('tag_id');
+		$active_val = $this->input->post('tag_name');
+
+		$data = array(
+			'tagname' => $active_val,
+		);
+
+		$edit = $this->admin_settings_model->rename_tags($id, $data);
+
 	}
 
 
@@ -160,6 +290,29 @@ class Admin_settings extends MY_Controller {
 		if ($records)
 			echo json_encode(['success'=>"Item Deleted successfully."]);
 	}
+
+	//-------------------------------------------------------------------------
+	public function delete_tags(){
+		$id = $this->input->post('tag_id');
+		$active_val = $this->input->post('tag_name');
+	
+		$records = $this->admin_settings_model->del_tag($id);
+
+		if ($records)
+			echo json_encode(['success'=>"Item Deleted successfully."]);
+	}
+
+	//delete users
+	public function delete_users () {
+		$id = $this->input->post('user_id');
+		
+	
+		$records = $this->admin_settings_model->del_user($id);
+
+		if ($records)
+			echo json_encode(['success'=>"Item Deleted successfully."]);
+	}
+	
 
 	//----Active/Inacitve Notes
 	public function active_inactive_notes() {
@@ -328,6 +481,35 @@ class Admin_settings extends MY_Controller {
 		}*/
 	}
 			
+
+	public function add_new_tag() {
+		$id = $this->session->userdata('admin_id');
+		$tag_name = $this->input->post('tag_name');
+
+		$tag_data = array(
+			'tagname' => $tag_name,
+			'created_at' => date('Y-m-d H:i:s'),
+			'user_id' => $id,
+		);	
+		$new_tag_id = $this->admin_settings_model->insert_tags($tag_data);
+
+		$user_name = $this->admin_settings_model->get_current_username($id);
+				if($user_name != null){
+					$cur_user_name = $user_name->username;
+				}else {
+					$cur_user_name = "";
+				}
+
+		
+		$send_data = array(
+			'tagname' => $tag_name,
+			'created_at' => date('Y-m-d H:i:s'),
+			'user_name' => $user_name,
+			'tag_id' => $new_tag_id,
+		);	
+
+		echo json_encode($send_data);	
+	}
 
 }
 
