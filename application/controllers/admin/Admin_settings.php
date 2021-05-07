@@ -8,32 +8,43 @@ class Admin_settings extends MY_Controller {
 	//-------------------------------------------------------------------------
 	public function index(){
 		if($this->input->post('submit')){
-			$data = array(
-				'username' => $this->input->post('username'),
-				'position_title' => $this->input->post('position_title'),
-				'company' => $this->input->post('company'),
-				'email' => $this->input->post('email'),
-				'expertise' => $this->input->post('expertise'),
-				'bio' => $this->input->post('bio'),
-				'password' =>  password_hash($this->input->post('password'), PASSWORD_BCRYPT),
-				'is_active' => 1,
-				'is_verify' => 1,				
-				'last_ip' => '',
-				'created_at' => date('Y-m-d H:i:s'),
-				'updated_at' => date('Y-m-d H:i:s'),
-			);
 
-			
-			$data = $this->security->xss_clean($data);
-			$result = $this->admin_settings_model->register($data);
-			if($result){
+			$this->form_validation->set_rules('email', 'Email', 'trim|valid_email|is_unique[ci_users.email]|required');
+			$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[5]');
+			$this->form_validation->set_rules('confirm_pwd', 'Password Confirmation', 'trim|required|matches[password]');
 
-				// Add User Activity
-				$this->activity_model->add(6);
-
-				$this->session->set_flashdata('msg', 'Profile has been Updated Successfully!');
-				redirect(base_url('admin/admin_settings'), 'refresh');
+			if ($this->form_validation->run() == FALSE) {
+					$this->session->set_flashdata('error', 'Profile has some problems!');
+					redirect(base_url('admin/admin_settings'), 'refresh');
+			}else{
+				$data = array(
+					'username' => $this->input->post('username'),
+					'position_title' => $this->input->post('position_title'),
+					'company' => $this->input->post('company'),
+					'email' => $this->input->post('email'),
+					'expertise' => $this->input->post('expertise'),
+					'bio' => $this->input->post('bio'),
+					'password' =>  password_hash($this->input->post('password'), PASSWORD_BCRYPT),
+					'is_active' => 1,
+					'is_verify' => 1,				
+					'last_ip' => '',
+					'created_at' => date('Y-m-d H:i:s'),
+					'updated_at' => date('Y-m-d H:i:s'),
+				);
+	
+				
+				$data = $this->security->xss_clean($data);
+				$result = $this->admin_settings_model->register($data);
+				if($result){
+	
+					// Add User Activity
+					$this->activity_model->add(6);
+	
+					$this->session->set_flashdata('msg', 'Profile has been Updated Successfully!');
+					redirect(base_url('admin/admin_settings'), 'refresh');
+				}
 			}
+			
 		}
 		else{
 			$id = $this->session->userdata('admin_id');
@@ -87,6 +98,80 @@ class Admin_settings extends MY_Controller {
 		}
 	}
 
+	public function datatable_selected_user_json () {
+		$id = $this->input->post('user_id');
+
+		$records = $this->admin_settings_model->get_all_notes_by_id($id);
+
+		$data = array();
+		
+
+		//get tags information
+		$tags_info = $this->admin_settings_model->get_tags_info_by_id();
+		$tags_array = array();
+		$i= 0;
+		foreach($tags_info as $row){
+			$tags_array[$i] = array($row['id'], $row['tagname']);
+			$i++;
+		}
+
+
+		foreach ($records as $row)
+		{
+			if ($row['subject'] == ""){
+				$current_title = "Untitled";
+			}else{
+				$current_title = $row['subject'];
+			}
+			$tag_list = explode(",", $row['tags']);
+			$tag_full_name = "";
+
+			foreach ($tag_list as $v) { 
+				foreach ($tags_array as $tag_data){
+					if ($tag_data[0] == $v){
+					  $tag_full_name .= '<div class="tag_list">'.$tag_data[1]. '</div>' ;
+
+					}
+				}
+			}
+
+					$title_class = "show_note_title";
+
+						if ($row['is_active'] == 0)  
+							$title_class = $title_class." inactive_title";
+
+
+					$user_name = $this->admin_settings_model->get_current_username($row['user_id']);
+						if($user_name != null){
+							$cur_user_name = $user_name->username;
+						}else {
+							$cur_user_name = "";
+						}
+
+				$data[] = array(
+					'<div class="show_create_date">'.$row['created_at'].'</div><div class="'.$title_class.'">'.$current_title.'</div>',
+					
+					$row['created_at'],
+					$row['updated_at'],
+					$tag_full_name,
+					$row['id'],
+					$row['content'],
+					$row['user_id'],
+					$cur_user_name,
+					$row['is_active'],
+				);
+			
+				
+		}
+
+		$recods["data"] = $data;
+	
+		echo json_encode($recods);	
+	}
+
+
+
+	
 
 	public function datatable_users_json() {
         $id = $this->session->userdata('admin_id');
@@ -125,6 +210,7 @@ class Admin_settings extends MY_Controller {
 					$row['company'],
 					$row['position_title'],
 					$row['id'],
+					$row['note_updated'],
 				);
 			
 				

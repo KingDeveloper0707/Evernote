@@ -20,6 +20,16 @@
 		}
 
 		// get all notes with id for server-side datatable processing (ajax based)
+		public function get_all_notes_by_id($id){
+			
+			$array = array('user_id' => $id);
+			$this->db->where($array);
+			$this->db->order_by('created_at', 'DESC');
+			$query = $this->db->get('ci_templates');
+			return $result = $query->result_array();
+		}
+
+		// get all notes with id for server-side datatable processing (ajax based)
 		public function get_all_notes(){
 			
 			$query = $this->db->get('ci_templates');
@@ -29,10 +39,12 @@
 		//Get all users
 		public function get_info_users() {
 		
-			$this->db->select('ci_users.id, ci_users.username, ci_users.email, ci_users.company, ci_users.position_title, ci_users.is_active, ci_users.created_at, COUNT(ci_templates.user_id) AS note_counts');
+			$this->db->select('ci_templates.id, ci_users.id, ci_users.username, ci_users.email, ci_users.company, ci_users.position_title, ci_users.is_active, ci_users.created_at, COUNT(ci_templates.user_id) AS note_counts, MAX(ci_templates.updated_at) AS note_updated');
 			$this->db->from('ci_users');
 			$this->db->join('ci_templates', 'ci_users.id = ci_templates.user_id', 'left');
+			$this->db->order_by('ci_templates.id', 'DESC');
 			$this->db->group_by('ci_users.id');
+			
 			$query = $this->db->get();
 			return $result = $query->result_array();
 		}

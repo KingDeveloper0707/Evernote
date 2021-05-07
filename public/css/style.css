@@ -8406,7 +8406,7 @@ table.dataTable tbody tr.selected_tr {
 .table-responsive {
   
   overflow-y: auto;
-  overflow-x: hidden;
+  
 }
 
 
@@ -8697,6 +8697,7 @@ table.dataTable tbody tr.selected_tr {
     display: flex;
     align-items: baseline;
     margin-bottom: 20px;
+    flex-wrap: wrap;
 }
 
 .action_bar_title {
@@ -8715,6 +8716,7 @@ table.dataTable tbody tr.selected_tr {
   cursor: pointer;
   font-family: 'Inter';
   margin-right: 30px;
+  margin-bottom: 20px;
 }
 
 
@@ -8774,6 +8776,58 @@ input[type="text"]:disabled {
   display: none;
   padding: 0;
 }
+
+
+.admin_user_notes_wrap .card {
+  margin-right: 15px;
+  margin-left: 15px;
+}
+
+.admin_user_notes_wrap {
+  display: none;
+}
+
+.admin_note_wrap #note_datatable_wrapper .row:first-child {
+  display: block ! important;
+}
+
+
+.user_tab_info {
+  max-width: 200px;
+  margin-right: 50px;
+}
+
+.user_tab_info_title {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+
+.user_tab_info_name {
+  font-size: 18px;
+  max-width: 120px;
+  line-height: 1.2em;
+  margin-bottom: 11px; 
+}
+
+.user_tab_info_email {
+  max-width: 200px;
+  margin-bottom: 30px;
+  font-size: 11px;
+}
+
+.user_tab_info_notes {
+  font-size: 11px;
+  margin-bottom: 20px;
+}
+
+.user_tab_info_rctposts {
+  font-size: 11px;
+  line-height: 1.2em;
+}
+
+
+
 
 @media (max-width: 1170px) {
   .theme-red .navbar {

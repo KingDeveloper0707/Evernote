@@ -122,7 +122,7 @@ class Auth extends CI_Controller {
 			$this->form_validation->set_rules('firstname', 'Firstname', 'trim|required');
 			$this->form_validation->set_rules('lastname', 'Lastname', 'trim|required');
 			$this->form_validation->set_rules('email', 'Email', 'trim|valid_email|is_unique[ci_users.email]|required');
-			$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[8]');
+			$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[5]');
 			$this->form_validation->set_rules('confirm_password', 'Password Confirmation', 'trim|required|matches[password]');
 
 			if ($this->form_validation->run() == FALSE) {

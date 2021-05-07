@@ -34,7 +34,7 @@
 
 <div class=" users_row_wrap col-lg-9 col-md-9 col-sm-12 col-xs-12">
       
-    <div class="action_bar_wrap">
+    <div class="action_bar_wrap" id="action_bar_user_main">
         <div class="action_bar_title">Actions</div>
         <div class="action_bar_line">|</div>
         <div class="action_bar_action" id="add_users_btn">Add New</div>      
@@ -62,7 +62,8 @@
                                 <th class="show_user_table_status">Status</th> 
                                 <th class="show_user_table_company">Company</th> 
                                 <th class="show_user_table_role">Role</th>                                 
-                                <th class="hide_user_id"></th>                              
+                                <th class="hide_user_id"></th>      
+                                <th class="hide_user_last_updated"></th>                             
                             </tr>
                             </thead>
                             <tfoot>
@@ -76,6 +77,7 @@
                                 <th class="show_user_table_company">Company</th> 
                                 <th class="show_user_table_role">Role</th>                                 
                                 <th class="hide_user_id"></th> 
+                                <th class="hide_user_last_updated"></th>   
                             </tr>
                             </tfoot>
                         </table>
@@ -212,6 +214,120 @@
         </div>
 
     </div>
+
+
+    <div class="row clearfix admin_user_notes_wrap">
+
+        <div class="user_tab_info">
+            <div class="user_tab_info_title">User</div>
+            <div class="user_tab_info_name">David Attenborough</div>
+            <div class="user_tab_info_email">test@gmail.com</div>
+            <div class="user_tab_info_notes"><span class="user_tab_info_note">15</span> Notes</div>
+            <div class="user_tab_info_rctposts">Most Recently Posted On <br/><span class="user_tab_info_rctpost">5/4/2021</span></div>
+        </div>
+
+
+        <div class="card">
+            <div class="header">
+                <div class="action_bar_wrap">
+                    <div class="action_bar_title" ><span id="action_bar_username">David Attenborough</span>'s Notes</div>
+                    <div class="action_bar_line">|</div>
+                    <div class="action_bar_action" id="edit_note_btn">Edit</div>      
+                    <div class="action_bar_action" id="delete_note_btn">Delete</div>
+                    <div class="action_bar_action" id="active_note_btn">Active/Inactive</div>
+                   
+                </div>
+
+                <ul class="header-dropdown m-r--5" style="display: none;">
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">sort</i>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a style="pointer-events: none; color: #666;">Sort By</a></li>
+                            <li><a class="sort_menu_item" id="sort_title_notes"><i class="material-icons">south</i><i class="material-icons">north</i><span>Title</span></span></a></li>
+                            <li><a class="sort_menu_item" id="sort_updated_notes"><i class="material-icons">south</i><i class="material-icons">north</i><span>Date updated</span></span></a></li>
+                            <li><a class="sort_menu_item" id="sort_created_notes"><i class="material-icons">south</i><i class="material-icons">north</i><span>Date created</span></span></a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">filter_alt</i>
+                        </a>
+                        <ul class="dropdown-menu pull-right dropdown_select">
+                            <li><a style="pointer-events: none; color: #666;">Add Filters</a></li>
+                            <li class="select_menu_wrap">
+                                
+                                <div class="filter_tags_wrap">
+                                    <select class="select_filter_tags"  id="my_select_filter_tags" multiple="multiple">
+                                        <?php foreach ($tags_data as $tag_data){
+                                                            
+                                                            ?>
+
+                                                            <option value="<?php echo $tag_data[1]; ?>"><?php echo $tag_data[1]; ?></option>
+                                                            
+                                                            <?php 
+                                                            
+                                                        }
+                                                        ?>                                      
+                                    </select>
+                                    <div class="filter_tags_reset"><i class="material-icons">close</i></div>
+
+                                </div>
+                                
+                                
+                            
+                            </li>
+                                
+                            
+                        </ul>
+                    </li>
+                    
+                                
+                    <li>
+                        <a href="javascript:void(0);" class="view-layout-btn note_wrap_ctr_btn">
+                            <i class="material-icons">table_view</i>     
+                        </a>
+                    </li>                        
+                </ul>
+            </div>
+            <div class="body">
+                                
+                
+                <div class="show_filter_wrap">
+
+
+                </div>
+                
+                 
+
+                <div class="table-responsive admin_note_wrap">
+                    <table id="note_datatable" class="table table-bordered table-striped table-hover dataTable">
+                        <thead style="display: none;">
+                        <tr>
+                            <th>Notes Name</th>
+                            <th class="hide_created_notes">Created</th>
+                            <th class="hide_updated_notes">Updated</th>                          
+                            <th class="hide_tags_notes">Tags</th>  
+                            <th>note_ID</th> 
+                            <th>Content</th> 
+                            <th>User_ID</th>  
+                            <th>Hide_Tags</th>    
+                            <th>Hide_Title</th>                        
+                        </tr>
+                        </thead>
+                        
+                    </table>
+                </div>
+                
+                
+
+
+            </div>
+        </div>
+    </div>
+
+
 
 
 
@@ -458,6 +574,7 @@ $(document).ready(function() {
             }            
         });
 
+
         $(this).addClass("selected");
 
         var current_id = $(this).attr("id");
@@ -469,6 +586,10 @@ $(document).ready(function() {
 
             $(".admin_user_tap_wrap ").css("display", "block");
             $(".add_profile_wrap").css("display", "none");
+
+            $(".admin_user_notes_wrap").css("display", "none");   
+            $(".admin_user_tap_wrap ").css("display", "block");   
+            $(".users_row_wrap #action_bar_user_main").css("display", "flex");    
 
         }else if (current_id == "admin_manage_notes"){
             $(".users_row_wrap ").css("display", "none");
@@ -572,6 +693,14 @@ $(document).ready(function() {
                   "searchable": false,
                   "width":"10%",
                   "className": "id_users"
+              },
+              {
+                  "targets": [ 9 ],
+                  "visible": true,
+                  "orderable": true,
+                  "searchable": false,
+                  "width":"10%",
+                  "className": "last_updated_users"
               }
           ]
     });
@@ -731,6 +860,100 @@ $(document).ready(function() {
           ]
     });
 
+
+
+    var selected_user_id = ""
+
+  var note_datatable = $('#note_datatable').DataTable( {
+        "ordering": true,
+        "searchHighlight": true,
+        "deferRender": true,   
+        "order": [[ 2, "desc" ]],   
+        "select": true,
+        "iDisplayLength": 25,
+        "language": {
+            "lengthMenu": "Display _MENU_ Notes per page",
+            "zeroRecords": "Nothing found - sorry",
+            "info": "Showing page _PAGE_ of _PAGES_ ",
+            "infoEmpty": "No notes available",
+            "infoFiltered": "(filtered from _MAX_ total notes)"
+        },
+        "ajax":{
+          "url" :  "<?=base_url('admin/admin_settings/datatable_selected_user_json')?>", 
+          "type": "POST",
+          "data": function(d){
+                d.user_id = selected_user_id;
+                d.searchText = "";
+            }
+        } ,
+        
+          
+        "columnDefs": [
+              {
+                  "targets": [ 0 ],
+                  "orderable": true,
+                  "visible": true
+              },
+              {
+                  "targets": [ 1 ],
+                  "visible": true,
+                  "orderable": true,
+                  "searchable": false,
+                  "className": "hide_created_notes"
+              },
+              {
+                  "targets": [ 2 ],
+                  "visible": true,
+                  "orderable": true,
+                  "searchable": false,
+                  "className": "hide_updated_notes"
+              },
+              {
+                  "targets": [ 3 ],
+                  "visible": true,
+                  "orderable": true,
+                  "searchable": false,
+                  "className": "hide_tags_notes"
+              },
+              {
+                  "targets": [ 4 ],
+                  "visible": true,
+                  "orderable": true,
+                  "className": "note_left_id_hide",
+                  "searchable": false
+              },
+              {
+                  "targets": [ 5 ],
+                  "visible": true,
+                  "orderable": true,
+                  "className": "note_left_content_hide",
+                  "searchable": false
+              },
+              {
+                  "targets": [ 6 ],
+                  "visible": true,
+                  "orderable": true,
+                  "className": "note_left_userid_hide",
+                  "searchable": false
+              },
+              {
+                  "targets": [ 7 ],
+                  "visible": true,
+                  "orderable": true,
+                  "className": "note_left_tags_hide",
+                  "searchable": false
+              }
+              ,
+              {
+                  "targets": [ 8 ],
+                  "visible": true,
+                  "orderable": true,
+                  "className": "note_left_title_hide",
+                  "searchable": false
+              }
+          ]
+  });
+
     //user table
     
     $(document).on('click', '#show_user_datatable tbody tr', function(e){ 
@@ -812,6 +1035,325 @@ $(document).ready(function() {
 
             }
    });
+
+
+   //user table
+    
+   $(document).on('click', '#note_datatable tbody tr', function(e){ 
+       
+          
+
+       $( "#note_datatable tbody tr" ).each(function( index ) {
+           if ($(this).hasClass("selected_tr") ){
+               $(this).removeClass("selected_tr");
+           }
+       });
+
+      
+
+
+       $(this).addClass("selected_tr");
+      
+      
+  });
+
+
+   //See posts
+   function getting_notes_info() {
+       var user_name = $("#show_user_datatable tbody tr.selected_tr .show_note_title").text();
+       var user_email = $("#show_user_datatable tbody tr.selected_tr .email_users").text();
+       var user_total_notes = $("#show_user_datatable tbody tr.selected_tr .total_notes_users").text();
+       var user_recent_notes = $("#show_user_datatable tbody tr.selected_tr .last_updated_users").text();
+
+       $(".user_tab_info_name").text(user_name);
+       $("#action_bar_username").text(user_name);
+       $(".user_tab_info_email").text(user_email);
+       $(".user_tab_info_note").text(user_total_notes);
+       $(".user_tab_info_rctpost").text(user_recent_notes);
+
+
+       selected_user_id = $("#show_user_datatable tbody tr.selected_tr .id_users").text();
+      
+       note_datatable.ajax.reload();
+
+      
+
+   }
+
+    //Delete notes 
+    $(document).on('click', '#delete_note_btn', function(event){ 
+		
+   
+        var allVals = [];  
+            $("#note_datatable tbody tr.selected_tr").each(function() {  
+                    allVals.push($(this));
+            });  
+ 
+            if(allVals.length <=0)  
+            {  
+                bootbox.alert("Please select Note!");
+            }  else {  
+                //var check = confirm("Are you sure you want to delete this row?");  
+
+                bootbox.confirm({
+                    message: "Are you sure you want to delete this Note?",
+                    buttons: {
+                        confirm: {
+                        label: 'Delete'//,
+                        //className: 'btn-class-here'
+                        },
+                        cancel: {
+                        label: 'No'//,
+                        //className: 'btn-class-here'
+                        }
+                    },
+                    callback:function(result){
+                        /* your callback code */ 
+                        if(result){  
+    
+                            var ajax_url = '<?php echo base_url();?>admin/admin_settings/delete_notes';
+                            var tag_id = $("#note_datatable tbody tr.selected_tr .note_left_id_hide").text();
+                          
+
+
+
+                            $.ajax({
+                                type: "POST",
+                                url: ajax_url,   
+                                data: 'ids='+tag_id,
+                                success: function(res) {
+                                
+                                    
+                                    $("#note_datatable tbody tr.selected_tr").each(function() {  
+                                        note_datatable.row( $(this)).remove().draw();
+                                    });                           
+
+                                    $(".user_tab_info_note").text(note_datatable.rows().count());
+
+                                   
+
+                                    }, error: function(res) {
+                                        console.log('error');
+                                }
+                            });
+                                    
+                        } 
+                    } 
+                }                   
+                )                
+
+            }
+   	});
+
+
+           //active/inactive notes
+
+           $('#active_note_btn').on('click', function(e) {
+            
+            e.preventDefault(); 
+
+            var allVals = [];  
+            $("#note_datatable tbody tr.selected_tr").each(function() {  
+                    allVals.push($(this));
+            });  
+
+            if(allVals.length <=0)  
+            {  
+                bootbox.alert("Please select Note!");
+            }  else {  
+
+                var ajax_url = '<?php echo base_url();?>admin/admin_settings/active_inactive_notes';
+                var note_id = $("#note_datatable tbody tr.selected_tr .note_left_id_hide").text();
+                var active_val = $("#note_datatable tbody tr.selected_tr .note_left_title_hide").text();
+
+
+                $.ajax({
+                    type: "POST",
+                    url: ajax_url,   
+                    data: {note_id: note_id, active_val: active_val},
+                    success: function(res) {
+                    
+                            console.log("complete", res); 
+                    
+
+                        }, error: function(res) {
+                            console.log('error');
+                    }
+                });
+
+
+                if( $("#note_datatable tbody tr.selected_tr").find(".note_left_title_hide").text() == "0"){
+                    $("#note_datatable tbody tr.selected_tr .show_note_title").removeClass("inactive_title");
+                    $("#note_datatable tbody tr.selected_tr").find(".note_left_title_hide").text("1");
+                }else {
+                    $("#note_datatable tbody tr.selected_tr .show_note_title").addClass("inactive_title");
+                    $("#note_datatable tbody tr.selected_tr").find(".note_left_title_hide").text("0");
+                }
+
+            }
+        
+           
+
+            
+        });
+
+        
+        
+        //double click = show popup 
+        $(document).on('dblclick', '#note_datatable tbody tr.selected_tr', function(){ 
+                     //Replace Editor contents
+                     var editor1 = CKEDITOR.instances.ckeditor; //fck is just my instance name you will need to replace that with yours
+
+                    var edata = editor1.getData();
+
+
+                    var replaced_text = $("#note_datatable tbody tr.selected_tr").find(".note_left_content_hide").html(); // you could also use a regex in the replace 
+
+                    if (edata != replaced_text) {
+                        CKEDITOR.instances.ckeditor.setData( replaced_text );
+                    }
+                    //alert(replaced_text);
+
+
+
+                    current_ck_content = editor1.getData();
+
+                    var replaced_title = $("#note_datatable tbody tr.selected_tr").find(".show_note_title").text();
+                    if (replaced_title == "Untitled") {
+                        $("#subject").val("");
+                    }else {
+                        $("#subject").val(replaced_title);
+                    }
+
+
+                    var replaced_date = $("#note_datatable tbody tr.selected_tr").find(".hide_updated_notes").text();
+                    $(".right_title_date").text(replaced_date);
+
+                    var replaced_tags = $("#note_datatable tbody tr.selected_tr").find(".hide_tags_notes").html();
+                    $(".right_title_tags").html(replaced_tags);
+
+                    var replaced_id = $("#note_datatable tbody tr.selected_tr").find(".note_left_id_hide").text();
+                    $("#curID").val(replaced_id);
+
+                    $(".right_title_name").text($("#note_datatable tbody tr.selected_tr").find(".note_left_tags_hide").text());
+
+
+                    $("#createtag").css("display", "none");
+
+                    $("#subject").focus();
+
+
+                    $(".show_modal_btn").trigger("click");          
+        
+        })
+
+
+        $('#edit_note_btn').on('click', function(e) {
+ 
+            e.preventDefault(); 
+
+            var allVals = [];  
+            $("#note_datatable tbody tr.selected_tr").each(function() {  
+                    allVals.push($(this));
+            });    
+
+            if(allVals.length <=0)  
+            {  
+                bootbox.alert("Please select Note!");
+            }  else {  
+                    //Replace Editor contents
+                    var editor1 = CKEDITOR.instances.ckeditor; //fck is just my instance name you will need to replace that with yours
+
+                    var edata = editor1.getData();
+
+
+                    var replaced_text = $("#note_datatable tbody tr.selected_tr").find(".note_left_content_hide").html(); // you could also use a regex in the replace 
+
+                    if (edata != replaced_text) {
+                        CKEDITOR.instances.ckeditor.setData( replaced_text );
+                    }
+                    //alert(replaced_text);
+
+
+
+                    current_ck_content = editor1.getData();
+
+                    var replaced_title = $("#note_datatable tbody tr.selected_tr").find(".show_note_title").text();
+                    if (replaced_title == "Untitled") {
+                        $("#subject").val("");
+                    }else {
+                        $("#subject").val(replaced_title);
+                    }
+
+
+                    var replaced_date = $("#note_datatable tbody tr.selected_tr").find(".hide_updated_notes").text();
+                    $(".right_title_date").text(replaced_date);
+
+                    var replaced_tags = $("#note_datatable tbody tr.selected_tr").find(".hide_tags_notes").html();
+                    $(".right_title_tags").html(replaced_tags);
+
+                    var replaced_id = $("#note_datatable tbody tr.selected_tr").find(".note_left_id_hide").text();
+                    $("#curID").val(replaced_id);
+
+                    $(".right_title_name").text($("#note_datatable tbody tr.selected_tr").find(".note_left_tags_hide").text());
+
+
+                    $("#createtag").css("display", "none");
+
+                    $("#subject").focus();
+
+
+                    $(".show_modal_btn").trigger("click");
+            }
+        });
+
+
+   $(document).on('click', '#post_users_btn', function(event){ 
+		
+   
+        var allVals = [];  
+            $("#show_user_datatable .chkclass:checked").each(function() {  
+                allVals.push($(this).attr('value'));
+            });  
+ 
+            if(allVals.length <=0)  
+            {  
+                bootbox.alert("Please select User!");
+            }  else {  
+                //var check = confirm("Are you sure you want to delete this row?");  
+
+                $(".admin_user_notes_wrap").css("display", "flex");   
+                $(".admin_user_tap_wrap ").css("display", "none");   
+                $(".users_row_wrap #action_bar_user_main").css("display", "none");         
+
+                getting_notes_info();
+
+            }
+   	});
+
+    $(document).on('dblclick', '#show_user_datatable tbody tr', function(event){ 
+		
+   
+        var allVals = [];  
+            $("#show_user_datatable .chkclass:checked").each(function() {  
+                allVals.push($(this).attr('value'));
+            });  
+ 
+            if(allVals.length <=0)  
+            {  
+                bootbox.alert("Please select User!");
+            }  else {  
+                //var check = confirm("Are you sure you want to delete this row?");  
+
+                $(".admin_user_notes_wrap").css("display", "flex");   
+                $(".admin_user_tap_wrap ").css("display", "none");   
+                $(".users_row_wrap #action_bar_user_main").css("display", "none");     
+                
+                getting_notes_info();
+
+            }
+   	});
+
 
    //Delete user 
    $(document).on('click', '#delete_users_btn', function(event){ 
@@ -1505,7 +2047,28 @@ $(document).ready(function() {
             }
         });
 
+        //getting list of added filter rows and fitler_tags list Function
+        function getting_list_filter_user(){
 
+                    
+            var filter_row_list = [];
+
+            $( "#note_datatable tbody tr" ).each(function( index ) {
+                if ($(this).attr("filter_tags") != null){
+
+
+                    if($(this).hasClass("added_filter_row")){
+                        filter_row_list.push([1, $(this).attr("filter_tags"), $(this).find(".hide_notes_id").text()]); 
+                    }else{
+                        filter_row_list.push([0, $(this).attr("filter_tags"), $(this).find(".hide_notes_id").text()]); 
+                    }
+
+                }
+            });
+
+            return filter_row_list;       
+
+        };
 
         //getting list of added filter rows and fitler_tags list Function
         function getting_list_filter(){
@@ -1531,11 +2094,14 @@ $(document).ready(function() {
         };
 
 
+        
+
+
 
         $('#update_note_form').submit(function(e){
         	
             e.preventDefault(); 
-              console.log("create_tags");
+             
             var ajax_url = '<?php echo base_url();?>admin/admin_settings/update_notes';
             var data = new FormData(this);
     
@@ -1545,6 +2111,8 @@ $(document).ready(function() {
             var edata = editor1.getData();
     
             data.append("e_content", edata);
+
+            console.log(data);
            
              $.ajax({
                type: "POST",
@@ -1555,70 +2123,134 @@ $(document).ready(function() {
                contentType:false,
                success: function(res) {
                  
-                 
-                 var selected_element = $("#show_note_datatable tr.selected_tr");
-                 selected_element.attr("id", selected_element.find(".hide_notes_id").text());
-                 var current_id = selected_element.find(".hide_notes_id").text();
-    
-    
-                 var filter_row_list = [];
-                 filter_row_list = getting_list_filter();
-    
-                 if (res['new_tag_name'] != ""){
-                   var add_tag = "<div class='tag_list'>" + res['new_tag_name'];
-                   add_tag = add_tag + "</div>"
-                  $(".right_title_tags").append( add_tag );
-                  $("#createtag").css("display", "none");
-    
-                  $("#show_note_datatable tr.selected_tr").find(".note_left_tags_hide").append( add_tag );
-                  $("#show_note_datatable tr.selected_tr").find(".hide_tags_notes").append( add_tag );
-                 }
+                if ($("#admin_manage_users").hasClass("selected")){
+                        var selected_element = $("#note_datatable tr.selected_tr");
+                        selected_element.attr("id", selected_element.find(".note_left_id_hide").text());
+                        var current_id = selected_element.find(".note_left_id_hide").text();
+            
+            
+                        var filter_row_list = [];
+                        filter_row_list = getting_list_filter_user();
+            
+                        if (res['new_tag_name'] != ""){
+                            var add_tag = "<div class='tag_list'>" + res['new_tag_name'];
+                            add_tag = add_tag + "</div>"
+                            $(".right_title_tags").append( add_tag );
+                            $("#createtag").css("display", "none");
                 
-    
-                  $("#show_note_datatable tr.selected_tr").find(".hide_updated_notes").text(res['updated_at']);
-    
-                  if(res['subject'] != ""){
-                    $("#show_note_datatable tr.selected_tr").find(".show_note_title").text(res['subject']);
-                    $("#show_note_datatable tr.selected_tr").find(".note_left_title_hide").text(res['subject']);
-                  }else{
-                    $("#show_note_datatable tr.selected_tr").find(".show_note_title").text("Untitled");
-                    $("#show_note_datatable tr.selected_tr").find(".note_left_title_hide").text("Untitled");  
-                  }
-                    
-    
-                  $("#show_note_datatable tr.selected_tr").find(".note_left_content_hide").html(res['content']);
-    
-                 
-                  show_note_datatable.ajax.reload();
-    
-                  
-    
-                  setTimeout(function() {
-                        $( "#show_note_datatable tbody tr" ).each(function( index ) {
-        
-                        if ($(this).find(".hide_notes_id").text() == current_id ){
-                             $(this).addClass("selected_tr");   
-                             $(this).find(".chkclass").prop('checked', true);                
+                            $("#note_datatable tr.selected_tr").find(".hide_tags_notes").append( add_tag );                          
                         }
-        
-                        var i;
-                        for (i = 0; i < filter_row_list.length; i++) {
-                            // do something with `substr[i]`
-                            if ($(this).find(".hide_notes_id").text() == filter_row_list[i][2] ){
-                                $(this).attr("filter_tags", filter_row_list[i][1]);
-                                
-                                if(filter_row_list[i][0] == 1){
-                                    $(this).addClass("added_filter_row");
+                        
+            
+                        $("#note_datatable tr.selected_tr").find(".hide_updated_notes").text(res['updated_at']);
+            
+                        if(res['subject'] != ""){
+                            $("#note_datatable tr.selected_tr").find(".show_note_title").text(res['subject']);                           
+                        }else{
+                            $("#note_datatable tr.selected_tr").find(".show_note_title").text("Untitled");                             
+                        }
+                            
+            
+                        $("#note_datatable tr.selected_tr").find(".note_left_content_hide").html(res['content']);
+            
+                        
+                        note_datatable.ajax.reload();
+            
+                        
+            
+                        setTimeout(function() {
+                                $( "#note_datatable tbody tr" ).each(function( index ) {
+                
+                                if ($(this).find(".note_left_id_hide").text() == current_id ){
+                                    $(this).addClass("selected_tr");                                                
                                 }
-                            }
-                        }
+                
+                                var i;
+                                for (i = 0; i < filter_row_list.length; i++) {
+                                    // do something with `substr[i]`
+                                    if ($(this).find(".hide_notes_id").text() == filter_row_list[i][2] ){
+                                        $(this).attr("filter_tags", filter_row_list[i][1]);
+                                        
+                                        if(filter_row_list[i][0] == 1){
+                                            $(this).addClass("added_filter_row");
+                                        }
+                                    }
+                                }
 
-                        if( $(this).find(".hide_notes_active").text() == "0"){
-                            $(this).addClass("inactive_tr");
+                                if( $(this).find(".hide_notes_active").text() == "0"){
+                                    $(this).addClass("inactive_tr");
+                                }
+                
+                            });
+                        }, 500);
+                }else{
+                        var selected_element = $("#show_note_datatable tr.selected_tr");
+                        selected_element.attr("id", selected_element.find(".hide_notes_id").text());
+                        var current_id = selected_element.find(".hide_notes_id").text();
+            
+            
+                        var filter_row_list = [];
+                        filter_row_list = getting_list_filter();
+            
+                        if (res['new_tag_name'] != ""){
+                        var add_tag = "<div class='tag_list'>" + res['new_tag_name'];
+                        add_tag = add_tag + "</div>"
+                        $(".right_title_tags").append( add_tag );
+                        $("#createtag").css("display", "none");
+            
+                        $("#show_note_datatable tr.selected_tr").find(".note_left_tags_hide").append( add_tag );
+                        $("#show_note_datatable tr.selected_tr").find(".hide_tags_notes").append( add_tag );
                         }
-        
-                    });
-                  }, 500);
+                        
+            
+                        $("#show_note_datatable tr.selected_tr").find(".hide_updated_notes").text(res['updated_at']);
+            
+                        if(res['subject'] != ""){
+                            $("#show_note_datatable tr.selected_tr").find(".show_note_title").text(res['subject']);
+                            $("#show_note_datatable tr.selected_tr").find(".note_left_title_hide").text(res['subject']);
+                        }else{
+                            $("#show_note_datatable tr.selected_tr").find(".show_note_title").text("Untitled");
+                            $("#show_note_datatable tr.selected_tr").find(".note_left_title_hide").text("Untitled");  
+                        }
+                            
+            
+                        $("#show_note_datatable tr.selected_tr").find(".note_left_content_hide").html(res['content']);
+            
+                        
+                        show_note_datatable.ajax.reload();
+            
+                        
+            
+                        setTimeout(function() {
+                                $( "#show_note_datatable tbody tr" ).each(function( index ) {
+                
+                                if ($(this).find(".hide_notes_id").text() == current_id ){
+                                    $(this).addClass("selected_tr");   
+                                    $(this).find(".chkclass").prop('checked', true);                
+                                }
+                
+                                var i;
+                                for (i = 0; i < filter_row_list.length; i++) {
+                                    // do something with `substr[i]`
+                                    if ($(this).find(".hide_notes_id").text() == filter_row_list[i][2] ){
+                                        $(this).attr("filter_tags", filter_row_list[i][1]);
+                                        
+                                        if(filter_row_list[i][0] == 1){
+                                            $(this).addClass("added_filter_row");
+                                        }
+                                    }
+                                }
+
+                                if( $(this).find(".hide_notes_active").text() == "0"){
+                                    $(this).addClass("inactive_tr");
+                                }
+                
+                            });
+                        }, 500);
+                }
+
+                 
+
                 
     
                   
