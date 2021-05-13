@@ -62,7 +62,7 @@
 						$current_title = $row['subject'];
 					}
 					$tag_list = explode(",", $row['tags']);
-					$tag_full_name = "";
+					$tag_full_name = "<div class='tag_list_wrap'>";
 
 					foreach ($tag_list as $v) { 
 						foreach ($tags_array as $tag_data){
@@ -72,6 +72,8 @@
 							}
 						}
 					}
+
+					$tag_full_name .='</div>';
 
 						$data[] = array(
 							'<div class="show_create_date">'.$row['created_at'].'</div><div class="show_note_title">'.$current_title.'</div>',

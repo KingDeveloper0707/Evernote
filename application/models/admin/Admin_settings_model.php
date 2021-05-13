@@ -39,7 +39,7 @@
 		//Get all users
 		public function get_info_users() {
 		
-			$this->db->select('ci_templates.id, ci_users.id, ci_users.username, ci_users.email, ci_users.company, ci_users.position_title, ci_users.is_active, ci_users.created_at, COUNT(ci_templates.user_id) AS note_counts, MAX(ci_templates.updated_at) AS note_updated');
+			$this->db->select(' ci_users.id, ci_users.username, ci_users.email, ci_users.company, ci_users.position_title, ci_users.is_active, ci_users.created_at, COUNT(ci_templates.user_id) AS note_counts, MAX(ci_templates.updated_at) AS note_updated');
 			$this->db->from('ci_users');
 			$this->db->join('ci_templates', 'ci_users.id = ci_templates.user_id', 'left');
 			$this->db->order_by('ci_templates.id', 'DESC');

@@ -124,7 +124,8 @@ class Admin_settings extends MY_Controller {
 				$current_title = $row['subject'];
 			}
 			$tag_list = explode(",", $row['tags']);
-			$tag_full_name = "";
+			
+			$tag_full_name = "<div class='tag_list_wrap'>";
 
 			foreach ($tag_list as $v) { 
 				foreach ($tags_array as $tag_data){
@@ -134,6 +135,8 @@ class Admin_settings extends MY_Controller {
 					}
 				}
 			}
+
+			$tag_full_name .= "</div>";
 
 					$title_class = "show_note_title";
 
@@ -324,7 +327,7 @@ class Admin_settings extends MY_Controller {
 						$current_title = $row['subject'];
 					}
 					$tag_list = explode(",", $row['tags']);
-					$tag_full_name = "";
+					$tag_full_name = "<div class='tag_list_wrap'>";
 
 					foreach ($tag_list as $v) { 
 						foreach ($tags_array as $tag_data){
@@ -334,6 +337,8 @@ class Admin_settings extends MY_Controller {
 							}
 						}
 					}
+
+					$tag_full_name .= "</div>";
 
 					$user_name = $this->admin_settings_model->get_current_username($row['user_id']);
 						if($user_name != null){

@@ -214,7 +214,7 @@
         </div>
 
     </div>
-
+    
 
     <div class="row clearfix admin_user_notes_wrap">
 

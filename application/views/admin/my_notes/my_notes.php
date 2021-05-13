@@ -362,31 +362,32 @@
       $('#my_select_filter_tags').multiselect({
             onChange: function(option, checked, select) {
 
-              
+             
 
               if (checked){
 
                 if (!$("#note_datatable tbody").hasClass("added_filter_body")){
+                  
                   $( "#note_datatable tbody tr" ).each(function( index ) {
                                    
-                      $(this).children(".hide_tags_notes").children(".tag_list").each(function( index ) {
+                      $(this).children(".hide_tags_notes").children(".tag_list_wrap").children(".tag_list").each(function( index ) {
                       
                         if ($(option).val() == $(this).text()){
     
-                          $(this).parent().parent().addClass("added_filter_row");
+                          $(this).parent().parent().parent().addClass("added_filter_row");
     
-                          if ($(this).parent().parent().attr("filter_tags") != null){
+                          if ($(this).parent().parent().parent().attr("filter_tags") != null){
                             var  new_add_tags = "";
-                            new_add_tags = $(this).parent().parent().attr("filter_tags");
+                            new_add_tags = $(this).parent().parent().parent().attr("filter_tags");
                             new_add_tags = new_add_tags + ",";
                             new_add_tags = new_add_tags + $(this).text();
-                            $(this).parent().parent().attr("filter_tags", new_add_tags);
+                            $(this).parent().parent().parent().attr("filter_tags", new_add_tags);
     
                           }else {
-                            $(this).parent().parent().attr("filter_tags", $(this).text());
+                            $(this).parent().parent().parent().attr("filter_tags", $(this).text());
                           }
                             
-                          $(this).parent().parent().parent().addClass("added_filter_body");
+                          $(this).parent().parent().parent().parent().addClass("added_filter_body");
                         }
     
                         
@@ -400,20 +401,20 @@
                     if ($(this).hasClass("added_filter_row")) {
                       var tags_count = 0;
 
-                      $(this).children(".hide_tags_notes").children(".tag_list").each(function( index ) {
+                      $(this).children(".hide_tags_notes").children(".tag_list_wrap").children(".tag_list").each(function( index ) {
                         
                         if ($(option).val() == $(this).text()){
     
                           
-                          if ($(this).parent().parent().attr("filter_tags") != null){
+                          if ($(this).parent().parent().parent().attr("filter_tags") != null){
                             var  new_add_tags = "";
-                            new_add_tags = $(this).parent().parent().attr("filter_tags");
+                            new_add_tags = $(this).parent().parent().parent().attr("filter_tags");
                             new_add_tags = new_add_tags + ",";
                             new_add_tags = new_add_tags + $(this).text();
-                            $(this).parent().parent().attr("filter_tags", new_add_tags);
+                            $(this).parent().parent().parent().attr("filter_tags", new_add_tags);
     
                           }else {
-                            $(this).parent().parent().attr("filter_tags", $(this).text());
+                            $(this).parent().parent().parent().attr("filter_tags", $(this).text());
                           }
                             
                           tags_count = tags_count + 1;
@@ -431,20 +432,20 @@
 
                     }else {
 
-                      $(this).children(".hide_tags_notes").children(".tag_list").each(function( index ) {
+                      $(this).children(".hide_tags_notes").children(".tag_list_wrap").children(".tag_list").each(function( index ) {
                         
                         if ($(option).val() == $(this).text()){
     
                           
-                          if ($(this).parent().parent().attr("filter_tags") != null){
+                          if ($(this).parent().parent().parent().attr("filter_tags") != null){
                             var  new_add_tags = "";
-                            new_add_tags = $(this).parent().parent().attr("filter_tags");
+                            new_add_tags = $(this).parent().parent().parent().attr("filter_tags");
                             new_add_tags = new_add_tags + ",";
                             new_add_tags = new_add_tags + $(this).text();
-                            $(this).parent().parent().attr("filter_tags", new_add_tags);
+                            $(this).parent().parent().parent().attr("filter_tags", new_add_tags);
     
                           }else {
-                            $(this).parent().parent().attr("filter_tags", $(this).text());
+                            $(this).parent().parent().parent().attr("filter_tags", $(this).text());
                           }
                             
                          
@@ -1436,7 +1437,17 @@ $('#update_note_form').submit(function(e){
      
     }else{
       autoSave_content(function(){
-        console.log('old_clicked_id...id', clicked_tr_id);
+        console.log('clicked_tr_id...id', clicked_tr_id);
+        console.log('old_clicked_id...id', old_clicked_id);
+
+        if (old_clicked_id == "") {
+          old_ck_content = CKEDITOR.instances.ckeditor.getData();
+         
+         if (current_ck_content != old_ck_content)
+           $(".update_note").trigger('click');
+        }
+       
+
         
         old_clicked_id = clicked_tr_id;
         //...
