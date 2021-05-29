@@ -47,6 +47,32 @@
 		}
 
 
+		//counts of notes by id
+		public function get_counts_notes_by_user(){
+			$array = array('is_active' => '1');
+			$this->db->where($array);
+			$counts = $this->db->count_all_results('ci_templates');
+			return $counts;
+		}
+
+
+		//Get comments info 
+		public function get_comments_info(){
+			
+						
+			$query = $this->db->get('ci_comments');
+			
+			return $result = $query->result_array();
+		}
+
+		//insert comments 
+		public function create_comment($data) {
+			$this->db->insert('ci_comments', $data);
+			$insert_id = $this->db->insert_id();
+			return $insert_id;
+		}
+
+
 		// get user info by id
 		public function get_user_info_by_id($id){
 			

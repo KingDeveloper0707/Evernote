@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title><?=isset($title)?$title:'SignIn - Codeigniter Material Admin' ?></title>
+    <title><?=isset($title)?$title:'SignIn - Care Equity Insights' ?></title>
     <!-- Favicon-->
-    <link rel="icon" href="<?= base_url() ?>public/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="<?= base_url() ?>public/images/favicon.png" type="image/x-icon">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
@@ -94,7 +94,7 @@
                     </div>
 
                     <div class="m-t-25 align-center">
-                        <a href="<?= base_url('auth/register'); ?>">You have no account?</a>
+                        <a href="<?= base_url('auth/register'); ?>">Create an account</a>
                     </div>
 
                 <?php echo form_close(); ?>

@@ -39,7 +39,10 @@
 				$all_positions = $this->find_notes_model->get_position_info();
 
 
-				$data['title'] = 'My_Notes';
+				$comments_info = $this->find_notes_model->get_comments_info();
+
+
+				$data['title'] = 'Find Notes';
 				$data['view'] = 'admin/find_notes/find_notes';
 				$data['note_data'] = $records;
 				$data['user_data'] = $user_info;
@@ -48,6 +51,8 @@
 				$data['all_companies'] = $all_companies;
 				$data['all_expertise'] = $all_expertise;
 				$data['all_positions'] = $all_positions;
+				$data['comments_data'] = $comments_info;
+				$data['counts'] = $this->find_notes_model->get_counts_notes_by_user ();
 				$this->load->view('layout', $data);
 			}
 			//-----------------------------------------------------------------------
@@ -103,10 +108,14 @@
 
 					$tag_full_name .='</div>';
 
+
+					$orgDate = $row['updated_at'];  
+					$newDate = date(" M d, Y", strtotime($orgDate));  
+
 				
 					if (empty($tag_id_list) && empty($author_list) && empty($role_list) && empty($company_list) && empty($expertise_list) && empty($position_list) ) {
 						$data[] = array(
-							'<div class="show_create_date">'.$row['created_at'].'</div><div class="show_note_title">'.$current_title.'</div>',
+							'<div class="show_create_date">'.$newDate.'</div><div class="show_note_title">'.$current_title.'</div>',
 							
 							$row['created_at'],
 							$row['updated_at'],
@@ -198,7 +207,7 @@
 							continue;
 						}else {
 							$data[] = array(
-								'<div class="show_create_date">'.$row['created_at'].'</div><div class="show_note_title">'.$current_title.'</div>',
+								'<div class="show_create_date">'.$newDate.'</div><div class="show_note_title">'.$current_title.'</div>',
 								
 								$row['created_at'],
 								$row['updated_at'],
@@ -410,6 +419,40 @@
 						//redirect(base_url('admin/my_notes/update_notes'));
 					
 				//}
+			}
+
+
+			public function create_comments () {
+				$editer_id = $this->session->userdata('admin_id');
+				$content = $this->input->post('comment_field');
+				$note_id = $this->input->post('curid');
+
+				$comment_data = array(
+					'content' => $content,
+					'created_at' => date('Y-m-d H:i:s'),
+					'user_id' => $editer_id,
+					'note_id' => $note_id,
+				);	
+
+				$inputed_id = $this->find_notes_model->create_comment($comment_data);
+
+				$comments_data = $this->find_notes_model->get_comments_info();
+
+				$orgDate = date('Y-m-d H:i:s');  
+				$newDate = date(" M d, Y", strtotime($orgDate));  
+
+
+				$send_data = array(
+					'id' => $inputed_id,
+					'content' => $content,
+					'created_at' => $newDate,
+					'user_id' => $editer_id,
+					'note_id' => $note_id,					
+				);
+
+				echo json_encode($send_data);
+
+
 			}
 	
 		

@@ -35,7 +35,7 @@
         <span>Profile Created on  &nbsp;</span> 
         <?php 
             $orgDate = $user['created_at'];  
-            $newDate = date(" m / d / Y", strtotime($orgDate));  
+            $newDate = date(" M d, Y", strtotime($orgDate));  
             echo $newDate;        
         ?>
     </div>

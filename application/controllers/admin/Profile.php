@@ -34,7 +34,7 @@ class Profile extends MY_Controller {
 
 			$data['user'] = $this->admin_model->get_user_detail();
 			$data['counts'] = $this->admin_model->get_my_counts_notes_by_id ($id);
-			$data['title'] = 'User Profile';
+			$data['title'] = 'Profile';
 			$data['view'] = 'admin/profile';
 			
 			$this->load->view('layout', $data);

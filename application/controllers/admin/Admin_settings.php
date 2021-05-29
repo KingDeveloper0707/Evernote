@@ -53,7 +53,7 @@ class Admin_settings extends MY_Controller {
 			$data['counts'] = $this->admin_settings_model->get_all_counts_notes ();
 			$data['tag_counts'] = $this->admin_settings_model->get_all_counts_tags ();
 			$data['user_counts'] = $this->admin_settings_model->get_all_counts_users ();
-			$data['title'] = 'User Profile';
+			$data['title'] = 'Admin';
 			$data['view'] = 'admin/Admin_settings/Admin_settings';
 			
 			$this->load->view('layout', $data);
@@ -92,8 +92,8 @@ class Admin_settings extends MY_Controller {
 
 			$data['user'] = $this->admin_settings_model->get_user_detail();
 			$data['counts'] = $this->admin_settings_model->get_my_counts_notes_by_id ($id);
-			$data['title'] = 'User Profile';
-			$data['view'] = 'admin/profile';
+			$data['title'] = 'Admin';
+			$data['view'] = 'admin/Admin_settings/Admin_settings';
 			$this->load->view('layout', $data);
 		}
 	}

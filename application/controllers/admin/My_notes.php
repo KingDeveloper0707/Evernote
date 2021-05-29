@@ -28,11 +28,16 @@
 					$i++;
 				}
 
-				$data['title'] = 'My_Notes';
+
+				$comments_info = $this->notes_model->get_comments_info();
+
+				$data['title'] = 'Notes';
 				$data['view'] = 'admin/my_notes/my_notes';
+				$data['counts'] = $this->notes_model->get_counts_notes_by_user ($id);
 				$data['note_data'] = $records;
 				$data['user_data'] = $user_info;
 				$data['tags_data'] = $tags_array;
+				$data['comments_data'] = $comments_info;
 				$this->load->view('layout', $data);
 			}
 			//-----------------------------------------------------------------------
@@ -40,6 +45,9 @@
 				$id = $this->session->userdata('admin_id');
 
 				$records = $this->notes_model->get_all_notes_by_id($id);
+
+				//get user information
+				$user_info = $this->notes_model->get_user_info_by_id($id);
 
 				$data = array();
 				
@@ -75,17 +83,43 @@
 
 					$tag_full_name .='</div>';
 
+					$orgDate = $row['updated_at'];  
+					$newDate = date(" M d, Y", strtotime($orgDate));  
+
+					$crDate = $row['created_at'];  
+					$createdDate = date(" M d, Y", strtotime($crDate));  
+
+					$delete_element = '<div class="show_create_date">'.$newDate.'</div><div class="show_note_title">'.$current_title.'</div>';
+					$delete_element .= '<div class="showing_editors_wrap"><i class="material-icons">person</i>'.$user_info['username'].'</div>';
+					$delete_element .='<div class="dropdown delete_note_wrap delete_note_wrap_first">';
+					$delete_element .='<a href="#" class="dropdown-toggle delete_note_show_dot" data-toggle="dropdown">...</a>';
+					$delete_element .= '<div class="dropdown-menu">';
+					$delete_element .=	'<div class="dropdown-item delete_note_btn"> <i class="material-icons delete_btn">delete</i> Delete</div>';
+				
+					$delete_element .= '</div>';
+					$delete_element .= '</div>';
+
+
+					$tag_del = $tag_full_name;					
+					$tag_del .='<div class="dropdown delete_note_wrap delete_note_wrap_second">';
+					$tag_del .='<a href="#" class="dropdown-toggle delete_note_show_dot" data-toggle="dropdown">...</a>';
+					$tag_del .= '<div class="dropdown-menu">';
+					$tag_del .=	'<div href="#" class="dropdown-item delete_note_btn"> <i class="material-icons delete_btn">delete</i> Delete</div>';
+				
+					$tag_del .= '</div>';
+					$tag_del .= '</div>';
+					
 						$data[] = array(
-							'<div class="show_create_date">'.$row['created_at'].'</div><div class="show_note_title">'.$current_title.'</div>',
-							
+							$delete_element,
 							$row['created_at'],
 							$row['updated_at'],
-							$tag_full_name,
+							$tag_del,
 							$row['id'],
 							$row['content'],
 							$row['user_id'],
 							$tag_full_name,
 							$current_title,
+						
 						);
 					
 						
@@ -210,11 +244,15 @@
 						}
 
 
+							
+						$orgDate = date('Y-m-d H:i:s');  
+						$newDate = date(" M d, Y", strtotime($orgDate));  
+
 						
 						$send_data = array(
 							'subject' => $this->input->post('subject'),
 							'content' => $this->input->post('e_content'),
-							'updated_at' => date('Y-m-d H:i:s'),
+							'updated_at' => $newDate,
 							'tags' =>$all_tags,
 							'all_tag_list' => $all_tags_info,
 							'new_tag_name' =>$send_tag_name,
@@ -267,11 +305,16 @@
 						$this->activity_model->add(1);
 						$inputed_id = $this->notes_model->insert_template($data);
 	
+						
+						$orgDate = date('Y-m-d H:i:s');  
+						$newDate = date(" M d, Y", strtotime($orgDate));  
+
+
 						$send_data = array(
 							'subject' => "",
 							'content' => "",
-							'created_at' => date('Y-m-d H:i:s'),
-							'updated_at' => date('Y-m-d H:i:s'),
+							'created_at' => $newDate,
+							'updated_at' => $newDate,
 							'user_id' => $id,
 							'tags' => "",
 							'is_active' => 1,
@@ -285,6 +328,49 @@
 						//redirect(base_url('admin/my_notes/update_notes'));
 					
 				//}
+			}
+
+			public function create_comments () {
+				$editer_id = $this->session->userdata('admin_id');
+				$content = $this->input->post('comment_field');
+				$note_id = $this->input->post('curid');
+
+				$comment_data = array(
+					'content' => $content,
+					'created_at' => date('Y-m-d H:i:s'),
+					'user_id' => $editer_id,
+					'note_id' => $note_id,
+				);	
+
+				$inputed_id = $this->notes_model->create_comment($comment_data);
+
+				$comments_data = $this->notes_model->get_comments_info();
+
+				$orgDate = date('Y-m-d H:i:s');  
+				$newDate = date(" M d, Y", strtotime($orgDate));  
+
+
+				$send_data = array(
+					'id' => $inputed_id,
+					'content' => $content,
+					'created_at' => $newDate,
+					'user_id' => $editer_id,
+					'note_id' => $note_id,					
+				);
+
+				echo json_encode($send_data);
+
+
+			}
+
+			//-------------------------------------------------------------------------
+			public function delete_notes(){
+				$ids = $this->input->post('ids');
+		
+				$records = $this->notes_model->del($ids);
+
+				if ($records)
+					echo json_encode(['success'=>"Item Deleted successfully."]);
 			}
 	
 		

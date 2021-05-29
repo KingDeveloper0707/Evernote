@@ -7,16 +7,51 @@
 
 
 <div class="nav_top_bar">
-  <div class="inputContainer search_wrap ">
-      <input class="Field search_field" type="search" placeholder="Search"><i class="close_search_btn material-icons">close</i>
-      
-      <i class="material-icons search_btn">search</i>
+
+  <div class="inputContainer header_title_wrap ">
+     <div class="header_title">YOUR NOTES</div>
   </div>
 
+ 
+
   <div class="nav_logout">
+        <!--
         <a href="<?= base_url('auth/logout');?>" class="logout_btn">
           <span>LOGOUT</span>
         </a>
+-->
+         <!-- User Info -->
+         <div class="inputContainer search_wrap ">
+              <input class="Field search_field" type="search" placeholder="Search"><i class="close_search_btn material-icons">close</i>
+              
+              <i class="material-icons search_btn">search</i>
+          </div>
+
+          <div class="user-info">
+            <div class="image">
+              <img src="<?= base_url()?>public/images/user.png" width="30" height="30" alt="User" />
+            </div>
+            <div class="info-container">
+              <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?= strtoupper($this->session->userdata('username'));?></div>
+           
+              <div class="btn-group user-helper-dropdown">
+                <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
+                <i class="material-icons open_material_icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_up</i>
+                <ul class="dropdown-menu pull-right">
+                  <li id=""><a href="<?= base_url('admin/profile'); ?>">SETTINGS</a></li>
+               
+                  <li id=""><a href="javascript:void(0);">PRIVACY POLICY</a></li>
+                  
+                
+                  <li id=""> 
+                    <a href="<?= base_url('auth/logout');?>" class="logout_btn">
+                      <span>LOGOUT</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
   </div>
 
 </div>
@@ -27,14 +62,14 @@
    
 
   <div class="row">
-        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 row_left row_left_small">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 row_no_shadow row_left row_left_small">
             <div class="card">
                 <div class="header">
-                    <h2>
-                       Your Notes
-                    </h2>
+                    <div class="medium_title_wrap">
+                      <span class="showing_notes_count"><?= $counts; ?></span> Notes
+                    </div>
                     <ul class="header-dropdown m-r--5">
-                        <li class="dropdown">
+                        <li class="dropdown" data-toggle="tooltip" title="sort">
                             <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                 <i class="material-icons">sort</i>
                             </a>
@@ -45,7 +80,7 @@
                                 <li><a class="sort_menu_item" id="sort_created_notes"><i class="material-icons">south</i><i class="material-icons">north</i><span>Date created</span></span></a></li>
                             </ul>
                         </li>
-                        <li class="dropdown">
+                        <li class="dropdown"  data-toggle="tooltip" title="filter">
                             <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                 <i class="material-icons">filter_alt</i>
                             </a>
@@ -79,7 +114,7 @@
                         </li>
                         
                                    
-                        <li>
+                        <li  data-toggle="tooltip" title="detail view">
                             <a href="javascript:void(0);" class="view-layout-btn note_wrap_ctr_btn">
                               <i class="material-icons">table_view</i>     
                             </a>
@@ -112,9 +147,9 @@
                     <table id="note_datatable" class="table table-bordered table-striped table-hover dataTable">
                       <thead style="display: none;">
                         <tr>
-                          <th>Notes Name</th>
-                          <th class="hide_created_notes">Created</th>
-                          <th class="hide_updated_notes">Updated</th>                          
+                          <th>Title</th>
+                          <th class="hide_created_notes">Created On</th>
+                          <th class="hide_updated_notes">Last Updated</th>                          
                           <th class="hide_tags_notes">Tags</th>  
                           <th>note_ID</th> 
                           <th>Content</th> 
@@ -142,14 +177,31 @@
        </div>
 
         <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 row_right">
+
+          <div class="medium_title_wrap">
+              PREVIEW
+          </div>
+
           <div class="card">
             <div class="body">
                 <div class="note-details-wrap">
+                  <div class="showing_modal_dig">
+                    <i  class="material-icons">fullscreen</i>
+                  </div>
 
                   <form class="form-horizontal" id="update_note_form" enctype='multipart/form-data'>
                     <div class="note-details-header">
                       <div class="left_title">
-                        TITLE
+                        LAST EDIT:
+                      </div>
+                      <div class="right_title_middle right_title_date">
+                        <?php  if ($note_data) echo date(" M d, Y", strtotime($note_data->updated_at));  ?>
+                      </div>
+                    </div>
+
+                    <div class="note-details-header">
+                      <div class="left_title">
+                        TITLE:
                       </div>
                       <div class="right_title">
                         
@@ -159,25 +211,18 @@
 
                     <div class="note-details-header">
                       <div class="left_title">
-                        AUTHOR
+                        EDITORS:
                       </div>
                       <div class="right_title_middle right_title_name">
                         <?php echo $user_data['username']; ?>                     
                       </div>
                     </div>
 
-                    <div class="note-details-header">
-                      <div class="left_title">
-                        DATE
-                      </div>
-                      <div class="right_title_middle right_title_date">
-                        <?php  if ($note_data) echo $note_data->created_at;  ?>
-                      </div>
-                    </div>
+                   
 
                     <div class="note-details-header">
                       <div class="left_title">
-                        TAGS
+                        TAGS:
                       </div>
                       <div class="right_title_middle right_title_tags">
                         <?php  if ($note_data){
@@ -243,7 +288,150 @@
 
 
 
+<!-- Trigger the modal with a button -->
+<button type="button" class="btn btn-info btn-lg show_modal_btn" data-toggle="modal" data-target="#myModal">Open Modal</button>
 
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        
+        <div class="pop_row">
+            <div class="card">
+                <div class="body">
+                    <div class="note-details-wrap">
+
+                        <form class="form-horizontal" id="update_note_form_popup" enctype='multipart/form-data'>
+                            <div class="note-details-header">
+                                <div class="left_title">
+                                LAST EDIT:
+                                </div>
+                                <div class="right_title_middle right_title_date">
+                                
+                                </div>
+                            </div>
+                            <div class="note-details-header">
+                                <div class="left_title">
+                                TITLE:
+                                </div>
+                                <div class="right_title">
+                                
+                                <input type="text" id="subject_popup" name="subject" value="" placeholder="Enter your title here…." class="note_input">
+                                </div>
+                            </div>
+
+                            <div class="note-details-header">
+                                <div class="left_title">
+                                EDITOR:
+                                </div>
+                                <div class="right_title_middle right_title_name">
+                                  <?php echo $user_data['username']; ?>         
+                                </div>
+                            </div>
+
+                           
+
+                            <div class="note-details-header">
+                                <div class="left_title">
+                                TAGS:
+                                </div>
+                                <div class="right_title_middle right_title_tags">
+                                
+                                </div>
+                                <div class="create_new_tag_btn_wrap"> 
+                                
+                                    <input type="text" id="createtag_popup" class="create_tag" name="create_tag">
+                                    
+                                
+                                <i class="material-icons create_new_tag_btn_popup">add</i>
+                                </div>
+                            </div>
+
+                            <div class="note_editor">
+                                    
+                                            <div class="note_editor_wrap">
+                                                <textarea id="ckeditor_popup" name="content">
+                                            
+                                                </textarea>
+                                                <input type="hidden" id="curID_popup" name="curid"  value="<?php  if ($note_data)echo $note_data->id;  ?>">
+                                            </div>
+                                        
+                                            <input type="submit" name="submit" value="UPDATE" class="btn btn-primary m-t-15 waves-effect update_note_popup" style="display: none;">
+                                
+                            </div>
+                        <?php echo form_close();?>
+                    </div>
+
+                
+
+                </div>
+            </div>
+        </div>
+
+
+
+      </div>
+
+
+    
+      
+    </div>
+
+    <div class="modal_comment_wrap">
+      <div class="modal_comment_title">
+        COMMENTS (<span></span>)
+      </div>
+
+      <div class="modal_comments_wrap">
+        <?php 
+        
+        foreach ($comments_data as $comment_data){ 
+        ?>
+
+          <div class="modal_comment_content_wrap" comment_note_id="<?php echo $comment_data['note_id']?>">
+            <div class="modal_comment_number"></div>
+            <div class="modal_comment_content"><?php echo $comment_data['content'];?></div>
+          </div>
+
+      
+      
+
+        <?php } ?>
+      </div>
+     
+
+
+      <div class="modal_comment_create">
+
+                 <form class="form-horizontal" id="create_comment_form" enctype='multipart/form-data'>
+                    <div class="create-comment">
+                    
+                      <textarea class="comment_field" name="comment_field" placeholder="Write new comment" rows="1" cols="24"></textarea>
+                      <div class="create-comment-right"> <i class="material-icons comment_create_btn">edit</i></div>
+                      
+                    
+                    </div>
+                 
+                    <input type="hidden" id="curID_comment" name="curid" value="<?php  if ($note_data)echo $note_data->id;  ?>">
+                    <input type="hidden" id="userID" name="useID" value="<?php echo $user_data['id']; ?>">
+
+                    <input type="submit" name="submit" value="UPDATE" class="btn btn-primary m-t-15 waves-effect comment_create" style="display: none;">
+                  </form>   
+                 
+       
+      </div>
+
+    </div>
+
+  </div>
+</div>
 
 
 
@@ -262,7 +450,7 @@
 
 <script src="<?= base_url() ?>public/plugins/bootstrap-multiselect/js/bootstrap-multiselect.js" ></script>
 
-
+<script src="<?= base_url()?>public/plugins/bootbox/bootbox.min.js"></script>
 
 
 <script type="text/javascript">
@@ -340,6 +528,7 @@
 
 
         $(this).css("visibility", "hidden");
+        $(".showing_notes_count").text(note_datatable.rows().count());
 
       });
 
@@ -351,6 +540,13 @@
           $('#my_select_filter_tags').multiselect('deselect', $(this).attr("data_filter"));
           clear_select_one_filter_tags();
           $(this).parent().remove();
+          
+          
+         
+          if ($(".added_filter_body").size() > 0)
+            $(".showing_notes_count").text( $('.added_filter_row').size());
+          else
+            $(".showing_notes_count").text(note_datatable.rows().count());
 
           
       });
@@ -491,8 +687,11 @@
 
 
               //  alert('Changed option ' + $(option).val() + '.');
-                
-            }
+              if ($(".added_filter_body").size() > 0)
+                $(".showing_notes_count").text( $('.added_filter_row').size());
+              else
+                $(".showing_notes_count").text(note_datatable.rows().count());
+          }
         });
 
   
@@ -570,6 +769,9 @@
         "searchHighlight": true,
         "deferRender": true,      
         "select": true,
+        "oLanguage": {
+        "sEmptyTable": "No notes"
+        },
         "ajax": "<?=base_url('admin/my_notes/datatable_json')?>",
         "initComplete": function( settings, json ) {
           $( "#note_datatable tbody tr" ).first().addClass( "selected_tr" );
@@ -578,7 +780,8 @@
               {
                   "targets": [ 0 ],
                   "orderable": true,
-                  "visible": true
+                  "visible": true,
+                  "className": "show_real_info_notes"
               },
               {
                   "targets": [ 1 ],
@@ -613,7 +816,7 @@
                   "visible": true,
                   "orderable": true,
                   "className": "note_left_content_hide",
-                  "searchable": false
+                  "searchable": true
               },
               {
                   "targets": [ 6 ],
@@ -628,8 +831,7 @@
                   "orderable": true,
                   "className": "note_left_tags_hide",
                   "searchable": false
-              }
-              ,
+              },
               {
                   "targets": [ 8 ],
                   "visible": true,
@@ -637,6 +839,8 @@
                   "className": "note_left_title_hide",
                   "searchable": false
               }
+            
+              
           ]
   });
 
@@ -647,6 +851,8 @@
 
 
     $(".new_create_notes").trigger('click');
+
+    
    
   });
 
@@ -711,7 +917,10 @@
           }
           
           
-          var replaced_date = res['created_at'];
+          var replaced_date = res['updated_at'];
+
+         
+
           $(".right_title_date").text(replaced_date);
 
           var replaced_tags = res['tags'];
@@ -725,6 +934,7 @@
           CKEDITOR.instances.ckeditor.focus();
           
          
+          $(".showing_notes_count").text(note_datatable.rows().count());
 
          }, error: function(res) {
           console.log('error');
@@ -822,6 +1032,7 @@ $( "#note_datatable tbody" ).on( "click", "tr", function() {
   
   
   var replaced_date = $(this).find(".show_create_date").text();
+  
   $(".right_title_date").text(replaced_date);
 
   var replaced_tags = $(this).find(".note_left_tags_hide").html();
@@ -832,8 +1043,12 @@ $( "#note_datatable tbody" ).on( "click", "tr", function() {
 
 
   $("#createtag").css("display", "none");
+ 
 
   $("#subject").focus();
+
+  var current_note_id =  $(this).find(".note_left_id_hide").text();
+  $('#curID_comment').val(current_note_id);
   
 
 });
@@ -895,6 +1110,22 @@ $(".create_new_tag_btn").on( "click", function() {
   $("#createtag").css("display", "block");
   $("#createtag").focus();
 
+
+
+  
+
+});
+
+
+$(".create_new_tag_btn_popup").on( "click", function() {
+
+$("#createtag_popup").css("display", "block");
+$("#createtag_popup").focus();
+
+
+
+
+
 });
 
 
@@ -908,9 +1139,17 @@ $('#createtag').keypress(function (e) {
 });
 
 
+$('#createtag_popup').keypress(function (e) {
+  if (e.which == 13) {
+    $(".update_note_popup").trigger('click');
+   // $('form#create_tag_form').submit();
+  
+    return false;    //<---- Add this line
+  }
+});
 
 $('#update_note_form').submit(function(e){
-        	
+  console.log("create_tags______");
         e.preventDefault(); 
           console.log("create_tags");
         var ajax_url = '<?php echo base_url();?>admin/my_notes/update_notes';
@@ -946,6 +1185,8 @@ $('#update_note_form').submit(function(e){
                add_tag = add_tag + "</div>"
               $(".right_title_tags").append( add_tag );
               $("#createtag").css("display", "none");
+             
+
 
               $("tr.selected_tr").find(".note_left_tags_hide").append( add_tag );
               $("tr.selected_tr").find(".hide_tags_notes").append( add_tag );
@@ -965,11 +1206,34 @@ $('#update_note_form').submit(function(e){
 
               $("tr.selected_tr").find(".note_left_content_hide").html(res['content']);
 
+              $("tr.selected_tr").find(".hide_updated_notes").text(res['updated_at']);
+              $(".right_title_date").text(res['updated_at']);
+
              
-              note_datatable.ajax.reload();
+             // note_datatable.ajax.reload();
 
-              
+              note_datatable.ajax.reload( function () {
+                $( "#note_datatable tbody tr" ).each(function( index ) {
 
+                  if ($(this).find(".note_left_id_hide").text() == current_id ){
+                    $(this).addClass("selected_tr");                 
+                  }
+
+                  var i;
+                  for (i = 0; i < filter_row_list.length; i++) {
+                      // do something with `substr[i]`
+                      if ($(this).find(".note_left_id_hide").text() == filter_row_list[i][2] ){
+                        $(this).attr("filter_tags", filter_row_list[i][1]);
+                        
+                        if(filter_row_list[i][0] == 1){
+                          $(this).addClass("added_filter_row");
+                        }
+                      }
+                  }
+                } )
+              });
+
+              /*
               setTimeout(function() {
                 $( "#note_datatable tbody tr" ).each(function( index ) {
 
@@ -992,7 +1256,7 @@ $('#update_note_form').submit(function(e){
               });
               }, 500);
             
-
+            */
               
    
             }, error: function(res) {
@@ -1000,7 +1264,136 @@ $('#update_note_form').submit(function(e){
           }
          });
 
-  });
+});
+
+
+$('#update_note_form_popup').submit(function(e){
+        console.log("create_tags_popup______");
+        e.preventDefault(); 
+         
+        curent_id = $("#curID").val();
+        $("#curID_popup").val(curent_id);
+        var ajax_url = '<?php echo base_url();?>admin/my_notes/update_notes';
+        var data = new FormData(this);
+
+          //Replace Editor contents
+        var editor1 = CKEDITOR.instances.ckeditor_popup; //fck is just my instance name you will need to replace that with yours
+
+        var edata = editor1.getData();
+
+        data.append("e_content", edata);
+
+        console.log("aaaa", edata);
+       
+         $.ajax({
+           type: "POST",
+           url: ajax_url,   
+           data: data,
+           dataType: "json",
+           processData:false,
+		       contentType:false,
+           success: function(res) {
+             
+             
+             var selected_element = $("tr.selected_tr");
+             selected_element.attr("id", selected_element.find(".note_left_id_hide").text());
+             var current_id = selected_element.find(".note_left_id_hide").text();
+
+
+             var filter_row_list = [];
+             filter_row_list = getting_list_filter();
+
+             if (res['new_tag_name'] != ""){
+               var add_tag = "<div class='tag_list'>" + res['new_tag_name'];
+               add_tag = add_tag + "</div>"
+              $(".right_title_tags").append( add_tag );
+              $("#createtag_popup").css("display", "none");
+             
+
+
+              $("tr.selected_tr").find(".note_left_tags_hide").append( add_tag );
+              $("tr.selected_tr").find(".hide_tags_notes").append( add_tag );
+             }
+            
+
+              $("tr.selected_tr").find(".hide_updated_notes").text(res['updated_at']);
+
+              if(res['subject'] != ""){
+                $("tr.selected_tr").find(".show_note_title").text(res['subject']);
+                $("tr.selected_tr").find(".note_left_title_hide").text(res['subject']);
+              }else{
+                $("tr.selected_tr").find(".show_note_title").text("Untitled");
+                $("tr.selected_tr").find(".note_left_title_hide").text("Untitled");  
+              }
+
+              $("#subject").val(res['subject']);
+                
+
+              $("tr.selected_tr").find(".note_left_content_hide").html(res['content']);
+
+             // $("#subject").val(res['subject']);
+
+             CKEDITOR.instances.ckeditor.setData( res['content'] );
+             $(".right_title_date").text(res['updated_at']);
+
+             
+              note_datatable.ajax.reload(function () {
+                $( "#note_datatable tbody tr" ).each(function( index ) {
+
+                if ($(this).find(".note_left_id_hide").text() == current_id ){
+                  $(this).addClass("selected_tr");                 
+                }
+
+                var i;
+                for (i = 0; i < filter_row_list.length; i++) {
+                    // do something with `substr[i]`
+                    if ($(this).find(".note_left_id_hide").text() == filter_row_list[i][2] ){
+                      $(this).attr("filter_tags", filter_row_list[i][1]);
+                      
+                      if(filter_row_list[i][0] == 1){
+                        $(this).addClass("added_filter_row");
+                      }
+                    }
+                }
+
+                });
+
+              });
+
+              
+/*
+              setTimeout(function() {
+                $( "#note_datatable tbody tr" ).each(function( index ) {
+
+                if ($(this).find(".note_left_id_hide").text() == current_id ){
+                  $(this).addClass("selected_tr");                 
+                }
+
+                var i;
+                for (i = 0; i < filter_row_list.length; i++) {
+                    // do something with `substr[i]`
+                    if ($(this).find(".note_left_id_hide").text() == filter_row_list[i][2] ){
+                      $(this).attr("filter_tags", filter_row_list[i][1]);
+                      
+                      if(filter_row_list[i][0] == 1){
+                        $(this).addClass("added_filter_row");
+                      }
+                    }
+                }
+
+              });
+              }, 500);
+            
+*/
+              
+   
+            }, error: function(res) {
+             console.log("error", res);
+          }
+         });
+
+});
+
 
 
 
@@ -1024,6 +1417,8 @@ $('#update_note_form').submit(function(e){
     // note_datatable.column(2).visible(true);
     // note_datatable.column(3).visible(true);
 
+     // $("#note_datatable thead").css("display", "table-header-group");
+
     }else {
       
       $(".row_left").removeClass("col-lg-8");
@@ -1043,6 +1438,8 @@ $('#update_note_form').submit(function(e){
     //  note_datatable.column(2).visible(false);
     // note_datatable.column(3).visible(false);
 
+    //  $("#note_datatable thead").css("display", "none");
+
     }
   });
 
@@ -1056,12 +1453,15 @@ $('#update_note_form').submit(function(e){
     console.log("sear_text", $(".search_field").val());
     var search_key = $(".search_field").val();
 
+    $(".search_field").addClass("show_btn");
     //document.getElementByClass("search_field").innerHTML = x;
 
     if (search_key != ""){
       $(".close_search_btn").css("display", "block");
 
       $(".dataTables_filter input").val(search_key);
+
+      $(".search_field").addClass("show_btn");
 
       note_datatable.search(search_key).draw();
 
@@ -1079,6 +1479,8 @@ $('#update_note_form').submit(function(e){
     $(".search_field").val("");
     note_datatable.search("").draw();
     $(this).css("display","none");
+
+    $(".search_field").removeClass("show_btn");
 
     $("#note_datatable tbody tr").first().trigger("click");
 
@@ -1189,6 +1591,21 @@ $('#update_note_form').submit(function(e){
   $( "#sort_created_notes" ).on( "click", function() { 
 
     var current_order_val;
+
+    $( ".sort_menu_item" ).each(function( index ) {
+      if ($(this).hasClass("selected") ){
+        $(this).removeClass("selected");
+      }
+    });
+
+   
+    $(this).addClass("selected");
+
+    var selected_element = $("tr.selected_tr");
+    selected_element.attr("id", selected_element.find(".note_left_id_hide").text());
+    var current_id = selected_element.find(".note_left_id_hide").text();
+
+
     if ($(this).hasClass("selected")){
       current_order_val = $(this).attr("sort_order_val");
       console.log(current_order_val);
@@ -1200,8 +1617,17 @@ $('#update_note_form').submit(function(e){
         if ($("#sort_created_notes i").first().hasClass("selected")){
           $("#sort_created_notes i").first().removeClass("selected");
         }
-        note_datatable.ajax.reload();
         note_datatable.order( [ 1, 'asc' ] ).draw();
+
+        note_datatable.ajax.reload(function () {
+          $( "#note_datatable tbody tr" ).each(function( index ) {
+            if ($(this).find(".note_left_id_hide").text() == current_id ){
+              $(this).addClass("selected_tr");
+              console.log("same----", index);
+            }
+          });
+        });
+       
 
       }else{
         $(this).attr( "sort_order_val", 0 );
@@ -1212,8 +1638,17 @@ $('#update_note_form').submit(function(e){
         if ($("#sort_created_notes i").last().hasClass("selected")){
           $("#sort_created_notes i").last().removeClass("selected");
         }
-        note_datatable.ajax.reload();
         note_datatable.order( [ 1, 'desc' ] ).draw();
+
+        note_datatable.ajax.reload(function () {
+          $( "#note_datatable tbody tr" ).each(function( index ) {
+            if ($(this).find(".note_left_id_hide").text() == current_id ){
+              $(this).addClass("selected_tr");
+              console.log("same----", index);
+            }
+          });
+        });
+        
       }
         
     }else {
@@ -1225,16 +1660,26 @@ $('#update_note_form').submit(function(e){
         if ($("#sort_created_notes i").last().hasClass("selected")){
           $("#sort_created_notes i").last().removeClass("selected");
         }
-        note_datatable.ajax.reload();
         note_datatable.order( [ 1, 'desc' ] ).draw();
+
+        note_datatable.ajax.reload(function () {
+          $( "#note_datatable tbody tr" ).each(function( index ) {
+            if ($(this).find(".note_left_id_hide").text() == current_id ){
+              $(this).addClass("selected_tr");
+              console.log("same----", index);
+            }
+          });
+        });
+       
     }
-  
+   /*
     $( ".sort_menu_item" ).each(function( index ) {
       if ($(this).hasClass("selected") ){
         $(this).removeClass("selected");
       }
     });
 
+   
     $(this).addClass("selected");
 
     var selected_element = $("tr.selected_tr");
@@ -1251,7 +1696,7 @@ $('#update_note_form').submit(function(e){
     });
     }, 500);
 
-
+*/
 
   });
 
@@ -1261,6 +1706,24 @@ $('#update_note_form').submit(function(e){
   $( "#sort_updated_notes" ).on( "click", function() { 
 
   var current_order_val;
+
+  $( ".sort_menu_item" ).each(function( index ) {
+          if ($(this).hasClass("selected") ){
+            $(this).removeClass("selected");
+          }
+        });
+
+      
+
+        $(this).addClass("selected");
+
+        var selected_element = $("tr.selected_tr");
+          selected_element.attr("id", selected_element.find(".note_left_id_hide").text());
+          var current_id = selected_element.find(".note_left_id_hide").text();
+
+
+    console.log("updated--here");
+
   if ($(this).hasClass("selected")){
     current_order_val = $(this).attr("sort_order_val");
     console.log(current_order_val);
@@ -1272,8 +1735,22 @@ $('#update_note_form').submit(function(e){
       if ($("#sort_updated_notes i").first().hasClass("selected")){
         $("#sort_updated_notes i").first().removeClass("selected");
       }
-      note_datatable.ajax.reload();
       note_datatable.order( [ 2, 'asc' ] ).draw();
+
+      note_datatable.ajax.reload(function () {
+
+       
+
+
+        $( "#note_datatable tbody tr" ).each(function( index ) {
+          if ($(this).find(".note_left_id_hide").text() == current_id ){
+            $(this).addClass("selected_tr");
+            $(this).trigger("click");
+            console.log("same----", index);
+          }
+        });
+      });
+     
 
     }else{
       $(this).attr( "sort_order_val", 4 );
@@ -1284,8 +1761,22 @@ $('#update_note_form').submit(function(e){
       if ($("#sort_updated_notes i").last().hasClass("selected")){
         $("#sort_updated_notes i").last().removeClass("selected");
       }
-      note_datatable.ajax.reload();
+
       note_datatable.order( [ 2, 'desc' ] ).draw();
+
+      note_datatable.ajax.reload(function () {
+        
+       
+
+        $( "#note_datatable tbody tr" ).each(function( index ) {
+        if ($(this).find(".note_left_id_hide").text() == current_id ){
+          $(this).addClass("selected_tr");
+          $(this).trigger("click");
+          console.log("same----", index);
+        }
+      });
+    });
+      
     }
       
   }else {
@@ -1297,15 +1788,31 @@ $('#update_note_form').submit(function(e){
       if ($("#sort_updated_notes i").last().hasClass("selected")){
         $("#sort_updated_notes i").last().removeClass("selected");
       }
-      note_datatable.ajax.reload();
-      note_datatable.order( [ 2, 'desc' ] ).draw();
-  }
 
+      note_datatable.order( [ 2, 'desc' ] ).draw();
+
+      note_datatable.ajax.reload(function () {
+
+      
+
+        $( "#note_datatable tbody tr" ).each(function( index ) {
+          if ($(this).find(".note_left_id_hide").text() == current_id ){
+            $(this).addClass("selected_tr");
+            $(this).trigger("click");
+            console.log("same----", index);
+          }
+        });
+      });
+     
+  }
+/*
   $( ".sort_menu_item" ).each(function( index ) {
     if ($(this).hasClass("selected") ){
       $(this).removeClass("selected");
     }
   });
+
+ 
 
   $(this).addClass("selected");
 
@@ -1323,7 +1830,7 @@ $('#update_note_form').submit(function(e){
     });
     }, 500);
 
-
+*/
 
   });
 
@@ -1331,6 +1838,20 @@ $('#update_note_form').submit(function(e){
   $( "#sort_title_notes" ).on( "click", function() { 
 
   var current_order_val;
+
+  $( ".sort_menu_item" ).each(function( index ) {
+    if ($(this).hasClass("selected") ){
+      $(this).removeClass("selected");
+    }
+  });
+
+  $(this).addClass("selected");
+
+  var selected_element = $("tr.selected_tr");
+    selected_element.attr("id", selected_element.find(".note_left_id_hide").text());
+    var current_id = selected_element.find(".note_left_id_hide").text();
+
+
   if ($(this).hasClass("selected")){
     current_order_val = $(this).attr("sort_order_val");
     console.log(current_order_val);
@@ -1342,8 +1863,17 @@ $('#update_note_form').submit(function(e){
       if ($("#sort_title_notes i").first().hasClass("selected")){
         $("#sort_title_notes i").first().removeClass("selected");
       }
-      note_datatable.ajax.reload();
       note_datatable.order( [ 8, 'asc' ] ).draw();
+
+      note_datatable.ajax.reload(function () {
+        $( "#note_datatable tbody tr" ).each(function( index ) {
+          if ($(this).find(".note_left_id_hide").text() == current_id ){
+            $(this).addClass("selected_tr");
+            console.log("same----", index);
+          }
+        });
+      });
+     
 
     }else{
       $(this).attr( "sort_order_val", 2 );
@@ -1354,9 +1884,17 @@ $('#update_note_form').submit(function(e){
       if ($("#sort_title_notes i").last().hasClass("selected")){
         $("#sort_title_notes i").last().removeClass("selected");
       }
-
-      note_datatable.ajax.reload();
       note_datatable.order( [ 8, 'desc' ] ).draw();
+
+      note_datatable.ajax.reload(function () {
+        $( "#note_datatable tbody tr" ).each(function( index ) {
+          if ($(this).find(".note_left_id_hide").text() == current_id ){
+            $(this).addClass("selected_tr");
+            console.log("same----", index);
+          }
+        });
+      });
+      
     }
       
   }else {
@@ -1369,10 +1907,18 @@ $('#update_note_form').submit(function(e){
         $("#sort_title_notes i").last().removeClass("selected");
       }
 
-      note_datatable.ajax.reload();
       note_datatable.order( [ 8, 'desc' ] ).draw();
+      note_datatable.ajax.reload(function () {
+        $( "#note_datatable tbody tr" ).each(function( index ) {
+          if ($(this).find(".note_left_id_hide").text() == current_id ){
+            $(this).addClass("selected_tr");
+            console.log("same----", index);
+          }
+        });
+      });
+    
   }
-
+/*
   $( ".sort_menu_item" ).each(function( index ) {
     if ($(this).hasClass("selected") ){
       $(this).removeClass("selected");
@@ -1396,7 +1942,7 @@ $('#update_note_form').submit(function(e){
     }, 500);
 
 
-
+*/
   });
 
 
@@ -1484,6 +2030,7 @@ $('#update_note_form').submit(function(e){
 
 
   //hover search button on mobile
+  /*
   $( ".search_btn" ).hover(
     function() {
       
@@ -1528,7 +2075,280 @@ $('#update_note_form').submit(function(e){
       },600);
     }
   );
+
+*/
   
+
+///new
+
+
+
+
+
+//comment row increase once clicked
+$( ".comment_field" ).focus(function() {
+  $( this ).attr('rows', 5);
+});
+ 
+  
+$( ".comment_field" ).blur(function() {
+  $( this ).attr('rows', 1);
+});
+ 
+
+
+
+
+$('.create-comment-right').on( "click", function(e) {
+  
+  if ( $(".comment_field").val() != ""){
+      $(".comment_create").trigger('click');
+  }
+  
+   // $('form#create_tag_form').submit();
+  
+  
+});
+
+$('#create_comment_form').submit(function(e){
+
+  
+        e.preventDefault(); 
+          console.log("aaaaaaaaa");
+          
+        var ajax_url = '<?php echo base_url();?>admin/my_notes/create_comments';
+        var data = new FormData(this);
+
+        
+       
+         $.ajax({
+           type: "POST",
+           url: ajax_url,   
+           data: data,
+           dataType: "json",
+           processData:false,
+		       contentType:false,
+           success: function(res) {
+             
+
+            var comment_count = 1;
+            $( ".modal_comment_content_wrap" ).each(function( index ) {
+
+              if ($(this).attr("comment_note_id") == res['note_id']){
+               
+                comment_count +=1;    
+              }
+            
+            });
+           
+
+            var add_tag = "<div class='modal_comment_content_wrap' comment_note_id='" + res['note_id'] +"'>";
+            add_tag = add_tag + " <div class='modal_comment_number'>"+ comment_count +"</div>";
+            add_tag = add_tag + "<div class='modal_comment_content'>"+ res['content']+"</div>";
+            add_tag = add_tag + "</div>"
+
+              $(".modal_comments_wrap").append( add_tag );
+
+          
+              $(".modal_comment_title span").text(comment_count);
+
+             $(".comment_field").val('');
+   
+            }, error: function(res) {
+             console.log("error", res);
+          }
+         });
+         
+
+});
+
+
+  $( ".info-container" ).on( "click", function(e) {
+   // $(".user-helper-dropdown").trigger("click");
+
+    e.stopPropagation();
+   
+    //$(this).find(".btn-group ").addClass("open");
+    if ($(this).find(".btn-group ").hasClass("open")){
+      $(this).find(".btn-group ").removeClass("open");
+      $(this).parent().removeClass("open");
+    }else{
+      $(this).find(".btn-group ").addClass("open");
+      $(this).parent().addClass("open");
+    }
+      
+
+
+
+  });
+
+
+  $( "html" ).on( "click", function(e) {
+   
+    //$(this).find(".btn-group ").addClass("open");
+    
+    if ($(".user-info").hasClass("open")){
+    
+      $(".user-info").removeClass("open");
+     // console.log("aaaaa");
+    }else {
+     // console.log("aaaaattt");
+    }
+      
+
+
+
+  });
+
+  
+  
+  
+   $(document).on('click', '.delete_note_btn', function(e){ 
+          // Your Code
+         
+       console.log("ddelete");
+
+       e.preventDefault(); 
+
+      
+       
+            //var check = confirm("Are you sure you want to delete this row?");  
+
+            bootbox.confirm({
+                message: "Are you sure you want to delete this note?",
+                buttons: {
+                    confirm: {
+                    label: 'Delete'//,
+                    //className: 'btn-class-here'
+                    },
+                    cancel: {
+                    label: 'No'//,
+                    //className: 'btn-class-here'
+                    }
+                },
+                callback:function(result){
+                    /* your callback code */ 
+                    if(result){  
+
+                    var join_selected_values = $(".selected_tr .note_left_id_hide").text(); 
+
+                    console.log(join_selected_values);
+                    var ajax_url = '<?php echo base_url();?>admin/my_notes/delete_notes';
+
+
+
+                        $.ajax({
+                            type: "POST",
+                            url: ajax_url,   
+                            data: 'ids='+join_selected_values,
+                            success: function(res) {
+                            
+                                
+                               
+                                  note_datatable.row( $(".selected_tr") ).remove().draw();
+                                  $( "tbody tr" ).first().trigger("click");             
+
+                                $(".showing_notes_count").text(note_datatable.rows().count());
+
+                                }, error: function(res) {
+                                    console.log('error');
+                            }
+                        });
+                                
+                    } 
+                } 
+              }                   
+            )
+            
+      
+
+          
+      });
+
+  
+
+  //Modal close
+  $('#myModal').on('hidden.bs.modal', function () {
+            // do something…
+            console.log("Clicked---close--new");
+            $(".update_note_popup").trigger('click');
+
+            $( ".modal_comment_content_wrap" ).each(function( index ) {
+              if ($(this).hasClass("hide")){
+                $(this).removeClass("hide");
+              }
+              
+            });
+           
+  });
+  
+
+
+
+
+  $( ".showing_modal_dig" ).on( "click", function(e) {
+   
+    //Replace Editor contents
+  var editor1 = CKEDITOR.instances.ckeditor; //fck is just my instance name you will need to replace that with yours
+
+  var edata = editor1.getData();
+
+
+ 
+    CKEDITOR.instances.ckeditor_popup.setData( edata );
+ 
+
+
+
+  current_ck_content = editor1.getData();
+
+  var replaced_title = $("#subject").val();
+  if (replaced_title == "Untitled") {
+    $("#subject_popup").val("");
+  }else {
+    $("#subject_popup").val(replaced_title);
+  }
+
+
+  
+ 
+
+  var replaced_id = $(".selected_tr").find(".note_left_id_hide").text();
+  $("#curID_popup").val(replaced_id);
+
+
+  $("#createtag_popup").css("display", "none");
+
+
+  $("#subject_popup").focus();
+
+
+  //hide another comments
+
+  
+
+  var comment_count = 1;
+  $( ".modal_comment_content_wrap" ).each(function( index ) {
+
+    if ($(this).attr("comment_note_id") == replaced_id){
+      $(this).find('.modal_comment_number').text(comment_count);
+      comment_count +=1;
+    }else{
+      $(this).addClass("hide");
+    }
+    
+   
+  });
+
+  $(".modal_comment_title span").text(comment_count-1);
+
+ 
+
+  $(".show_modal_btn").trigger("click");
+
+
+ });
+ 
 
 });
 </script>
@@ -1544,7 +2364,48 @@ $('#update_note_form').submit(function(e){
 CKEDITOR.replace('ckeditor');
 CKEDITOR.config.height = 400;
 
+// Toolbar configuration generated automatically by the editor based on config.toolbarGroups.
+CKEDITOR.config.toolbar = [
+	{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'CopyFormatting', 'RemoveFormat' ] },
+  { name: 'document', groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source', '-', 'Save', 'NewPage', 'ExportPdf', 'Preview', 'Print', '-', 'Templates' ] },
+	{ name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ] },
+	{ name: 'editing', groups: [ 'find', 'selection', 'spellchecker' ], items: [ 'Find', 'Replace', '-', 'SelectAll', '-', 'Scayt' ] },
+	{ name: 'forms', items: [ 'Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField' ] },
+	'/',
+	
+	{ name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language' ] },
+	{ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
+	{ name: 'insert', items: [ 'Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe' ] },
+	'/',
+	{ name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
+	{ name: 'colors', items: [ 'TextColor', 'BGColor' ] },
+	{ name: 'tools', items: [ 'Maximize', 'ShowBlocks' ] },
+	{ name: 'others', items: [ '-' ] },
+	{ name: 'about', items: [ 'About' ] }
+];
 
+/*
+// Toolbar groups configuration.
+config.toolbarGroups = [
+	{ name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
+	{ name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
+	{ name: 'editing', groups: [ 'find', 'selection', 'spellchecker' ] },
+	{ name: 'forms' },
+	'/',
+	{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+	{ name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
+	{ name: 'links' },
+	{ name: 'insert' },
+	'/',
+	{ name: 'styles' },
+	{ name: 'colors' },
+	{ name: 'tools' },
+	{ name: 'others' },
+	{ name: 'about' }
+];
+*/
+CKEDITOR.replace('ckeditor_popup');
+CKEDITOR.config.height = 400;
 
 
 

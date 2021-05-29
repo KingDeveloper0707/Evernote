@@ -24,6 +24,13 @@
 			return $ret;
 		}
 
+		//counts of notes by id
+		public function get_counts_notes_by_user($id){
+			$array = array('user_id' => $id);
+			$this->db->where($array);
+			$counts = $this->db->count_all_results('ci_templates');
+			return $counts;
+		}
 
 		// get user info by id
 		public function get_user_info_by_id($id){
@@ -82,6 +89,37 @@
 			$insert_id = $this->db->insert_id();
 			return $insert_id;
 		}
+
+		//insert comments 
+		public function create_comment($data) {
+			$this->db->insert('ci_comments', $data);
+			$insert_id = $this->db->insert_id();
+			return $insert_id;
+		}
+
+		//Get comments info 
+		public function get_comments_info(){
+			
+						
+			$query = $this->db->get('ci_comments');
+			
+			return $result = $query->result_array();
+		}
+
+		//Delete Notes
+		public function del($ids){
+			
+			$this->db->where_in('id', explode(",", $ids));
+			$this->db->delete('ci_templates');
+
+			return true;
+	 
+			
+
+			//$this->session->set_flashdata('msg', 'Notes has been deleted successfully!');
+			//redirect(base_url('admin/users'));
+		}
+
 	}
 
 ?>

@@ -23,7 +23,7 @@
 
         $controller->email->initialize($config);
 			
-		$controller->email->from( 'info@careequity.com' , 'CareEquity Brain' );
+		$controller->email->from( 'info@careequity.com' , 'Care Equity Insights' );
 		
 		$controller->email->to($to);
 		
@@ -49,7 +49,7 @@
     }
     
     function sendEmail($to = '', $subject, $message, $cc = '') {
-		$from_email = 'CareEquity Brain <info@careequity.com>';
+		$from_email = 'Care Equity Insights <info@careequity.com>';
 		
 		// To send HTML mail, the Content-type header must be set
 		$headers[] = 'MIME-Version: 1.0';

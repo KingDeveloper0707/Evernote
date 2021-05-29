@@ -9,16 +9,49 @@
 
 
 <div class="nav_top_bar">
-  <div class="inputContainer search_wrap ">
-      <input class="Field search_field" type="search" placeholder="Search"><i class="close_search_btn material-icons">close</i>
-      
-      <i class="material-icons search_btn">search</i>
+  <div class="inputContainer header_title_wrap ">
+     <div class="header_title">FIND A NOTES</div>
   </div>
 
+
   <div class="nav_logout">
+        <!--
         <a href="<?= base_url('auth/logout');?>" class="logout_btn">
           <span>LOGOUT</span>
         </a>
+-->
+         <!-- User Info -->
+         <div class="inputContainer search_wrap ">
+              <input class="Field search_field" type="search" placeholder="Search"><i class="close_search_btn material-icons">close</i>
+              
+              <i class="material-icons search_btn">search</i>
+          </div>
+
+          <div class="user-info">
+            <div class="image">
+              <img src="<?= base_url()?>public/images/user.png" width="30" height="30" alt="User" />
+            </div>
+            <div class="info-container">
+              <div class="name check_user_name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?= strtoupper($this->session->userdata('username'));?></div>
+           
+              <div class="btn-group user-helper-dropdown">
+                <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
+                <i class="material-icons open_material_icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_up</i>
+                <ul class="dropdown-menu pull-right">
+                  <li id=""><a href="<?= base_url('admin/profile'); ?>">SETTINGS</a></li>
+               
+                  <li id=""><a href="javascript:void(0);">PRIVACY POLICY</a></li>
+                  
+                
+                  <li id=""> 
+                    <a href="<?= base_url('auth/logout');?>" class="logout_btn">
+                      <span>LOGOUT</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
   </div>
 
 </div>
@@ -32,15 +65,16 @@
 
   <div class="row all_notes_find_wrap">
 
-      <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 row_left row_left_direct">
+      <div class="row_left_direct">
+              <div class="medium_tititle_total_wrap">
+                    <div class="medium_title_wrap">
+                      DIRECTORY
+                    </div>
+                    <div class="clear_selection">Clear Selection</div>
+              </div>
+                
         <div class="card">
-          <div class="header">
-                      <h2>
-                        Directory
-                      </h2>
-                      <div class="clear_selection">Clear Selection</div>
-          </div>
-
+        
           <ul id="myUL">
             <li><span class="caret_top" id="tree_tags_wrap">TAG</span>
               <ul class="nested" id="tree_tags">
@@ -127,14 +161,15 @@
         </div>
       </div>
 
-        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 row_left row_left_small">
+      <div class="row_right_direct">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 row_left row_left_small row_no_shadow ">
             <div class="card">
                 <div class="header">
-                    <h2>
-                       All Notes
-                    </h2>
+                    <div class="medium_title_wrap">
+                      <span class="showing_notes_count"><?= $counts; ?></span> NOTES
+                    </div>
                     <ul class="header-dropdown m-r--5">
-                        <li class="dropdown">
+                        <li class="dropdown" data-toggle="tooltip" title="sort">
                             <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                 <i class="material-icons">sort</i>
                             </a>
@@ -145,7 +180,7 @@
                                 <li><a class="sort_menu_item" id="sort_created_notes"><i class="material-icons">south</i><i class="material-icons">north</i><span>Date created</span></span></a></li>
                             </ul>
                         </li>
-                        <li class="dropdown">
+                        <li class="dropdown" data-toggle="tooltip" title="filter">
                             <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                 <i class="material-icons">filter_alt</i>
                             </a>
@@ -179,7 +214,7 @@
                         </li>
                         
                                    
-                        <li>
+                        <li data-toggle="tooltip" title="detail view">
                             <a href="javascript:void(0);" class="view-layout-btn note_wrap_ctr_btn">
                               <i class="material-icons">table_view</i>     
                             </a>
@@ -235,59 +270,71 @@
         </div>
        
 
-       <div class="col-xs-12 row_go_list">
-        <div class="prev_wrap"><i class="material-icons">navigate_before</i> <span>Previous</span></div>                                                      
-        <div class="go_list_btn">Back to List</div>                                                            
-        <div class="next_wrap"> <span>Next</span> <i class="material-icons">navigate_next</i></div>                                                      
-       </div>
+        <div class="col-xs-12 row_go_list">
+          <div class="prev_wrap"><i class="material-icons">navigate_before</i> <span>Previous</span></div>                                                      
+          <div class="go_list_btn">Back to List</div>                                                            
+          <div class="next_wrap"> <span>Next</span> <i class="material-icons">navigate_next</i></div>                                                      
+        </div>
 
-        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 row_right">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 row_right">
+            <div class="medium_tititle_total_wrap">
+              <div class="medium_title_wrap">
+                PREVIEW
+              </div>                                            
+              <div class="my_note_edit">
+                EDIT                                                          
+              </div>
+            </div>                                                          
+        
+          
           <div class="card">
             <div class="body">
                 <div class="note-details-wrap">
 
-                  <form class="form-horizontal" id="update_note_form" enctype='multipart/form-data'>
+                  <form class="form-horizontal" id="update_note_form_none" enctype='multipart/form-data'>
+                    
                     <div class="note-details-header">
                       <div class="left_title">
-                        TITLE
+                        LAST EDIT:
+                      </div>
+                      <div class="right_title_middle right_title_date">
+                        
+                      </div>
+                    </div>
+                    <div class="note-details-header">
+                      <div class="left_title">
+                        TITLE:
                       </div>
                       <div class="right_title">
                         
-                        <input type="text" id="subject" name="subject" value="" placeholder="Enter your title here…." class="note_input" disabled>
+                        <input type="text" id="subject_normal" name="subject" value="" placeholder="Enter your title here…." class="note_input" disabled>
                       </div>
                     </div>
 
                     <div class="note-details-header">
                       <div class="left_title">
-                        AUTHOR
+                        EDITOR:
                       </div>
                       <div class="right_title_middle right_title_name">
                                           
                       </div>
                     </div>
 
-                    <div class="note-details-header">
-                      <div class="left_title">
-                        DATE
-                      </div>
-                      <div class="right_title_middle right_title_date">
-                        
-                      </div>
-                    </div>
+                   
 
                     <div class="note-details-header">
                       <div class="left_title">
-                        TAGS
+                        TAGS:
                       </div>
                       <div class="right_title_middle right_title_tags">
                        
                       </div>
                       <div class="create_new_tag_btn_wrap"> 
                         
-                          <input type="text" id="createtag" class="create_tag" name="create_tag">
+                          <input type="text" id="createtag_none" class="create_tag" name="create_tag">
                          
                        
-                        <i class="material-icons create_new_tag_btn">add</i>
+                        <i class="material-icons create_new_tag_btn_non">add</i>
                       </div>
                     </div>
 
@@ -295,10 +342,10 @@
                             
                                   <div class="note_editor_wrap">
                                      <div id="non_ckeditor"></div>
-                                      <input type="hidden" id="curID" name="curid" value="<?php  if ($note_data)echo $note_data->id;  ?>">
+                                      <input type="hidden" id="curID_normal" name="curid" value="<?php  if ($note_data)echo $note_data->id;  ?>">
                                   </div>
                               
-                                  <input type="submit" name="submit" value="UPDATE" class="btn btn-primary m-t-15 waves-effect update_note" style="display: none;">
+                                  <input type="submit" name="submit" value="UPDATE" class="btn btn-primary m-t-15 waves-effect update_note_normal" style="display: none;">
                         
                     </div>
                   <?php echo form_close();?>
@@ -308,7 +355,9 @@
        
             </div>
           </div>
-        </div>
+        </div>   
+      </div>
+        
       
   </div>
     <!-- #END# Colored Card - With Loading -->
@@ -346,40 +395,41 @@
                         <form class="form-horizontal" id="update_note_form" enctype='multipart/form-data'>
                             <div class="note-details-header">
                                 <div class="left_title">
-                                TITLE
+                                LAST EDIT:
+                                </div>
+                                <div class="right_title_middle right_title_date">
+                                
+                                </div>
+                            </div>    
+                            <div class="note-details-header">
+                                <div class="left_title">
+                                TITLE:
                                 </div>
                                 <div class="right_title">
                                 
-                                <input type="text" id="pop_subject" name="subject" value="" placeholder="Enter your title here…." class="note_input" disabled>
+                                <input type="text" id="subject" name="subject" value="" placeholder="Enter your title here…." class="note_input" >
                                 </div>
                             </div>
 
                             <div class="note-details-header">
                                 <div class="left_title">
-                                AUTHOR
+                                EDITOR:
                                 </div>
                                 <div class="right_title_middle right_title_name">
                                             
                                 </div>
                             </div>
 
-                            <div class="note-details-header">
-                                <div class="left_title">
-                                DATE
-                                </div>
-                                <div class="right_title_middle right_title_date">
-                                
-                                </div>
-                            </div>
+                           
 
                             <div class="note-details-header">
                                 <div class="left_title">
-                                TAGS
+                                TAGS:
                                 </div>
                                 <div class="right_title_middle right_title_tags">
                                 
                                 </div>
-                                <div class="create_new_tag_btn_wrap" style="display: none;"> 
+                                <div class="create_new_tag_btn_wrap" > 
                                 
                                     <input type="text" id="createtag" class="create_tag" name="create_tag">
                                     
@@ -391,7 +441,7 @@
                             <div class="note_editor">
                                     
                                             <div class="note_editor_wrap">
-                                                <div id="pop_ckeditor"></div>
+                                                <div id="ckeditor"></div>
                                                 <input type="hidden" id="curID" name="curid" value="">
                                             </div>
                                         
@@ -410,7 +460,57 @@
 
 
       </div>
+
+
+
       
+    </div>
+
+
+    <div class="modal_comment_wrap">
+      <div class="modal_comment_title">
+        COMMENTS (<span></span>)
+      </div>
+
+      <div class="modal_comments_wrap">
+        <?php 
+        
+        foreach ($comments_data as $comment_data){ 
+        ?>
+
+          <div class="modal_comment_content_wrap" comment_note_id="<?php echo $comment_data['note_id']?>">
+            <div class="modal_comment_number"></div>
+            <div class="modal_comment_content"><?php echo $comment_data['content'];?></div>
+          </div>
+
+      
+      
+
+        <?php } ?>
+      </div>
+     
+
+
+      <div class="modal_comment_create">
+
+                 <form class="form-horizontal" id="create_comment_form" enctype='multipart/form-data'>
+                    <div class="create-comment">
+                    
+                      <textarea class="comment_field" name="comment_field" placeholder="Write new comment" rows="1" cols="24"></textarea>
+                      <div class="create-comment-right"> <i class="material-icons comment_create_btn">edit</i></div>
+                      
+                    
+                    </div>
+                 
+                    <input type="hidden" id="curID_comment" name="curid" value="<?php  if ($note_data)echo $note_data->id;  ?>">
+                    <input type="hidden" id="userID" name="useID" value="<?php echo $user_data['id']; ?>">
+
+                    <input type="submit" name="submit" value="UPDATE" class="btn btn-primary m-t-15 waves-effect comment_create" style="display: none;">
+                  </form>   
+                 
+       
+      </div>
+
     </div>
 
   </div>
@@ -509,6 +609,9 @@
 
         $(this).css("visibility", "hidden");
 
+       
+            $(".showing_notes_count").text(note_datatable.rows().count());
+
       });
 
       //reset selected multiselect
@@ -520,7 +623,10 @@
           clear_select_one_filter_tags();
           $(this).parent().remove();
 
-          
+          if ($(".added_filter_body").size() > 0)
+            $(".showing_notes_count").text( $('.added_filter_row').size());
+          else
+            $(".showing_notes_count").text(note_datatable.rows().count());
       });
       
      
@@ -658,7 +764,10 @@
 
 
               //  alert('Changed option ' + $(option).val() + '.');
-                
+              if ($(".added_filter_body").size() > 0)
+                 $(".showing_notes_count").text( $('.added_filter_row').size());
+              else
+                $(".showing_notes_count").text(note_datatable.rows().count()); 
             }
         });
 
@@ -751,7 +860,10 @@
     expertise_list = [];
     position_list = [];
 
-    note_datatable.ajax.reload();
+    note_datatable.ajax.reload( function () {
+          $(".showing_notes_count").text(note_datatable.rows().count());
+        } );
+
 
   });
   //click find tree on mobile
@@ -785,8 +897,12 @@
         //console.log("remove tag_id, tag_id_list", tag_id, tag_id_list);
       }
 
-        note_datatable.ajax.reload();
+      note_datatable.ajax.reload( function () {
+          $(".showing_notes_count").text(note_datatable.rows().count());
+        } );
 
+
+        
     });
 
     //click Author tree
@@ -808,6 +924,11 @@
         //console.log("remove autho_name, author_list", autho_name, author_list);
       }
         note_datatable.ajax.reload();
+
+        note_datatable.ajax.reload( function () {
+          $(".showing_notes_count").text(note_datatable.rows().count());
+        } );
+
 
     });
 
@@ -832,7 +953,10 @@
 
 
 
-        note_datatable.ajax.reload();
+        note_datatable.ajax.reload( function () {
+          $(".showing_notes_count").text(note_datatable.rows().count());
+        } );
+
 
       });   
 
@@ -857,7 +981,10 @@
 
 
 
-        note_datatable.ajax.reload();
+        note_datatable.ajax.reload( function () {
+          $(".showing_notes_count").text(note_datatable.rows().count());
+        } );
+
 
       });   
 
@@ -882,7 +1009,10 @@
 
 
 
-        note_datatable.ajax.reload();
+        note_datatable.ajax.reload( function () {
+          $(".showing_notes_count").text(note_datatable.rows().count());
+        } );
+
 
       });  
       
@@ -907,7 +1037,12 @@
 
 
 
-        note_datatable.ajax.reload();
+       
+        note_datatable.ajax.reload( function () {
+          $(".showing_notes_count").text(note_datatable.rows().count());
+        } );
+
+    
 
       });  
 
@@ -920,6 +1055,9 @@
         "searchHighlight": true,
         "deferRender": true,      
         "select": true,
+        "oLanguage": {
+        "sEmptyTable": "No notes"
+        },
         "ajax":{
           "url" :  "<?=base_url('admin/find_notes/datatable_json')?>", 
           "type": "POST",
@@ -939,7 +1077,8 @@
               {
                   "targets": [ 0 ],
                   "orderable": true,
-                  "visible": true
+                  "visible": true,
+                  "className": "show_real_info_notes"
               },
               {
                   "targets": [ 1 ],
@@ -974,7 +1113,7 @@
                   "visible": true,
                   "orderable": true,
                   "className": "note_left_content_hide",
-                  "searchable": false
+                  "searchable": true
               },
               {
                   "targets": [ 6 ],
@@ -1166,9 +1305,9 @@ $( "#note_datatable tbody" ).on( "click", "tr", function() {
 
   var replaced_title = $(this).find(".show_note_title").text();
   if (replaced_title == "Untitled") {
-    $("#subject").val("");
+    $("#subject_normal").val("");
   }else {
-    $("#subject").val(replaced_title);
+    $("#subject_normal").val(replaced_title);
   }
   
   
@@ -1187,6 +1326,32 @@ $( "#note_datatable tbody" ).on( "click", "tr", function() {
   $("#createtag").css("display", "none");
 
   $("#subject").focus();
+
+
+  var current_user = $(this).find(".note_left_userid_hide").text();
+  var current_check_user = $(".check_user_name").text();
+
+  console.log("fist, curr_C", current_user.toLowerCase(), current_check_user.toLowerCase());
+
+  if (current_user.toLowerCase() == current_check_user.toLowerCase()){
+    $(".my_note_edit").css("display", "block");
+  }else {
+    $(".my_note_edit").css("display", "none");
+  }
+
+
+  $(".row_left").removeClass("col-lg-12");
+      $(".row_left").removeClass("col-md-12");
+      $(".row_left").addClass("col-lg-6");
+      $(".row_left").addClass("col-md-6");
+      $(".row_left").removeClass("row_left_large");
+      $(".row_left").addClass("row_left_small");
+
+      $(".row_right").addClass("col-lg-6");
+      $(".row_right").addClass("col-md-6");
+      $(".row_right").removeClass("col-lg-0");
+      $(".row_right").removeClass("col-md-0");
+      $(".row_right").removeClass("hide");
   
 
 });
@@ -1266,7 +1431,7 @@ $('#update_note_form').submit(function(e){
         	
         e.preventDefault(); 
           console.log("create_tags");
-        var ajax_url = '<?php echo base_url();?>admin/my_notes/update_notes';
+        var ajax_url = '<?php echo base_url();?>admin/find_notes/update_notes';
         var data = new FormData(this);
 
           //Replace Editor contents
@@ -1310,13 +1475,18 @@ $('#update_note_form').submit(function(e){
               if(res['subject'] != ""){
                 $("tr.selected_tr").find(".show_note_title").text(res['subject']);
                 $("tr.selected_tr").find(".note_left_title_hide").text(res['subject']);
+                $("#subject_normal").val(res['subject']);
               }else{
                 $("tr.selected_tr").find(".show_note_title").text("Untitled");
                 $("tr.selected_tr").find(".note_left_title_hide").text("Untitled");  
+                $("#subject_normal").val("Untitled");
               }
                 
 
               $("tr.selected_tr").find(".note_left_content_hide").html(res['content']);
+
+              $("#non_ckeditor").html(res['content']);
+              
 
              
               note_datatable.ajax.reload();
@@ -1358,43 +1528,49 @@ $('#update_note_form').submit(function(e){
 
 
   $( ".note_wrap_ctr_btn" ).on( "click", function() {
-    if (!$(".row_left").hasClass("col-lg-8")){
+    if (!$(".row_left").hasClass("col-lg-12")){
       
-      $(".row_left").addClass("col-lg-8");
-      $(".row_left").addClass("col-md-8");
-      $(".row_left").removeClass("col-lg-4");
-      $(".row_left").removeClass("col-md-4");
+      $(".row_left").addClass("col-lg-12");
+      $(".row_left").addClass("col-md-12");
+      $(".row_left").removeClass("col-lg-6");
+      $(".row_left").removeClass("col-md-6");
       $(".row_left").removeClass("row_left_small");
       $(".row_left").addClass("row_left_large");
 
-      $(".row_right").addClass("col-lg-4");
-      $(".row_right").addClass("col-md-4");
-      $(".row_right").removeClass("col-lg-8");
-      $(".row_right").removeClass("col-md-8");
+      $(".row_right").addClass("col-lg-0");
+      $(".row_right").addClass("col-md-0");
+      $(".row_right").addClass("hide");
+      $(".row_right").removeClass("col-lg-6");
+      $(".row_right").removeClass("col-md-6");
 
       
     // note_datatable.column(1).visible(true);
     // note_datatable.column(2).visible(true);
     // note_datatable.column(3).visible(true);
 
+     //$("#note_datatable thead").css("display", "table-header-group");
+
     }else {
       
-      $(".row_left").removeClass("col-lg-8");
-      $(".row_left").removeClass("col-md-8");
-      $(".row_left").addClass("col-lg-4");
-      $(".row_left").addClass("col-md-4");
+      $(".row_left").removeClass("col-lg-12");
+      $(".row_left").removeClass("col-md-12");
+      $(".row_left").addClass("col-lg-6");
+      $(".row_left").addClass("col-md-6");
       $(".row_left").removeClass("row_left_large");
       $(".row_left").addClass("row_left_small");
 
-      $(".row_right").addClass("col-lg-8");
-      $(".row_right").addClass("col-md-8");
-      $(".row_right").removeClass("col-lg-4");
-      $(".row_right").removeClass("col-md-4");
+      $(".row_right").addClass("col-lg-6");
+      $(".row_right").addClass("col-md-6");
+      $(".row_right").removeClass("col-lg-0");
+      $(".row_right").removeClass("col-md-0");
+      $(".row_right").removeClass("hide");
 
 
     //  note_datatable.column(1).visible(false);
     //  note_datatable.column(2).visible(false);
     // note_datatable.column(3).visible(false);
+
+      //$("#note_datatable thead").css("display", "table-header-group");
 
     }
   });
@@ -1404,49 +1580,55 @@ $('#update_note_form').submit(function(e){
   //Search Field
 
 
+
   $( ".search_btn" ).on( "click", function() {
 
-    console.log("sear_text", $(".search_field").val());
-    var search_key = $(".search_field").val();
+      console.log("sear_text", $(".search_field").val());
+      var search_key = $(".search_field").val();
 
-    //document.getElementByClass("search_field").innerHTML = x;
+      $(".search_field").addClass("show_btn");
+      //document.getElementByClass("search_field").innerHTML = x;
 
-    if (search_key != ""){
-      $(".close_search_btn").css("display", "block");
+      if (search_key != ""){
+        $(".close_search_btn").css("display", "block");
 
-      $(".dataTables_filter input").val(search_key);
+        $(".dataTables_filter input").val(search_key);
 
-      note_datatable.search(search_key).draw();
+        $(".search_field").addClass("show_btn");
+
+        note_datatable.search(search_key).draw();
+
+        $("#note_datatable tbody tr").first().trigger("click");
+
+      }
+
+
+    });
+
+
+    $( ".close_search_btn" ).on( "click", function() { 
+      $(".dataTables_filter input").val("");
+
+      $(".search_field").val("");
+      note_datatable.search("").draw();
+      $(this).css("display","none");
+
+      $(".search_field").removeClass("show_btn");
 
       $("#note_datatable tbody tr").first().trigger("click");
 
-    }
-  
-
-  });
-
-
-  $( ".close_search_btn" ).on( "click", function() { 
-    $(".dataTables_filter input").val("");
-    
-    $(".search_field").val("");
-    note_datatable.search("").draw();
-    $(this).css("display","none");
-
-    $("#note_datatable tbody tr").first().trigger("click");
-
-  });
+    });
 
 
 
-  $('.search_field').keypress(function (e) {
-  var key = e.which;
-  if(key == 13)  // the enter key code
-    {
-      $(".search_btn").trigger("click");
-      return false;  
-    }
-  });   
+    $('.search_field').keypress(function (e) {
+      var key = e.which;
+      if(key == 13)  // the enter key code
+      {
+        $(".search_btn").trigger("click");
+        return false;  
+      }
+    });   
 
 
 
@@ -1803,10 +1985,12 @@ $('#update_note_form').submit(function(e){
   });
 
 */
+
+/*
   $("#subject").change(function(){
     $(".update_note").trigger('click');
   });
-
+*/
 
 
   $('.dropdown_select .select_menu_wrap .multiselect').click(function(e) {
@@ -1828,6 +2012,7 @@ $('#update_note_form').submit(function(e){
 
 
   //hover search button on mobile
+  /*
   $( ".search_btn" ).hover(
     function() {
       
@@ -1873,7 +2058,38 @@ $('#update_note_form').submit(function(e){
     }
   );
   
+*/
 
+
+ //Modal close
+ $('#myModal').on('hidden.bs.modal', function () {
+            // do something…
+            console.log("Clicked---close--new");
+
+            var current_user = $(".selected_tr").find(".note_left_userid_hide").text();
+            var current_check_user = $(".check_user_name").text();
+
+          
+
+            if (current_user.toLowerCase() == current_check_user.toLowerCase()){
+              $(".update_note").trigger('click');
+              
+            }else {
+             
+
+            
+            }
+
+
+           
+            $( ".modal_comment_content_wrap" ).each(function( index ) {
+              if ($(this).hasClass("hide")){
+                $(this).removeClass("hide");
+              }
+              
+            });
+           
+  });
 
 
   //click row right
@@ -1882,19 +2098,180 @@ $('#update_note_form').submit(function(e){
 
     var replaced_text = $(this).find("#non_ckeditor").html(); // you could also use a regex in the replace 
 
-    $("#pop_ckeditor").html(replaced_text);
-
-    var replaced_title = $(this).find("#subject").val();
-    if (replaced_title == "Untitled") {
-      $("#pop_subject").val("");
-    }else {
-      $("#pop_subject").val(replaced_title);
-    }
-    
-    
    
+    CKEDITOR.instances.ckeditor.setData( replaced_text );
+
+    var replaced_title = $(this).find("#subject_normal").val();
+    if (replaced_title == "Untitled") {
+      $("#subject").val("");
+    }else {
+      $("#subject").val(replaced_title);
+    }
+
+    var replaced_tags = $(this).find(".note_left_tags_hide").html();
+    $(".right_title_tags").html(replaced_tags);
+
+    
+    var replaced_id = $(".selected_tr").find(".note_left_id_hide").text();
+
+    var comment_count = 1;
+    $( ".modal_comment_content_wrap" ).each(function( index ) {
+
+      if ($(this).attr("comment_note_id") == replaced_id){
+        $(this).find('.modal_comment_number').text(comment_count);
+        comment_count +=1;
+      }else{
+        $(this).addClass("hide");
+      }
+      
+    
+    });
+
+    $(".modal_comment_title span").text(comment_count-1);
+
+    $("#curID_comment").val($(".selected_tr .note_left_id_hide").text());
+
+
+    var current_user = $(".selected_tr").find(".note_left_userid_hide").text();
+    var current_check_user = $(".check_user_name").text();
+
+    console.log("new fist, curr_C", current_user.toLowerCase(), current_check_user.toLowerCase());
+
+    if (current_user.toLowerCase() == current_check_user.toLowerCase()){
+      $("#subject").removeAttr('disabled');
+      $(".create_new_tag_btn").css("display", "inline-block");
+      CKEDITOR.instances.ckeditor.setReadOnly(false);
+      
+    }else {
+      $(".create_new_tag_btn").css("display", "none");
+      $("#subject").attr('disabled', 'disabled');
+      CKEDITOR.instances.ckeditor.setReadOnly(true);
+     
+    }
 
     $(".show_modal_btn").trigger("click");    
+
+  });
+
+
+  
+//comment row increase once clicked
+$( ".comment_field" ).focus(function() {
+  $( this ).attr('rows', 5);
+});
+ 
+  
+$( ".comment_field" ).blur(function() {
+  $( this ).attr('rows', 1);
+});
+ 
+
+
+
+
+$('.create-comment-right').on( "click", function(e) {
+
+
+    if ( $(".comment_field").val() != ""){
+      $(".comment_create").trigger('click');
+    }
+  
+    
+   // $('form#create_tag_form').submit();
+  
+  
+});
+
+$('#create_comment_form').submit(function(e){
+
+  
+        e.preventDefault(); 
+          console.log("aaaaaaaaa", $(".selected_tr .note_left_id_hide").text());
+          
+        var ajax_url = '<?php echo base_url();?>admin/find_notes/create_comments';
+
+        
+        $("#curID_comment").val($(".selected_tr .note_left_id_hide").text());
+        var data = new FormData(this);
+
+        
+       
+         $.ajax({
+           type: "POST",
+           url: ajax_url,   
+           data: data,
+           dataType: "json",
+           processData:false,
+		       contentType:false,
+           success: function(res) {
+             
+
+            var comment_count = 1;
+            $( ".modal_comment_content_wrap" ).each(function( index ) {
+
+              if ($(this).attr("comment_note_id") == res['note_id']){
+               
+                comment_count +=1;    
+              }
+            
+            });
+           
+
+            var add_tag = "<div class='modal_comment_content_wrap' comment_note_id='" + res['note_id'] +"'>";
+            add_tag = add_tag + " <div class='modal_comment_number'>"+ comment_count +"</div>";
+            add_tag = add_tag + "<div class='modal_comment_content'>"+ res['content']+"</div>";
+            add_tag = add_tag + "</div>"
+
+              $(".modal_comments_wrap").append( add_tag );
+
+          
+              $(".modal_comment_title span").text(comment_count);
+
+             $(".comment_field").val('');
+   
+            }, error: function(res) {
+             console.log("error", res);
+          }
+         });
+         
+
+});
+
+
+  $( ".info-container" ).on( "click", function(e) {
+   // $(".user-helper-dropdown").trigger("click");
+
+    e.stopPropagation();
+   
+    //$(this).find(".btn-group ").addClass("open");
+    if ($(this).find(".btn-group ").hasClass("open")){
+      $(this).find(".btn-group ").removeClass("open");
+      $(this).parent().removeClass("open");
+    }else{
+      $(this).find(".btn-group ").addClass("open");
+      $(this).parent().addClass("open");
+    }
+      
+
+
+
+  });
+
+
+  $( "html" ).on( "click", function(e) {
+   
+    //$(this).find(".btn-group ").addClass("open");
+    
+    if ($(".user-info").hasClass("open")){
+    
+      $(".user-info").removeClass("open");
+     // console.log("aaaaa");
+    }else {
+     // console.log("aaaaattt");
+    }
+      
+
+
 
   });
 
@@ -1929,10 +2306,27 @@ for (i = 0; i < toggler.length; i++) {
 //CKEditor
 CKEDITOR.replace('ckeditor');
 CKEDITOR.config.height = 400;
-CKEDITOR.config.readOnly = true;
+//CKEDITOR.config.readOnly = true;
 
 
-
+CKEDITOR.config.toolbar = [
+	{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'CopyFormatting', 'RemoveFormat' ] },
+  { name: 'document', groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source', '-', 'Save', 'NewPage', 'ExportPdf', 'Preview', 'Print', '-', 'Templates' ] },
+	{ name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ] },
+	{ name: 'editing', groups: [ 'find', 'selection', 'spellchecker' ], items: [ 'Find', 'Replace', '-', 'SelectAll', '-', 'Scayt' ] },
+	{ name: 'forms', items: [ 'Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField' ] },
+	'/',
+	
+	{ name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language' ] },
+	{ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
+	{ name: 'insert', items: [ 'Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe' ] },
+	'/',
+	{ name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
+	{ name: 'colors', items: [ 'TextColor', 'BGColor' ] },
+	{ name: 'tools', items: [ 'Maximize', 'ShowBlocks' ] },
+	{ name: 'others', items: [ '-' ] },
+	{ name: 'about', items: [ 'About' ] }
+];
 
 
 </script>
