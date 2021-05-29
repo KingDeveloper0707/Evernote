@@ -879,18 +879,38 @@
         success: function(res) {
           
 
+          var delete_element = '<div class="show_create_date">'+res['conver_change_time']+'</div><div class="show_note_title">'+"Untitled"+'</div>';
+					delete_element += '<div class="showing_editors_wrap"><i class="material-icons">person</i>'+res['user_name']+'</div>';
+					delete_element += '<div class="dropdown delete_note_wrap delete_note_wrap_first">';
+					delete_element += '<a href="#" class="dropdown-toggle delete_note_show_dot" data-toggle="dropdown">...</a>';
+					delete_element += '<div class="dropdown-menu">';
+					delete_element +=	'<div class="dropdown-item delete_note_btn"> <i class="material-icons delete_btn">delete</i> Delete</div>';
+				
+					delete_element += '</div>';
+					delete_element += '</div>';
+
+
+								
+					var tag_del ='<div class="dropdown delete_note_wrap delete_note_wrap_second">';
+					tag_del += '<a href="#" class="dropdown-toggle delete_note_show_dot" data-toggle="dropdown">...</a>';
+					tag_del += '<div class="dropdown-menu">';
+					tag_del +=	'<div href="#" class="dropdown-item delete_note_btn"> <i class="material-icons delete_btn">delete</i> Delete</div>';
+				
+					tag_del += '</div>';
+					tag_del += '</div>';
+
           note_datatable.row.add([
-            '<div class="show_create_date">'+res['created_at']+'</div><div class="show_note_title">'+"Untitled"+'</div>',
+            delete_element,
 							
             res['created_at'],
             res['updated_at'],
-            res['tags'],
+            tag_del,
             res['current_id'],
             res['content'],
             res['user_id'],
-            res['tags'],
+            tag_del,
             "Untitled",
-          ]).draw(false);
+          ]).draw();
 
 
           //note_datatable.ajax.reload();
@@ -917,7 +937,7 @@
           }
           
           
-          var replaced_date = res['updated_at'];
+          var replaced_date = res['conver_change_time'];
 
          
 
@@ -933,8 +953,9 @@
           CKEDITOR.instances.ckeditor.setData("");
           CKEDITOR.instances.ckeditor.focus();
           
-         
-          $(".showing_notes_count").text(note_datatable.rows().count());
+         var current_note_count = parseInt($(".showing_notes_count").text());
+         var real_count = current_note_count + 1;
+          $(".showing_notes_count").text(real_count);
 
          }, error: function(res) {
           console.log('error');
@@ -2248,7 +2269,11 @@ $('#create_comment_form').submit(function(e){
                                   note_datatable.row( $(".selected_tr") ).remove().draw();
                                   $( "tbody tr" ).first().trigger("click");             
 
-                                $(".showing_notes_count").text(note_datatable.rows().count());
+                                //$(".showing_notes_count").text(note_datatable.rows().count());
+
+                                var current_note_count = parseInt($(".showing_notes_count").text());
+                                var real_count = current_note_count - 1;
+                                  $(".showing_notes_count").text(real_count);
 
                                 }, error: function(res) {
                                     console.log('error');

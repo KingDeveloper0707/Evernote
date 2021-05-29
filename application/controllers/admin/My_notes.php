@@ -313,13 +313,14 @@
 						$send_data = array(
 							'subject' => "",
 							'content' => "",
-							'created_at' => $newDate,
-							'updated_at' => $newDate,
+							'created_at' => date('Y-m-d H:i:s'),
+							'updated_at' => date('Y-m-d H:i:s'),
 							'user_id' => $id,
 							'tags' => "",
 							'is_active' => 1,
 							'current_id' => $inputed_id,
 							'user_name' => $username,
+							'conver_change_time' => $newDate,
 							
 						);
 
