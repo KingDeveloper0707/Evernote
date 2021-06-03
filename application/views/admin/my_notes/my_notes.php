@@ -29,7 +29,14 @@
 
           <div class="user-info">
             <div class="image">
-              <img src="<?= base_url()?>public/images/user.png" width="30" height="30" alt="User" />
+            <?php if ($user_data['photo']){ ?>
+                    <img src="<?php echo  base_url().$user_data['photo'];?>" width="30" height="30" alt="User" class="logout_image" />
+               <?php }else{ ?>
+
+                    <img src="<?php echo base_url();?>public/images/user.png" width="30" height="30" alt="User" class="logout_image" />
+               <?php }
+                
+                ?>
             </div>
             <div class="info-container">
               <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?= strtoupper($this->session->userdata('username'));?></div>
@@ -395,11 +402,37 @@
         foreach ($comments_data as $comment_data){ 
         ?>
 
-          <div class="modal_comment_content_wrap" comment_note_id="<?php echo $comment_data['note_id']?>">
+          <div class="modal_comment_content_wrap" comment_note_id="<?php echo $comment_data['note_id']?>" comment_id="<?php echo $comment_data['id']?>">
             <div class="modal_comment_number"></div>
-            <div class="modal_comment_content"><?php echo $comment_data['content'];?></div>
+            <div class="modal_comment_content">
+              <div class="comment_title">
+                <?php echo $comment_data['content'];?>
+              </div>
+              <div class="comment_editor">
+                <?php echo $comment_data['username'];?>
+              </div>
+              <div class="comment_created">
+                <?php $orgDate = $comment_data['created_at'];  
+                  $newDate = date(" M d, Y", strtotime($orgDate));  
+                  echo $newDate;
+                ?>
+              </div>
+            </div>
+
+
+            <div class="dropdown delete_comment_wrap delete_comment_wrap_first">
+              <a href="#" class="dropdown-toggle delete_comment_show_dot" data-toggle="dropdown" aria-expanded="false">...</a>
+              <div class="dropdown-menu delete_comment_dropdown_menu">
+                <div class="dropdown-item delete_comment_btn_wrap" comment_id="<?php echo $comment_data['id']?>"> 
+                <i class="material-icons delete_comment_btn">delete</i> Delete
+                </div>
+              </div>
+            </div>
+
           </div>
 
+
+         
       
       
 
@@ -2163,10 +2196,21 @@ $('#create_comment_form').submit(function(e){
             });
            
 
-            var add_tag = "<div class='modal_comment_content_wrap' comment_note_id='" + res['note_id'] +"'>";
+            var add_tag = "<div class='modal_comment_content_wrap' comment_note_id='" + res['note_id'] +"' comment_id='"+ res['id']+"'>";
             add_tag = add_tag + " <div class='modal_comment_number'>"+ comment_count +"</div>";
-            add_tag = add_tag + "<div class='modal_comment_content'>"+ res['content']+"</div>";
-            add_tag = add_tag + "</div>"
+            add_tag = add_tag + "<div class='modal_comment_content'> <div class='comment_title'>"+ res['content']+"</div>";
+            add_tag = add_tag + " <div class='comment_editor'>"+ res['username']+"</div>";
+            add_tag = add_tag + " <div class='comment_created'>"+ res['created_at']+"</div>";           
+            add_tag = add_tag + "</div>";
+            add_tag += "<div class='dropdown delete_comment_wrap delete_comment_wrap_first'>";
+            add_tag += "<a href='#' class='dropdown-toggle delete_comment_show_dot' data-toggle='dropdown' aria-expanded='false'>...</a>";
+            add_tag += "<div class='dropdown-menu delete_comment_dropdown_menu'>";
+            add_tag += "<div class='dropdown-item delete_comment_btn_wrap' comment_id='"+ res['id'] +"'> ";
+            add_tag += "<i class='material-icons delete_comment_btn'>delete</i> Delete";
+            add_tag += "</div></div></div>";
+            add_tag = add_tag + "</div>";
+
+           
 
               $(".modal_comments_wrap").append( add_tag );
 
@@ -2182,6 +2226,97 @@ $('#create_comment_form').submit(function(e){
          
 
 });
+
+
+  $(document).on('click', '.delete_comment_btn_wrap', function(e){ 
+          // Your Code
+         
+       console.log("delete_comment");
+
+       e.preventDefault(); 
+
+       var join_selected_values = $(this).attr("comment_id"); 
+       var selected_note = $(".selected_tr .note_left_id_hide").text(); 
+
+       console.log("ssss", selected_note);
+       
+            //var check = confirm("Are you sure you want to delete this row?");  
+
+            bootbox.confirm({
+                message: "Are you sure you want to delete this comment?",
+                buttons: {
+                    confirm: {
+                    label: 'Delete'//,
+                    //className: 'btn-class-here'
+                    },
+                    cancel: {
+                    label: 'No'//,
+                    //className: 'btn-class-here'
+                    }
+                },
+                callback:function(result){
+                    /* your callback code */ 
+                    if(result){  
+
+                   
+
+                    console.log(join_selected_values);
+                    var ajax_url = '<?php echo base_url();?>admin/my_notes/delete_comments';
+
+
+
+                        $.ajax({
+                            type: "POST",
+                            url: ajax_url,   
+                            data: 'ids='+join_selected_values,
+                            success: function(res) {
+
+                              
+
+                            
+                               $( ".modal_comment_content_wrap" ).each(function( index ) {
+
+                                  if ($(this).attr("comment_id") == join_selected_values){
+
+                                    $(this).remove(); 
+
+                                   
+                                  }
+
+                                });
+                               
+
+                                var comment_count = 1;
+                                  $( ".modal_comment_content_wrap" ).each(function( index ) {
+
+                                    if ($(this).attr("comment_note_id") == selected_note){
+                                      $(this).find('.modal_comment_number').text(comment_count);
+                                      comment_count +=1;    
+                                    }
+                                  
+                                   
+                                    
+                                  });
+                                 
+                                  comment_count = comment_count -1 ;
+                                  $(".modal_comment_title span").text(comment_count);
+
+
+                                }, error: function(res) {
+                                    console.log('error');
+                            }
+                        });
+                                
+                    } 
+                } 
+              }                   
+            )
+            
+      
+
+          
+      });
+
 
 
   $( ".info-container" ).on( "click", function(e) {

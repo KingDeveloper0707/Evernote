@@ -60,8 +60,19 @@
 		public function get_comments_info(){
 			
 						
-			$query = $this->db->get('ci_comments');
+			//$query = $this->db->get('ci_comments');
 			
+			//return $result = $query->result_array();
+
+			
+			$this->db->select('ci_comments.id, ci_comments.content, ci_comments.note_id, ci_comments.created_at, ci_comments.user_id, ci_users.username');
+			$this->db->from('ci_comments');
+			
+			$this->db->join('ci_users', 'ci_comments.user_id = ci_users.id', 'left');
+			$this->db->order_by('ci_comments.id', 'ASC');
+			$this->db->group_by('ci_comments.id');
+			
+			$query = $this->db->get();
 			return $result = $query->result_array();
 		}
 
@@ -177,6 +188,20 @@
 			$this->db->insert('ci_templates', $data);
 			$insert_id = $this->db->insert_id();
 			return $insert_id;
+		}
+
+		//Delete Notes
+		public function del_comment($ids){
+			
+			$this->db->where_in('id', explode(",", $ids));
+			$this->db->delete('ci_comments');
+
+			return true;
+	 
+			
+
+			//$this->session->set_flashdata('msg', 'Notes has been deleted successfully!');
+			//redirect(base_url('admin/users'));
 		}
 	}
 

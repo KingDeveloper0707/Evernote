@@ -10,7 +10,7 @@
 
 <div class="nav_top_bar">
   <div class="inputContainer header_title_wrap ">
-     <div class="header_title">FIND A NOTES</div>
+     <div class="header_title">FIND A NOTE</div>
   </div>
 
 
@@ -29,10 +29,18 @@
 
           <div class="user-info">
             <div class="image">
-              <img src="<?= base_url()?>public/images/user.png" width="30" height="30" alt="User" />
+             
+              <?php if ($user_data['photo']){ ?>
+                    <img src="<?php echo  base_url().$user_data['photo'];?>" width="30" height="30" alt="User" class="logout_image" />
+               <?php }else{ ?>
+
+                    <img src="<?php echo base_url();?>public/images/user.png" width="30" height="30" alt="User" class="logout_image" />
+               <?php }
+                
+                ?>
             </div>
             <div class="info-container">
-              <div class="name check_user_name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?= strtoupper($this->session->userdata('username'));?></div>
+              <div class="name check_user_name" is_admin = "<?php echo $user_data['is_admin']; ?>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?= strtoupper($this->session->userdata('username'));?></div>
            
               <div class="btn-group user-helper-dropdown">
                 <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
@@ -307,7 +315,8 @@
                       </div>
                       <div class="right_title">
                         
-                        <input type="text" id="subject_normal" name="subject" value="" placeholder="Enter your title here…." class="note_input" disabled>
+                        <textarea type="text" id="subject_normal" name="subject" value=""rows="3"  placeholder="Enter your title here…." class="note_input" disabled>
+                        </textarea>
                       </div>
                     </div>
 
@@ -478,15 +487,43 @@
         foreach ($comments_data as $comment_data){ 
         ?>
 
-          <div class="modal_comment_content_wrap" comment_note_id="<?php echo $comment_data['note_id']?>">
+          <div class="modal_comment_content_wrap" comment_note_id="<?php echo $comment_data['note_id']?>" comment_id="<?php echo $comment_data['id']?>">
             <div class="modal_comment_number"></div>
-            <div class="modal_comment_content"><?php echo $comment_data['content'];?></div>
+            <div class="modal_comment_content">
+              <div class="comment_title">
+                <?php echo $comment_data['content'];?>
+              </div>
+              <div class="comment_editor">
+                <?php echo $comment_data['username'];?>
+              </div>
+              <div class="comment_created">
+                <?php $orgDate = $comment_data['created_at'];  
+                  $newDate = date(" M d, Y", strtotime($orgDate));  
+                  echo $newDate;
+                ?>
+              </div>
+            </div>
+
+
+            <?php 
+              if($user_data['is_admin'] == 1 || $user_data['id'] == $comment_data['user_id']){
+
+              
+            ?>
+            <div class="dropdown delete_comment_wrap delete_comment_wrap_first">
+              <a href="#" class="dropdown-toggle delete_comment_show_dot" data-toggle="dropdown" aria-expanded="false">...</a>
+              <div class="dropdown-menu delete_comment_dropdown_menu">
+                <div class="dropdown-item delete_comment_btn_wrap" comment_id="<?php echo $comment_data['id']?>"> 
+                <i class="material-icons delete_comment_btn">delete</i> Delete
+                </div>
+              </div>
+            </div>
+          
+            <?php  }?>
           </div>
-
-      
       
 
-        <?php } ?>
+        <?php  } ?>
       </div>
      
 
@@ -530,6 +567,7 @@
 
 <script src="<?= base_url() ?>public/plugins/bootstrap-multiselect/js/bootstrap-multiselect.js" ></script>
 
+<script src="<?= base_url()?>public/plugins/bootbox/bootbox.min.js"></script>
 
 
 
@@ -923,7 +961,7 @@
         
         //console.log("remove autho_name, author_list", autho_name, author_list);
       }
-        note_datatable.ajax.reload();
+        //note_datatable.ajax.reload();
 
         note_datatable.ajax.reload( function () {
           $(".showing_notes_count").text(note_datatable.rows().count());
@@ -1333,7 +1371,9 @@ $( "#note_datatable tbody" ).on( "click", "tr", function() {
 
   console.log("fist, curr_C", current_user.toLowerCase(), current_check_user.toLowerCase());
 
-  if (current_user.toLowerCase() == current_check_user.toLowerCase()){
+  var is_admin = $(".check_user_name").attr("is_admin");
+
+  if (current_user.toLowerCase() == current_check_user.toLowerCase() || is_admin == 1){
     $(".my_note_edit").css("display", "block");
   }else {
     $(".my_note_edit").css("display", "none");
@@ -1489,10 +1529,30 @@ $('#update_note_form').submit(function(e){
               
 
              
-              note_datatable.ajax.reload();
+              note_datatable.ajax.reload(function () {
+                $( "#note_datatable tbody tr" ).each(function( index ) {
+
+                if ($(this).find(".note_left_id_hide").text() == current_id ){
+                  $(this).addClass("selected_tr");                 
+                }
+
+                var i;
+                for (i = 0; i < filter_row_list.length; i++) {
+                    // do something with `substr[i]`
+                    if ($(this).find(".note_left_id_hide").text() == filter_row_list[i][2] ){
+                      $(this).attr("filter_tags", filter_row_list[i][1]);
+                      
+                      if(filter_row_list[i][0] == 1){
+                        $(this).addClass("added_filter_row");
+                      }
+                    }
+                }
+
+                });
+              } );
 
               
-
+/*
               setTimeout(function() {
                 $( "#note_datatable tbody tr" ).each(function( index ) {
 
@@ -1514,7 +1574,7 @@ $('#update_note_form').submit(function(e){
 
               });
               }, 500);
-            
+      */      
 
               
    
@@ -1724,46 +1784,6 @@ $('#update_note_form').submit(function(e){
   $( "#sort_created_notes" ).on( "click", function() { 
 
     var current_order_val;
-    if ($(this).hasClass("selected")){
-      current_order_val = $(this).attr("sort_order_val");
-      console.log(current_order_val);
-      if(current_order_val == 0){
-        $(this).attr( "sort_order_val", 1 );
-        sessionStorage.setItem('sort_order_number', 1);
-        $("#sort_created_notes i").last().addClass("selected");
-        
-        if ($("#sort_created_notes i").first().hasClass("selected")){
-          $("#sort_created_notes i").first().removeClass("selected");
-        }
-        note_datatable.ajax.reload();
-        note_datatable.order( [ 1, 'asc' ] ).draw();
-
-      }else{
-        $(this).attr( "sort_order_val", 0 );
-        $("#sort_created_notes i").first().addClass("selected");
-
-        sessionStorage.setItem('sort_order_number', 0);
-
-        if ($("#sort_created_notes i").last().hasClass("selected")){
-          $("#sort_created_notes i").last().removeClass("selected");
-        }
-        note_datatable.ajax.reload();
-        note_datatable.order( [ 1, 'desc' ] ).draw();
-      }
-        
-    }else {
-      $(this).attr( "sort_order_val", 0 );
-        $("#sort_created_notes i").first().addClass("selected");
-
-        sessionStorage.setItem('sort_order_number', 0);
-
-        if ($("#sort_created_notes i").last().hasClass("selected")){
-          $("#sort_created_notes i").last().removeClass("selected");
-        }
-        note_datatable.ajax.reload();
-        note_datatable.order( [ 1, 'desc' ] ).draw();
-    }
-  
     $( ".sort_menu_item" ).each(function( index ) {
       if ($(this).hasClass("selected") ){
         $(this).removeClass("selected");
@@ -1777,6 +1797,73 @@ $('#update_note_form').submit(function(e){
     var current_id = selected_element.find(".note_left_id_hide").text();
 
 
+
+    if ($(this).hasClass("selected")){
+      current_order_val = $(this).attr("sort_order_val");
+      console.log(current_order_val);
+      if(current_order_val == 0){
+        $(this).attr( "sort_order_val", 1 );
+        sessionStorage.setItem('sort_order_number', 1);
+        $("#sort_created_notes i").last().addClass("selected");
+        
+        if ($("#sort_created_notes i").first().hasClass("selected")){
+          $("#sort_created_notes i").first().removeClass("selected");
+        }
+        note_datatable.order( [ 1, 'asc' ] ).draw();
+
+        note_datatable.ajax.reload(function () {
+          $( "#note_datatable tbody tr" ).each(function( index ) {
+            if ($(this).find(".note_left_id_hide").text() == current_id ){
+              $(this).addClass("selected_tr");
+              console.log("same----", index);
+            }
+          });
+        } );
+        
+
+      }else{
+        $(this).attr( "sort_order_val", 0 );
+        $("#sort_created_notes i").first().addClass("selected");
+
+        sessionStorage.setItem('sort_order_number', 0);
+
+        if ($("#sort_created_notes i").last().hasClass("selected")){
+          $("#sort_created_notes i").last().removeClass("selected");
+        }
+        note_datatable.order( [ 1, 'desc' ] ).draw();
+        note_datatable.ajax.reload(function () {
+          $( "#note_datatable tbody tr" ).each(function( index ) {
+            if ($(this).find(".note_left_id_hide").text() == current_id ){
+              $(this).addClass("selected_tr");
+              console.log("same----", index);
+            }
+          });
+        } );
+       
+      }
+        
+    }else {
+      $(this).attr( "sort_order_val", 0 );
+        $("#sort_created_notes i").first().addClass("selected");
+
+        sessionStorage.setItem('sort_order_number', 0);
+
+        if ($("#sort_created_notes i").last().hasClass("selected")){
+          $("#sort_created_notes i").last().removeClass("selected");
+        }
+        note_datatable.order( [ 1, 'desc' ] ).draw();
+        note_datatable.ajax.reload(function () {
+          $( "#note_datatable tbody tr" ).each(function( index ) {
+            if ($(this).find(".note_left_id_hide").text() == current_id ){
+              $(this).addClass("selected_tr");
+              console.log("same----", index);
+            }
+          });
+        } );
+       
+    }
+  
+  /*
     setTimeout(function() {
       $( "#note_datatable tbody tr" ).each(function( index ) {
       if ($(this).find(".note_left_id_hide").text() == current_id ){
@@ -1785,7 +1872,7 @@ $('#update_note_form').submit(function(e){
       }
     });
     }, 500);
-
+*/
 
 
   });
@@ -1796,6 +1883,19 @@ $('#update_note_form').submit(function(e){
   $( "#sort_updated_notes" ).on( "click", function() { 
 
   var current_order_val;
+  $( ".sort_menu_item" ).each(function( index ) {
+    if ($(this).hasClass("selected") ){
+      $(this).removeClass("selected");
+    }
+  });
+
+
+  $(this).addClass("selected");
+
+  var selected_element = $("tr.selected_tr");
+  selected_element.attr("id", selected_element.find(".note_left_id_hide").text());
+  var current_id = selected_element.find(".note_left_id_hide").text();
+
   if ($(this).hasClass("selected")){
     current_order_val = $(this).attr("sort_order_val");
     console.log(current_order_val);
@@ -1807,8 +1907,16 @@ $('#update_note_form').submit(function(e){
       if ($("#sort_updated_notes i").first().hasClass("selected")){
         $("#sort_updated_notes i").first().removeClass("selected");
       }
-      note_datatable.ajax.reload();
       note_datatable.order( [ 2, 'asc' ] ).draw();
+      note_datatable.ajax.reload(function () {
+          $( "#note_datatable tbody tr" ).each(function( index ) {
+            if ($(this).find(".note_left_id_hide").text() == current_id ){
+              $(this).addClass("selected_tr");
+              console.log("same----", index);
+            }
+          });
+        } );
+     
 
     }else{
       $(this).attr( "sort_order_val", 4 );
@@ -1819,8 +1927,16 @@ $('#update_note_form').submit(function(e){
       if ($("#sort_updated_notes i").last().hasClass("selected")){
         $("#sort_updated_notes i").last().removeClass("selected");
       }
-      note_datatable.ajax.reload();
       note_datatable.order( [ 2, 'desc' ] ).draw();
+      note_datatable.ajax.reload(function () {
+        $( "#note_datatable tbody tr" ).each(function( index ) {
+            if ($(this).find(".note_left_id_hide").text() == current_id ){
+              $(this).addClass("selected_tr");
+              console.log("same----", index);
+            }
+          });
+        } );
+    
     }
       
   }else {
@@ -1832,9 +1948,40 @@ $('#update_note_form').submit(function(e){
       if ($("#sort_updated_notes i").last().hasClass("selected")){
         $("#sort_updated_notes i").last().removeClass("selected");
       }
-      note_datatable.ajax.reload();
       note_datatable.order( [ 2, 'desc' ] ).draw();
+      note_datatable.ajax.reload(function () {
+          $( "#note_datatable tbody tr" ).each(function( index ) {
+            if ($(this).find(".note_left_id_hide").text() == current_id ){
+              $(this).addClass("selected_tr");
+              console.log("same----", index);
+            }
+          });
+        } );
+      
   }
+
+
+
+ 
+
+/*
+    setTimeout(function() {
+      $( "#note_datatable tbody tr" ).each(function( index ) {
+      if ($(this).find(".note_left_id_hide").text() == current_id ){
+        $(this).addClass("selected_tr");
+        console.log("same----", index);
+      }
+    });
+    }, 500);
+*/
+
+
+  });
+
+
+  $( "#sort_title_notes" ).on( "click", function() { 
+
+  var current_order_val;
 
   $( ".sort_menu_item" ).each(function( index ) {
     if ($(this).hasClass("selected") ){
@@ -1848,24 +1995,6 @@ $('#update_note_form').submit(function(e){
     selected_element.attr("id", selected_element.find(".note_left_id_hide").text());
     var current_id = selected_element.find(".note_left_id_hide").text();
 
-
-    setTimeout(function() {
-      $( "#note_datatable tbody tr" ).each(function( index ) {
-      if ($(this).find(".note_left_id_hide").text() == current_id ){
-        $(this).addClass("selected_tr");
-        console.log("same----", index);
-      }
-    });
-    }, 500);
-
-
-
-  });
-
-
-  $( "#sort_title_notes" ).on( "click", function() { 
-
-  var current_order_val;
   if ($(this).hasClass("selected")){
     current_order_val = $(this).attr("sort_order_val");
     console.log(current_order_val);
@@ -1877,8 +2006,18 @@ $('#update_note_form').submit(function(e){
       if ($("#sort_title_notes i").first().hasClass("selected")){
         $("#sort_title_notes i").first().removeClass("selected");
       }
-      note_datatable.ajax.reload();
       note_datatable.order( [ 8, 'asc' ] ).draw();
+
+      note_datatable.ajax.reload(function () {
+        $( "#note_datatable tbody tr" ).each(function( index ) {
+            if ($(this).find(".note_left_id_hide").text() == current_id ){
+              $(this).addClass("selected_tr");
+              console.log("same----", index);
+            }
+          });
+
+        } );
+     
 
     }else{
       $(this).attr( "sort_order_val", 2 );
@@ -1890,8 +2029,17 @@ $('#update_note_form').submit(function(e){
         $("#sort_title_notes i").last().removeClass("selected");
       }
 
-      note_datatable.ajax.reload();
       note_datatable.order( [ 8, 'desc' ] ).draw();
+      note_datatable.ajax.reload(function () {
+        $( "#note_datatable tbody tr" ).each(function( index ) {
+            if ($(this).find(".note_left_id_hide").text() == current_id ){
+              $(this).addClass("selected_tr");
+              console.log("same----", index);
+            }
+          });
+
+        } );
+     
     }
       
   }else {
@@ -1904,23 +2052,23 @@ $('#update_note_form').submit(function(e){
         $("#sort_title_notes i").last().removeClass("selected");
       }
 
-      note_datatable.ajax.reload();
       note_datatable.order( [ 8, 'desc' ] ).draw();
+      note_datatable.ajax.reload(function () {
+
+          $( "#note_datatable tbody tr" ).each(function( index ) {
+            if ($(this).find(".note_left_id_hide").text() == current_id ){
+              $(this).addClass("selected_tr");
+              console.log("same----", index);
+            }
+          });
+          
+        } );
+     
   }
 
-  $( ".sort_menu_item" ).each(function( index ) {
-    if ($(this).hasClass("selected") ){
-      $(this).removeClass("selected");
-    }
-  });
+ 
 
-  $(this).addClass("selected");
-
-  var selected_element = $("tr.selected_tr");
-    selected_element.attr("id", selected_element.find(".note_left_id_hide").text());
-    var current_id = selected_element.find(".note_left_id_hide").text();
-
-
+/*
     setTimeout(function() {
       $( "#note_datatable tbody tr" ).each(function( index ) {
       if ($(this).find(".note_left_id_hide").text() == current_id ){
@@ -1930,7 +2078,7 @@ $('#update_note_form').submit(function(e){
     });
     }, 500);
 
-
+*/
 
   });
 
@@ -2137,7 +2285,9 @@ $('#update_note_form').submit(function(e){
 
     console.log("new fist, curr_C", current_user.toLowerCase(), current_check_user.toLowerCase());
 
-    if (current_user.toLowerCase() == current_check_user.toLowerCase()){
+    var is_admin = $(".check_user_name").attr("is_admin");
+
+    if (current_user.toLowerCase() == current_check_user.toLowerCase() || is_admin == 1){
       $("#subject").removeAttr('disabled');
       $(".create_new_tag_btn").css("display", "inline-block");
       CKEDITOR.instances.ckeditor.setReadOnly(false);
@@ -2217,10 +2367,19 @@ $('#create_comment_form').submit(function(e){
             });
            
 
-            var add_tag = "<div class='modal_comment_content_wrap' comment_note_id='" + res['note_id'] +"'>";
+            var add_tag = "<div class='modal_comment_content_wrap' comment_note_id='" + res['note_id'] +"' comment_id='"+ res['id']+"'>";
             add_tag = add_tag + " <div class='modal_comment_number'>"+ comment_count +"</div>";
-            add_tag = add_tag + "<div class='modal_comment_content'>"+ res['content']+"</div>";
-            add_tag = add_tag + "</div>"
+            add_tag = add_tag + "<div class='modal_comment_content'> <div class='comment_title'>"+ res['content']+"</div>";
+            add_tag = add_tag + " <div class='comment_editor'>"+ res['username']+"</div>";
+            add_tag = add_tag + " <div class='comment_created'>"+ res['created_at']+"</div>";           
+            add_tag = add_tag + "</div>";
+            add_tag += "<div class='dropdown delete_comment_wrap delete_comment_wrap_first'>";
+            add_tag += "<a href='#' class='dropdown-toggle delete_comment_show_dot' data-toggle='dropdown' aria-expanded='false'>...</a>";
+            add_tag += "<div class='dropdown-menu delete_comment_dropdown_menu'>";
+            add_tag += "<div class='dropdown-item delete_comment_btn_wrap' comment_id='"+ res['id'] +"'> ";
+            add_tag += "<i class='material-icons delete_comment_btn'>delete</i> Delete";
+            add_tag += "</div></div></div>";
+            add_tag = add_tag + "</div>";
 
               $(".modal_comments_wrap").append( add_tag );
 
@@ -2236,6 +2395,98 @@ $('#create_comment_form').submit(function(e){
          
 
 });
+
+
+
+    $(document).on('click', '.delete_comment_btn_wrap', function(e){ 
+          // Your Code
+         
+       console.log("delete_comment");
+
+       e.preventDefault(); 
+
+       var join_selected_values = $(this).attr("comment_id"); 
+       var selected_note = $(".selected_tr .note_left_id_hide").text(); 
+
+       console.log("ssss", selected_note);
+       
+            //var check = confirm("Are you sure you want to delete this row?");  
+
+            bootbox.confirm({
+                message: "Are you sure you want to delete this comment?",
+                buttons: {
+                    confirm: {
+                    label: 'Delete'//,
+                    //className: 'btn-class-here'
+                    },
+                    cancel: {
+                    label: 'No'//,
+                    //className: 'btn-class-here'
+                    }
+                },
+                callback:function(result){
+                    /* your callback code */ 
+                    if(result){  
+
+                   
+
+                    console.log(join_selected_values);
+                    var ajax_url = '<?php echo base_url();?>admin/find_notes/delete_comments';
+
+
+
+                        $.ajax({
+                            type: "POST",
+                            url: ajax_url,   
+                            data: 'ids='+join_selected_values,
+                            success: function(res) {
+
+                              
+
+                            
+                               $( ".modal_comment_content_wrap" ).each(function( index ) {
+
+                                  if ($(this).attr("comment_id") == join_selected_values){
+
+                                    $(this).remove(); 
+
+                                   
+                                  }
+
+                                });
+                               
+
+                                var comment_count = 1;
+                                  $( ".modal_comment_content_wrap" ).each(function( index ) {
+
+                                    if ($(this).attr("comment_note_id") == selected_note){
+                                      $(this).find('.modal_comment_number').text(comment_count);
+                                      comment_count +=1;    
+                                    }
+                                  
+                                   
+                                    
+                                  });
+                                 
+                                  comment_count = comment_count -1 ;
+                                  $(".modal_comment_title span").text(comment_count);
+
+
+                                }, error: function(res) {
+                                    console.log('error');
+                            }
+                        });
+                                
+                    } 
+                } 
+              }                   
+            )
+            
+      
+
+          
+      });
+
 
 
   $( ".info-container" ).on( "click", function(e) {

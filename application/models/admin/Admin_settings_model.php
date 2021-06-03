@@ -39,7 +39,7 @@
 		//Get all users
 		public function get_info_users() {
 		
-			$this->db->select(' ci_users.id, ci_users.username, ci_users.email, ci_users.company, ci_users.position_title, ci_users.is_active, ci_users.created_at, COUNT(ci_templates.user_id) AS note_counts, MAX(ci_templates.updated_at) AS note_updated');
+			$this->db->select(' ci_users.id, ci_users.username, ci_users.email,ci_users.photo, ci_users.company, ci_users.position_title, ci_users.is_active, ci_users.created_at, COUNT(ci_templates.user_id) AS note_counts, MAX(ci_templates.updated_at) AS note_updated');
 			$this->db->from('ci_users');
 			$this->db->join('ci_templates', 'ci_users.id = ci_templates.user_id', 'left');
 			$this->db->order_by('ci_templates.id', 'DESC');
@@ -159,6 +159,28 @@
 			return $result = $query->row();
 		}
 
+			//insert comments 
+			public function create_comment($data) {
+				$this->db->insert('ci_comments', $data);
+				$insert_id = $this->db->insert_id();
+				return $insert_id;
+			}
+	
+			//Delete Notes
+			public function del_comment($ids){
+			
+				$this->db->where_in('id', explode(",", $ids));
+				$this->db->delete('ci_comments');
+	
+				return true;
+			
+				
+	
+				//$this->session->set_flashdata('msg', 'Notes has been deleted successfully!');
+				//redirect(base_url('admin/users'));
+			}
+	
+
 		//Get current user name
 		public function get_current_username($id){
 			
@@ -167,6 +189,54 @@
 			$query = $this->db->get('ci_users');
 		
 			return $result = $query->row();
+		}
+
+			// get user info by id
+			public function get_user_info_by_id($id){
+			
+				$this->db->where('id', $id);			
+				$query = $this->db->get('ci_users');
+				
+				return $result = $query->row_array();
+			}
+	
+
+		//Get comments info 
+		public function get_comments_info(){
+			
+						
+			//$query = $this->db->get('ci_comments');
+			
+			//return $result = $query->result_array();
+
+			
+			$this->db->select('ci_comments.id, ci_comments.content, ci_comments.note_id, ci_comments.created_at, ci_comments.user_id, ci_users.username');
+			$this->db->from('ci_comments');
+			
+			$this->db->join('ci_users', 'ci_comments.user_id = ci_users.id', 'left');
+			$this->db->order_by('ci_comments.id', 'ASC');
+			$this->db->group_by('ci_comments.id');
+			
+			$query = $this->db->get();
+			return $result = $query->result_array();
+		}
+
+		//Get last acitivity
+		public function get_last_login($id) {
+			$array = array('user_id' => $id, 'activity_id' => 4);
+			$this->db->where($array);
+			$this->db->order_by('created_at', 'DESC');			
+			$query = $this->db->get('ci_activity_log');
+			return $result = $query->row_array();
+		}
+		//get my notes delete counts 
+		public function get_my_counts_delete_notes_by_id($id){
+		
+			$array = array('user_id' => $id, 'activity_id' => 23);
+			$this->db->where($array);
+			$this->db->order_by('created_at', 'DESC');			
+			$counts = $this->db->count_all_results('ci_activity_log');
+			return $counts;
 		}
 
 		//Insert notes   return $this->db->insert('news', $data);

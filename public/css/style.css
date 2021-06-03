@@ -5066,7 +5066,7 @@ section.content {
 .form-control-label {
   text-align: right; }
   .form-control-label label {
-    margin-top: 8px; }
+    margin-top: 0px; }
 
 .form-horizontal .form-group {
   margin-bottom: 0; }
@@ -8358,6 +8358,9 @@ tr.unread {
   color: black;
   margin-bottom: 10px;
   word-break: break-all;
+  text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 #note_datatable{
@@ -8373,6 +8376,15 @@ tr.unread {
   border-left-width: 1px ! important;
   border-bottom-width: 1px ! important;
   position: relative;
+}
+
+#note_datatable td {
+  border-right-width: 0px ! important;
+}
+
+#note_datatable .hide_tags_notes {
+  border-right-width: 1px ! important;
+  border-left-width: 0px ! important;
 }
 
 .table-hover > tbody > tr:hover {
@@ -8737,6 +8749,26 @@ table.dataTable tbody tr.selected_tr {
   text-align: right;
   margin-bottom: 20px;
   font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.second_menu_top_btn {
+  font-size: 11px;
+  color: white;
+  background: #000000;
+  padding: 7px 10px;
+  margin: 0 5px;
+  font-weight: 600;
+  cursor: pointer;
+  min-width: 140px;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.second_menu_top_btn:hover {
+  background: #7C7C7C;
 }
 
 .profile_row_wrap .form-control-label {
@@ -8757,11 +8789,21 @@ table.dataTable tbody tr.selected_tr {
     align-items: baseline;
     margin-bottom: 20px;
     flex-wrap: wrap;
+    justify-content: space-between;
 }
+
+.action_bar_btns {
+  display: flex;
+  align-items: center;
+}
+
+
 
 .action_bar_title {
     font-size: 16px;
     font-family: 'Inter';
+    color: black;
+    padding-left: 10px;
 }
 
 .action_bar_line {
@@ -8778,6 +8820,27 @@ table.dataTable tbody tr.selected_tr {
   margin-bottom: 20px;
 }
 
+.action_bar_btns .action_bar_action {
+  font-size: 11px;
+  color: white;
+  background: #000000;
+  padding: 7px 10px;
+  margin: 0 5px;
+  font-weight: 600;
+  cursor: pointer;
+  min-width: 140px;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.action_bar_btns .action_bar_action:hover {
+  background: #707070;
+}
+
+#show_note_datatable_filter, #note_datatable_filter {
+  display: none ! important;
+}
+
 
 .notes_row_wrap .table-responsive {
   max-height: 670px;
@@ -8785,6 +8848,27 @@ table.dataTable tbody tr.selected_tr {
 
 .manage_row_wrap  {
   margin-bottom: 20px;
+}
+
+
+#go_back_btn {
+  display: flex;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 600;
+  background: black;
+  color: white;
+  padding: 7px 10px; 
+  cursor: pointer;
+}
+
+#go_back_btn:hover {
+  background: #707070;
+}
+
+#go_back_btn i {
+  font-size: 14px;
+  margin-right:10px;
 }
 
 .show_note_table_check {
@@ -8863,16 +8947,38 @@ input[type="text"]:disabled {
 
 
 .user_tab_info_name {
-  font-size: 18px;
-  max-width: 120px;
+
   line-height: 1.2em;
   margin-bottom: 11px; 
+  font-size: 18px;
+  color: white;
+  font-weight: 600;
+  text-align: left;
+  max-width: 150px;
 }
 
 .user_tab_info_email {
   max-width: 200px;
-  margin-bottom: 30px;
-  font-size: 11px;
+  font-size: 14px;
+  color: white;
+  margin-bottom: 0;
+}
+
+
+.user_tab_info_company {
+  font-size: 14px;
+  color: white;
+  margin-bottom: 0;
+  text-align: left;
+  line-height: 1.2em;
+}
+
+.user_tab_info_admin {
+  font-size: 14px;
+  color: white;
+  margin-bottom: 0;
+  text-align: left;
+  line-height: 1.2em;
 }
 
 .user_tab_info_notes {
@@ -8897,6 +9003,7 @@ input[type="text"]:disabled {
 
 #myUL li {
   list-style: none;
+  margin-bottom: 10px;
 }
 
 .caret_top {
@@ -8933,7 +9040,7 @@ input[type="text"]:disabled {
   color: #A5A5A5;
   cursor: pointer;
   font-size: 12px;
-  line-height: 1.2em;
+  line-height: 1.5em;
 }
 
 
@@ -8979,9 +9086,22 @@ input[type="text"]:disabled {
   padding: 30px 0;
 }
 
+#show_user_datatable_filter {
+  display: none;
+}
+
 #show_user_datatable .id_users, #show_user_datatable .last_updated_users {
   display: none;
 } 
+
+#show_user_datatable {
+  border: none;
+}
+
+#show_user_datatable td {
+  border-right-width: 0;
+  border-bottom-width: 1px;
+}
 
 #show_note_datatable .hide_notes_tags, #show_note_datatable .hide_notes_id, #show_note_datatable .hide_notes_content {
   display: none;
@@ -9235,7 +9355,7 @@ input[type="text"]:disabled {
 
 .modal_comment_content_wrap {
   background: white;
- 
+  position: relative;
   margin-bottom: 5px;
   padding: 10px 20px;
   display: flex;
@@ -9379,7 +9499,7 @@ input[type="text"]:disabled {
   padding-left: 20px;
 }
 
-.hide_created_notes, .hide_updated_notes {
+#note_datatable .hide_created_notes, #note_datatable .hide_updated_notes {
   display: none;
 }
 
@@ -9414,6 +9534,15 @@ input[type="text"]:disabled {
   font-size: 16px;
 }
 
+.admin_showing_editors_wrap {
+  display: flex;
+  align-items: flex-end;
+}
+
+.admin_showing_editors_wrap i {
+  font-size: 16px;
+  margin-right: 5px;
+}
 
 .row_left_direct {
   max-width: 250px;
@@ -9436,14 +9565,267 @@ input[type="text"]:disabled {
   display: none;
 }
 
+.comment_editor {
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.2em;
+  margin-top: 5px;
+}
+
+.comment_created {
+  font-size: 11px;
+  color: #8e8e8e;
+  line-height: 1.2em;
+}
+
+.delete_comment_wrap  {
+    position: absolute;
+    bottom: 25px;
+    right: 25px;
+}
+
+.delete_comment_show_dot {
+    color: black;
+    text-decoration: none ! important;
+    z-index: 9999;
+    position: absolute;
+}
+
+.delete_comment_dropdown_menu {
+  top: 10px;
+  left: -135px;
+  border-left: 1px solid black;
+  border-top: 1px solid black;
+  height: 50px;
+}
+
+.delete_comment_btn_wrap {
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+  cursor: pointer;
+}
+
+.delete_comment_btn {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  justify-content: start;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+#subject_normal {
+  resize: none;
+  background: white;
+}
+
+/*profile setting*/
+
+.showing_profile_wrap {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    text-align: center;
+    background: #000000;
+    padding: 20px;
+}
+
+.showing_profile_title {
+  font-size: 11px;
+  font-weight: 500;
+  color: white; 
+}
+
+.showing_profile_content {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.2em;
+  color: white;
+  margin-top: 20px;
+}
+
+.showing_profile_sub_wrap {
+  width: 25%;
+  margin: 0px 10px;
+  position: relative;
+}
+
+.profile_photo {
+  border-radius: 50%;
+}
+
+.edit_photo_wrap {
+    position: relative;
+    width: 92px;
+    margin: auto;
+}
+
+.photo_change_btn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border: 4px solid black;
+  border-radius: 100%;
+  background: white;
+  color: black;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.photo_change_btn i {
+  font-size: 14px;
+}
+
+/*end profile setting*/
+
+
+.second_half_wrap_form {
+  display: flex;
+  margin-top: 30px;
+}
+
+.row_second {
+  width: 50%;
+  margin-right: 20px;;
+}
+
+.form-group .form-control {
+  font-size: 12px;
+    font-weight: 600;
+    color: black;
+    font-family: 'Inter';
+    border: 1px solid #e2e2e2;
+    padding: 0 5px;
+}
+
+.reset_password_wrap {
+  width: 50%;
+  padding-right: 20px;
+}
+
+.selected_tr td {
+  color: white ! important;
+  font-weight: 600;
+}
+
+.dataTables_empty {
+  color: white ! important;
+}
+
+.reset_password_btn {
+    background: black;
+    background-color: black ! important;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.reset_password_btn:hover {
+  background-color: #7C7C7C ! important;
+}
+
+.border-right-opacity {
+  border-right: 1px solid white;
+  height: 92px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: 0.1;
+}
+
+.profile_row_noborder_wrap .card {
+  border: none;
+  box-shadow: none;
+}
+
+.profile_row_noborder_wrap .body {
+  padding: 0;
+}
+
+.profile_row_wrap .form-control-label {
+  max-width: 120px;
+}
+
+.reset_pass_wrap {
+  margin-left: 120px;
+}
+
+.limited_width_show_table .show_note_title {
+  max-width: 200px;
+}
+
+.limited_width_show_table .hide_tags_notes {
+  display: none;
+}
+
+.showing_added_date span, .showing_updated_date span {
+  display: none;
+}
+
+
+.profile_row_noborder_wrap #show_note_datatable {
+  border: none;
+}
+
+
+.profile_row_noborder_wrap #show_note_datatable td{
+  border-right-width: 0;
+  border-bottom-width: 1px;
+}
+
+.created_users span {
+  display: none;
+}
+
+.showing_user_details_wrap {
+  display: flex;
+}
+
+.showing_user_details {
+  margin-left: 10px;
+}
+
+.hide_last_activity, .hide_photo_url {
+  display: none;
+}
+
+
+#show_tag_datatable_filter {
+  display: none;
+}
+
+#show_tag_datatable {
+  border: none;
+}
+
+#show_tag_datatable td {
+  border-right-width: 0 ! important;
+  border-left-width: 0 ! important;
+  border-bottom-width: 1px;
+}
+
 @media (min-width: 768px){
   #myModal .modal-dialog {
-    width: 760px;
+    width: 1049px;
     margin: 30px auto;
   }
 }
 
+@media (max-width: 1070px) { 
+  #myModal .modal-dialog {
+    width: 760px;
+    margin: 30px auto;
+  }
 
+  .modal_comment_wrap {
+    max-width: 250px;
+  }
+
+}
 
 @media (max-width: 1170px) {
 
@@ -9527,6 +9909,19 @@ input[type="text"]:disabled {
 
 @media (max-width: 768px) {
 
+
+  #myModal .modal-dialog {
+    width: 80%;
+    margin: 10px auto;
+    display: block;
+  }
+
+  .modal_comment_wrap {
+    max-width: 250px;
+    margin: auto;
+    margin-top: 20px;
+  }
+
   .row_go_list {
    
     align-items: center;
@@ -9555,5 +9950,47 @@ input[type="text"]:disabled {
 
   .all_notes_find_wrap .card {
     min-height: 300px;
+  }
+
+  .row_left_direct {
+    max-width: none;
+    min-width: 250px;
+    margin-right: 15px;
+  }
+
+
+  .profile_created_time {
+    display: block;
+  }
+
+
+  .profile_row_wrap .form-control-label {
+    max-width: 120px;
+  }
+
+  .row_second {
+    width: 100%;
+  }
+
+  .second_half_wrap_form {
+    display: block;
+  }
+
+  .reset_password_wrap {
+    width: 100%;
+    padding-right: 0px;
+  }
+
+  .action_bar_btns {
+    display: block;
+  }
+
+  .showing_profile_wrap {
+    display: block;
+  }
+
+  .showing_profile_sub_wrap {
+    width: 100%;
+    margin-bottom: 30px;
   }
 }

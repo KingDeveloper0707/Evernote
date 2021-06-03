@@ -427,6 +427,8 @@
 				$content = $this->input->post('comment_field');
 				$note_id = $this->input->post('curid');
 
+				$user_info = $this->find_notes_model->get_user_info_by_id($editer_id);
+
 				$comment_data = array(
 					'content' => $content,
 					'created_at' => date('Y-m-d H:i:s'),
@@ -447,13 +449,27 @@
 					'content' => $content,
 					'created_at' => $newDate,
 					'user_id' => $editer_id,
-					'note_id' => $note_id,					
+					'note_id' => $note_id,		
+					'username' =>$user_info['username'],				
 				);
 
 				echo json_encode($send_data);
 
 
 			}
+
+
+				// Delete comment
+				public function delete_comments() {
+					$ids = $this->input->post('ids');
+			
+					$records = $this->find_notes_model->del_comment($ids);
+	
+					if ($records)
+						echo json_encode(['success'=>"Item Deleted successfully."]);
+	
+	
+				}
 	
 		
 	}

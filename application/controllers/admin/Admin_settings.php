@@ -49,10 +49,15 @@ class Admin_settings extends MY_Controller {
 		else{
 			$id = $this->session->userdata('admin_id');
 
+			$comments_info = $this->admin_settings_model->get_comments_info();
+
 			$data['user'] = $this->admin_settings_model->get_user_detail();
 			$data['counts'] = $this->admin_settings_model->get_all_counts_notes ();
 			$data['tag_counts'] = $this->admin_settings_model->get_all_counts_tags ();
 			$data['user_counts'] = $this->admin_settings_model->get_all_counts_users ();
+			$data['last_activity'] = $this->admin_settings_model->get_last_login($id);
+			$data['delete_count'] = $this->admin_settings_model->get_my_counts_delete_notes_by_id($id);
+			$data['comments_data'] = $comments_info;
 			$data['title'] = 'Admin';
 			$data['view'] = 'admin/Admin_settings/Admin_settings';
 			
@@ -151,8 +156,9 @@ class Admin_settings extends MY_Controller {
 							$cur_user_name = "";
 						}
 
+						$updated_time =  date(" M d, Y", strtotime($row['updated_at']));
 				$data[] = array(
-					'<div class="show_create_date">'.$row['created_at'].'</div><div class="'.$title_class.'">'.$current_title.'</div>',
+					'<div class="show_create_date">'.$updated_time.'</div><div class="'.$title_class.'">'.$current_title.'</div><div class="admin_showing_editors_wrap"><i class="material-icons">person</i>'.$cur_user_name.'</div>',
 					
 					$row['created_at'],
 					$row['updated_at'],
@@ -203,10 +209,25 @@ class Admin_settings extends MY_Controller {
 			} 
 				
 
+			$add_Date = date(" M d, Y", strtotime($row['created_at']));  
+
+			$login_activity = $this->admin_settings_model->get_last_login($row['id']);
+
+			if ($login_activity) {
+				$last_activity = date(" M d, Y", strtotime($login_activity['created_at']));
+			}
+			 
+
+			if ($row['photo']){
+				$photo_url = base_url().$row['photo'];
+			}else {
+				$photo_url = base_url()."public/images/user.png";
+			}
+
 				$data[] = array(
 					'<input type="checkbox" class="chkclass"  value="'. $row['id'] .'">',
-					'<div class="'.$title_class.'">'.$row['username'].'</div>',
-					$row['created_at'],	
+					'<div class="'.$title_class.'">'.$row['username'].'</div> <div class="hide_last_activity">'.$last_activity.'</div><div class="hide_photo_url">'.$photo_url.'</div>',
+					'<span>'.$row['created_at'].'</span>'.'<div>'.$add_Date.'</div>',
 					$row['note_counts'],						
 					$row['email'],
 					$active_state,
@@ -352,15 +373,20 @@ class Admin_settings extends MY_Controller {
 						if ($row['is_active'] == 0)  
 							$title_class = $title_class." inactive_title";
 
+
+						$add_Date = date(" M d, Y", strtotime($row['created_at']));
+						$updated_Date = date(" M d, Y", strtotime($row['updated_at']));
+
 						$data[] = array(
                             '<input type="checkbox" class="chkclass"  value="'. $row['id'] .'">',
 							'<div class="'.$title_class.'">'.$current_title.'</div>',							
-							$row['created_at'],							
+							'<span>'.$row['created_at'].'</span>'.'<div>'.$add_Date.'</div>',
+							'<span>'.$row['updated_at'].'</span>'.'<div>'.$updated_Date.'</div>',						
 							$tag_full_name,
 							$row['id'],
 							$row['content'],
 							$row['user_id'],
-							$cur_user_name,
+							
 							$row['is_active'],
 						);
 					
@@ -541,7 +567,8 @@ class Admin_settings extends MY_Controller {
 				$send_data = array(
 					'subject' => $this->input->post('subject'),
 					'content' => $this->input->post('e_content'),
-					'updated_at' => date('Y-m-d H:i:s'),
+					'updated_at_conv' => date(" M d, Y", strtotime(date('Y-m-d H:i:s'))) ,
+					'updated_at' => date('Y-m-d H:i:s') ,
 					'tags' =>$all_tags,
 					'all_tag_list' => $all_tags_info,
 					'new_tag_name' =>$send_tag_name,
@@ -601,6 +628,55 @@ class Admin_settings extends MY_Controller {
 
 		echo json_encode($send_data);	
 	}
+
+	public function create_comments () {
+		$editer_id = $this->session->userdata('admin_id');
+		$content = $this->input->post('comment_field');
+		$note_id = $this->input->post('curid');
+
+		$user_info = $this->admin_settings_model->get_user_info_by_id($editer_id);
+
+		$comment_data = array(
+			'content' => $content,
+			'created_at' => date('Y-m-d H:i:s'),
+			'user_id' => $editer_id,
+			'note_id' => $note_id,
+		);	
+
+		$inputed_id = $this->admin_settings_model->create_comment($comment_data);
+
+		$comments_data = $this->admin_settings_model->get_comments_info();
+
+		$orgDate = date('Y-m-d H:i:s');  
+		$newDate = date(" M d, Y", strtotime($orgDate));  
+
+
+		$send_data = array(
+			'id' => $inputed_id,
+			'content' => $content,
+			'created_at' => $newDate,
+			'user_id' => $editer_id,
+			'note_id' => $note_id,		
+			'username' =>$user_info['username'],				
+		);
+
+		echo json_encode($send_data);
+
+
+	}
+
+
+		// Delete comment
+		public function delete_comments() {
+			$ids = $this->input->post('ids');
+	
+			$records = $this->admin_settings_model->del_comment($ids);
+
+			if ($records)
+				echo json_encode(['success'=>"Item Deleted successfully."]);
+
+
+		}
 
 }
 

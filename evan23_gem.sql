@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2021-05-29 13:43:59
+Date: 2021-06-03 06:50:02
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -24,7 +24,7 @@ CREATE TABLE `ci_activity_log` (
   `user_id` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1619 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1942 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of ci_activity_log
@@ -1647,6 +1647,329 @@ INSERT INTO `ci_activity_log` VALUES ('1615', '1', '43', '2021-05-29 08:35:44');
 INSERT INTO `ci_activity_log` VALUES ('1616', '1', '43', '2021-05-29 08:36:42');
 INSERT INTO `ci_activity_log` VALUES ('1617', '1', '43', '2021-05-29 08:36:50');
 INSERT INTO `ci_activity_log` VALUES ('1618', '1', '43', '2021-05-29 08:37:07');
+INSERT INTO `ci_activity_log` VALUES ('1619', '1', '43', '2021-05-29 08:48:48');
+INSERT INTO `ci_activity_log` VALUES ('1620', '1', '43', '2021-05-29 08:48:56');
+INSERT INTO `ci_activity_log` VALUES ('1621', '1', '43', '2021-05-29 08:49:05');
+INSERT INTO `ci_activity_log` VALUES ('1622', '1', '43', '2021-05-29 08:57:58');
+INSERT INTO `ci_activity_log` VALUES ('1623', '5', '43', '2021-05-29 20:40:03');
+INSERT INTO `ci_activity_log` VALUES ('1624', '4', '43', '2021-05-29 20:40:06');
+INSERT INTO `ci_activity_log` VALUES ('1625', '1', '43', '2021-05-29 09:40:19');
+INSERT INTO `ci_activity_log` VALUES ('1626', '1', '43', '2021-05-29 09:40:32');
+INSERT INTO `ci_activity_log` VALUES ('1627', '1', '43', '2021-05-29 09:40:34');
+INSERT INTO `ci_activity_log` VALUES ('1628', '1', '43', '2021-05-29 09:40:40');
+INSERT INTO `ci_activity_log` VALUES ('1629', '1', '43', '2021-05-29 09:40:44');
+INSERT INTO `ci_activity_log` VALUES ('1630', '1', '43', '2021-05-29 09:49:35');
+INSERT INTO `ci_activity_log` VALUES ('1631', '1', '43', '2021-05-29 09:49:36');
+INSERT INTO `ci_activity_log` VALUES ('1632', '1', '43', '2021-05-29 10:14:35');
+INSERT INTO `ci_activity_log` VALUES ('1633', '1', '43', '2021-05-29 10:14:37');
+INSERT INTO `ci_activity_log` VALUES ('1634', '1', '43', '2021-05-29 10:14:45');
+INSERT INTO `ci_activity_log` VALUES ('1635', '1', '43', '2021-05-29 10:14:53');
+INSERT INTO `ci_activity_log` VALUES ('1636', '1', '43', '2021-05-29 10:15:02');
+INSERT INTO `ci_activity_log` VALUES ('1637', '1', '43', '2021-05-29 10:20:02');
+INSERT INTO `ci_activity_log` VALUES ('1638', '1', '43', '2021-05-29 10:20:12');
+INSERT INTO `ci_activity_log` VALUES ('1639', '1', '43', '2021-05-29 10:20:23');
+INSERT INTO `ci_activity_log` VALUES ('1640', '1', '43', '2021-05-29 10:25:44');
+INSERT INTO `ci_activity_log` VALUES ('1641', '1', '43', '2021-05-29 10:25:45');
+INSERT INTO `ci_activity_log` VALUES ('1642', '1', '43', '2021-05-29 10:25:55');
+INSERT INTO `ci_activity_log` VALUES ('1643', '1', '43', '2021-05-29 10:26:05');
+INSERT INTO `ci_activity_log` VALUES ('1644', '1', '43', '2021-05-29 10:26:20');
+INSERT INTO `ci_activity_log` VALUES ('1645', '1', '43', '2021-05-29 10:28:40');
+INSERT INTO `ci_activity_log` VALUES ('1646', '1', '43', '2021-05-29 10:28:55');
+INSERT INTO `ci_activity_log` VALUES ('1647', '1', '43', '2021-05-29 10:28:57');
+INSERT INTO `ci_activity_log` VALUES ('1648', '1', '43', '2021-05-29 10:31:32');
+INSERT INTO `ci_activity_log` VALUES ('1649', '1', '43', '2021-05-29 10:31:34');
+INSERT INTO `ci_activity_log` VALUES ('1650', '1', '43', '2021-05-29 10:31:43');
+INSERT INTO `ci_activity_log` VALUES ('1651', '1', '43', '2021-05-29 10:31:48');
+INSERT INTO `ci_activity_log` VALUES ('1652', '1', '43', '2021-05-29 10:33:32');
+INSERT INTO `ci_activity_log` VALUES ('1653', '1', '43', '2021-05-29 10:34:12');
+INSERT INTO `ci_activity_log` VALUES ('1654', '1', '43', '2021-05-29 10:34:18');
+INSERT INTO `ci_activity_log` VALUES ('1655', '1', '43', '2021-05-29 10:34:26');
+INSERT INTO `ci_activity_log` VALUES ('1656', '1', '43', '2021-05-29 10:36:12');
+INSERT INTO `ci_activity_log` VALUES ('1657', '1', '43', '2021-05-29 10:50:47');
+INSERT INTO `ci_activity_log` VALUES ('1658', '1', '43', '2021-05-29 10:51:01');
+INSERT INTO `ci_activity_log` VALUES ('1659', '1', '43', '2021-05-29 10:51:02');
+INSERT INTO `ci_activity_log` VALUES ('1660', '1', '43', '2021-05-29 10:51:08');
+INSERT INTO `ci_activity_log` VALUES ('1661', '1', '43', '2021-05-29 10:52:56');
+INSERT INTO `ci_activity_log` VALUES ('1662', '1', '43', '2021-05-29 10:55:34');
+INSERT INTO `ci_activity_log` VALUES ('1663', '1', '43', '2021-05-29 10:56:22');
+INSERT INTO `ci_activity_log` VALUES ('1664', '1', '43', '2021-05-29 10:56:23');
+INSERT INTO `ci_activity_log` VALUES ('1665', '1', '43', '2021-05-29 10:56:32');
+INSERT INTO `ci_activity_log` VALUES ('1666', '1', '43', '2021-05-29 10:56:33');
+INSERT INTO `ci_activity_log` VALUES ('1667', '1', '43', '2021-05-29 11:05:38');
+INSERT INTO `ci_activity_log` VALUES ('1668', '1', '43', '2021-05-29 11:07:53');
+INSERT INTO `ci_activity_log` VALUES ('1669', '1', '43', '2021-05-29 12:21:27');
+INSERT INTO `ci_activity_log` VALUES ('1670', '1', '43', '2021-05-29 12:21:27');
+INSERT INTO `ci_activity_log` VALUES ('1671', '1', '43', '2021-05-29 12:21:34');
+INSERT INTO `ci_activity_log` VALUES ('1672', '1', '43', '2021-05-29 12:21:41');
+INSERT INTO `ci_activity_log` VALUES ('1673', '1', '43', '2021-05-29 13:00:56');
+INSERT INTO `ci_activity_log` VALUES ('1674', '1', '43', '2021-05-29 13:00:56');
+INSERT INTO `ci_activity_log` VALUES ('1675', '1', '43', '2021-05-29 13:01:07');
+INSERT INTO `ci_activity_log` VALUES ('1676', '1', '43', '2021-05-29 13:01:09');
+INSERT INTO `ci_activity_log` VALUES ('1677', '1', '43', '2021-05-29 13:01:17');
+INSERT INTO `ci_activity_log` VALUES ('1678', '1', '43', '2021-05-29 13:01:19');
+INSERT INTO `ci_activity_log` VALUES ('1679', '1', '43', '2021-05-29 13:10:13');
+INSERT INTO `ci_activity_log` VALUES ('1680', '5', '43', '2021-05-30 00:18:54');
+INSERT INTO `ci_activity_log` VALUES ('1681', '4', '43', '2021-05-30 00:18:57');
+INSERT INTO `ci_activity_log` VALUES ('1682', '1', '43', '2021-05-29 13:19:05');
+INSERT INTO `ci_activity_log` VALUES ('1683', '1', '43', '2021-05-29 13:19:14');
+INSERT INTO `ci_activity_log` VALUES ('1684', '1', '43', '2021-05-29 13:19:20');
+INSERT INTO `ci_activity_log` VALUES ('1685', '1', '43', '2021-05-29 13:19:32');
+INSERT INTO `ci_activity_log` VALUES ('1686', '4', '43', '2021-05-31 04:10:14');
+INSERT INTO `ci_activity_log` VALUES ('1687', '1', '43', '2021-05-30 17:10:22');
+INSERT INTO `ci_activity_log` VALUES ('1688', '1', '43', '2021-05-30 17:10:24');
+INSERT INTO `ci_activity_log` VALUES ('1689', '1', '43', '2021-05-30 17:10:30');
+INSERT INTO `ci_activity_log` VALUES ('1690', '5', '43', '2021-05-31 04:30:02');
+INSERT INTO `ci_activity_log` VALUES ('1691', '4', '43', '2021-05-31 04:30:22');
+INSERT INTO `ci_activity_log` VALUES ('1692', '1', '43', '2021-05-30 17:33:48');
+INSERT INTO `ci_activity_log` VALUES ('1693', '1', '43', '2021-05-30 17:34:01');
+INSERT INTO `ci_activity_log` VALUES ('1694', '1', '43', '2021-05-30 17:34:04');
+INSERT INTO `ci_activity_log` VALUES ('1695', '1', '43', '2021-05-30 17:34:44');
+INSERT INTO `ci_activity_log` VALUES ('1696', '1', '43', '2021-05-30 17:34:48');
+INSERT INTO `ci_activity_log` VALUES ('1697', '1', '43', '2021-05-30 17:44:54');
+INSERT INTO `ci_activity_log` VALUES ('1698', '1', '43', '2021-05-30 17:44:59');
+INSERT INTO `ci_activity_log` VALUES ('1699', '1', '43', '2021-05-30 17:45:01');
+INSERT INTO `ci_activity_log` VALUES ('1700', '4', '43', '2021-05-31 13:54:29');
+INSERT INTO `ci_activity_log` VALUES ('1701', '4', '43', '2021-06-01 02:16:52');
+INSERT INTO `ci_activity_log` VALUES ('1702', '4', '43', '2021-06-01 05:14:55');
+INSERT INTO `ci_activity_log` VALUES ('1703', '1', '43', '2021-05-31 20:05:28');
+INSERT INTO `ci_activity_log` VALUES ('1704', '1', '43', '2021-05-31 22:43:31');
+INSERT INTO `ci_activity_log` VALUES ('1705', '1', '43', '2021-05-31 22:48:56');
+INSERT INTO `ci_activity_log` VALUES ('1706', '1', '43', '2021-05-31 22:49:05');
+INSERT INTO `ci_activity_log` VALUES ('1707', '1', '43', '2021-05-31 22:49:07');
+INSERT INTO `ci_activity_log` VALUES ('1708', '1', '43', '2021-05-31 22:49:09');
+INSERT INTO `ci_activity_log` VALUES ('1709', '1', '43', '2021-05-31 22:49:15');
+INSERT INTO `ci_activity_log` VALUES ('1710', '1', '43', '2021-05-31 22:49:20');
+INSERT INTO `ci_activity_log` VALUES ('1711', '1', '43', '2021-05-31 22:49:27');
+INSERT INTO `ci_activity_log` VALUES ('1712', '1', '43', '2021-05-31 22:49:32');
+INSERT INTO `ci_activity_log` VALUES ('1713', '1', '43', '2021-05-31 22:49:36');
+INSERT INTO `ci_activity_log` VALUES ('1714', '1', '43', '2021-05-31 22:49:39');
+INSERT INTO `ci_activity_log` VALUES ('1715', '1', '43', '2021-05-31 22:49:43');
+INSERT INTO `ci_activity_log` VALUES ('1716', '1', '43', '2021-05-31 22:49:47');
+INSERT INTO `ci_activity_log` VALUES ('1717', '1', '43', '2021-05-31 22:49:50');
+INSERT INTO `ci_activity_log` VALUES ('1718', '1', '43', '2021-05-31 22:49:55');
+INSERT INTO `ci_activity_log` VALUES ('1719', '1', '43', '2021-05-31 22:50:02');
+INSERT INTO `ci_activity_log` VALUES ('1720', '1', '43', '2021-05-31 22:50:37');
+INSERT INTO `ci_activity_log` VALUES ('1721', '1', '43', '2021-05-31 22:52:37');
+INSERT INTO `ci_activity_log` VALUES ('1722', '1', '43', '2021-05-31 22:56:28');
+INSERT INTO `ci_activity_log` VALUES ('1723', '1', '43', '2021-05-31 22:57:46');
+INSERT INTO `ci_activity_log` VALUES ('1724', '1', '43', '2021-05-31 23:02:02');
+INSERT INTO `ci_activity_log` VALUES ('1725', '1', '43', '2021-05-31 23:02:46');
+INSERT INTO `ci_activity_log` VALUES ('1726', '1', '43', '2021-05-31 23:05:11');
+INSERT INTO `ci_activity_log` VALUES ('1727', '1', '43', '2021-05-31 23:05:35');
+INSERT INTO `ci_activity_log` VALUES ('1728', '1', '43', '2021-05-31 23:05:46');
+INSERT INTO `ci_activity_log` VALUES ('1729', '1', '43', '2021-05-31 23:05:47');
+INSERT INTO `ci_activity_log` VALUES ('1730', '1', '43', '2021-05-31 23:09:22');
+INSERT INTO `ci_activity_log` VALUES ('1731', '1', '43', '2021-05-31 23:10:22');
+INSERT INTO `ci_activity_log` VALUES ('1732', '1', '43', '2021-05-31 23:13:23');
+INSERT INTO `ci_activity_log` VALUES ('1733', '1', '43', '2021-05-31 23:14:36');
+INSERT INTO `ci_activity_log` VALUES ('1734', '1', '43', '2021-05-31 23:15:41');
+INSERT INTO `ci_activity_log` VALUES ('1735', '1', '43', '2021-05-31 23:17:16');
+INSERT INTO `ci_activity_log` VALUES ('1736', '1', '43', '2021-05-31 23:20:32');
+INSERT INTO `ci_activity_log` VALUES ('1737', '1', '43', '2021-05-31 23:25:04');
+INSERT INTO `ci_activity_log` VALUES ('1738', '1', '43', '2021-05-31 23:28:10');
+INSERT INTO `ci_activity_log` VALUES ('1739', '1', '43', '2021-05-31 23:30:58');
+INSERT INTO `ci_activity_log` VALUES ('1740', '1', '43', '2021-05-31 23:37:06');
+INSERT INTO `ci_activity_log` VALUES ('1741', '1', '43', '2021-05-31 23:39:08');
+INSERT INTO `ci_activity_log` VALUES ('1742', '1', '43', '2021-05-31 23:40:29');
+INSERT INTO `ci_activity_log` VALUES ('1743', '1', '43', '2021-05-31 23:47:10');
+INSERT INTO `ci_activity_log` VALUES ('1744', '1', '43', '2021-05-31 23:49:50');
+INSERT INTO `ci_activity_log` VALUES ('1745', '1', '43', '2021-05-31 23:50:32');
+INSERT INTO `ci_activity_log` VALUES ('1746', '1', '43', '2021-05-31 23:52:03');
+INSERT INTO `ci_activity_log` VALUES ('1747', '1', '43', '2021-05-31 23:53:02');
+INSERT INTO `ci_activity_log` VALUES ('1748', '1', '43', '2021-06-01 00:01:47');
+INSERT INTO `ci_activity_log` VALUES ('1749', '1', '43', '2021-06-01 00:04:30');
+INSERT INTO `ci_activity_log` VALUES ('1750', '1', '43', '2021-06-01 00:07:04');
+INSERT INTO `ci_activity_log` VALUES ('1751', '1', '43', '2021-06-01 00:09:16');
+INSERT INTO `ci_activity_log` VALUES ('1752', '1', '43', '2021-06-01 00:12:34');
+INSERT INTO `ci_activity_log` VALUES ('1753', '1', '43', '2021-06-01 00:13:13');
+INSERT INTO `ci_activity_log` VALUES ('1754', '1', '43', '2021-06-01 00:14:45');
+INSERT INTO `ci_activity_log` VALUES ('1755', '1', '43', '2021-06-01 00:16:58');
+INSERT INTO `ci_activity_log` VALUES ('1756', '1', '43', '2021-06-01 00:18:15');
+INSERT INTO `ci_activity_log` VALUES ('1757', '1', '43', '2021-06-01 00:19:15');
+INSERT INTO `ci_activity_log` VALUES ('1758', '1', '43', '2021-06-01 00:19:28');
+INSERT INTO `ci_activity_log` VALUES ('1759', '1', '43', '2021-06-01 00:21:38');
+INSERT INTO `ci_activity_log` VALUES ('1760', '1', '43', '2021-06-01 00:21:43');
+INSERT INTO `ci_activity_log` VALUES ('1761', '1', '43', '2021-06-01 00:25:42');
+INSERT INTO `ci_activity_log` VALUES ('1762', '1', '43', '2021-06-01 00:26:04');
+INSERT INTO `ci_activity_log` VALUES ('1763', '1', '43', '2021-06-01 00:26:07');
+INSERT INTO `ci_activity_log` VALUES ('1764', '5', '43', '2021-06-01 11:26:50');
+INSERT INTO `ci_activity_log` VALUES ('1765', '4', '48', '2021-06-01 11:27:00');
+INSERT INTO `ci_activity_log` VALUES ('1766', '7', '48', '2021-06-01 00:27:18');
+INSERT INTO `ci_activity_log` VALUES ('1767', '1', '48', '2021-06-01 00:29:07');
+INSERT INTO `ci_activity_log` VALUES ('1768', '1', '48', '2021-06-01 00:29:16');
+INSERT INTO `ci_activity_log` VALUES ('1769', '1', '48', '2021-06-01 00:29:16');
+INSERT INTO `ci_activity_log` VALUES ('1770', '1', '48', '2021-06-01 00:32:15');
+INSERT INTO `ci_activity_log` VALUES ('1771', '1', '48', '2021-06-01 00:37:21');
+INSERT INTO `ci_activity_log` VALUES ('1772', '1', '48', '2021-06-01 00:37:30');
+INSERT INTO `ci_activity_log` VALUES ('1773', '1', '48', '2021-06-01 00:38:28');
+INSERT INTO `ci_activity_log` VALUES ('1774', '5', '48', '2021-06-01 11:38:34');
+INSERT INTO `ci_activity_log` VALUES ('1775', '4', '43', '2021-06-01 11:38:36');
+INSERT INTO `ci_activity_log` VALUES ('1776', '1', '43', '2021-06-01 00:40:20');
+INSERT INTO `ci_activity_log` VALUES ('1777', '1', '43', '2021-06-01 00:43:43');
+INSERT INTO `ci_activity_log` VALUES ('1778', '5', '43', '2021-06-01 11:47:25');
+INSERT INTO `ci_activity_log` VALUES ('1779', '4', '48', '2021-06-01 11:47:30');
+INSERT INTO `ci_activity_log` VALUES ('1780', '1', '48', '2021-06-01 00:47:48');
+INSERT INTO `ci_activity_log` VALUES ('1781', '5', '48', '2021-06-01 11:47:51');
+INSERT INTO `ci_activity_log` VALUES ('1782', '4', '43', '2021-06-01 11:47:53');
+INSERT INTO `ci_activity_log` VALUES ('1783', '1', '43', '2021-06-01 00:48:04');
+INSERT INTO `ci_activity_log` VALUES ('1784', '1', '43', '2021-06-01 00:50:27');
+INSERT INTO `ci_activity_log` VALUES ('1785', '1', '43', '2021-06-01 00:50:38');
+INSERT INTO `ci_activity_log` VALUES ('1786', '1', '43', '2021-06-01 00:50:40');
+INSERT INTO `ci_activity_log` VALUES ('1787', '1', '43', '2021-06-01 00:50:44');
+INSERT INTO `ci_activity_log` VALUES ('1788', '1', '43', '2021-06-01 00:55:30');
+INSERT INTO `ci_activity_log` VALUES ('1789', '1', '43', '2021-06-01 01:01:12');
+INSERT INTO `ci_activity_log` VALUES ('1790', '1', '43', '2021-06-01 01:02:13');
+INSERT INTO `ci_activity_log` VALUES ('1791', '1', '43', '2021-06-01 01:02:38');
+INSERT INTO `ci_activity_log` VALUES ('1792', '1', '43', '2021-06-01 01:04:47');
+INSERT INTO `ci_activity_log` VALUES ('1793', '1', '43', '2021-06-01 01:06:21');
+INSERT INTO `ci_activity_log` VALUES ('1794', '1', '43', '2021-06-01 01:06:29');
+INSERT INTO `ci_activity_log` VALUES ('1795', '1', '43', '2021-06-01 01:06:39');
+INSERT INTO `ci_activity_log` VALUES ('1796', '1', '43', '2021-06-01 01:17:35');
+INSERT INTO `ci_activity_log` VALUES ('1797', '1', '43', '2021-06-01 01:17:40');
+INSERT INTO `ci_activity_log` VALUES ('1798', '1', '43', '2021-06-01 01:17:49');
+INSERT INTO `ci_activity_log` VALUES ('1799', '1', '43', '2021-06-01 01:19:32');
+INSERT INTO `ci_activity_log` VALUES ('1800', '4', '43', '2021-06-01 22:25:27');
+INSERT INTO `ci_activity_log` VALUES ('1801', '1', '43', '2021-06-01 12:07:22');
+INSERT INTO `ci_activity_log` VALUES ('1802', '1', '43', '2021-06-01 12:19:23');
+INSERT INTO `ci_activity_log` VALUES ('1803', '1', '43', '2021-06-01 12:33:40');
+INSERT INTO `ci_activity_log` VALUES ('1804', '1', '43', '2021-06-01 12:39:03');
+INSERT INTO `ci_activity_log` VALUES ('1805', '1', '43', '2021-06-01 12:39:13');
+INSERT INTO `ci_activity_log` VALUES ('1806', '4', '43', '2021-06-02 04:14:22');
+INSERT INTO `ci_activity_log` VALUES ('1807', '5', '43', '2021-06-02 05:36:31');
+INSERT INTO `ci_activity_log` VALUES ('1808', '4', '48', '2021-06-02 05:36:38');
+INSERT INTO `ci_activity_log` VALUES ('1809', '5', '48', '2021-06-02 05:36:45');
+INSERT INTO `ci_activity_log` VALUES ('1810', '23', '43', '2021-06-02 05:36:47');
+INSERT INTO `ci_activity_log` VALUES ('1811', '1', '43', '2021-06-01 18:55:05');
+INSERT INTO `ci_activity_log` VALUES ('1812', '23', '43', '2021-06-01 18:55:12');
+INSERT INTO `ci_activity_log` VALUES ('1813', '4', '43', '2021-06-02 17:00:11');
+INSERT INTO `ci_activity_log` VALUES ('1814', '4', '43', '2021-06-02 22:31:09');
+INSERT INTO `ci_activity_log` VALUES ('1815', '5', '43', '2021-06-03 03:22:40');
+INSERT INTO `ci_activity_log` VALUES ('1816', '4', '43', '2021-06-03 03:22:55');
+INSERT INTO `ci_activity_log` VALUES ('1817', '5', '43', '2021-06-03 03:29:09');
+INSERT INTO `ci_activity_log` VALUES ('1818', '4', '43', '2021-06-03 03:31:19');
+INSERT INTO `ci_activity_log` VALUES ('1819', '5', '43', '2021-06-03 03:31:26');
+INSERT INTO `ci_activity_log` VALUES ('1820', '4', '43', '2021-06-03 03:31:37');
+INSERT INTO `ci_activity_log` VALUES ('1821', '5', '43', '2021-06-03 03:52:58');
+INSERT INTO `ci_activity_log` VALUES ('1822', '4', '55', '2021-06-03 03:54:34');
+INSERT INTO `ci_activity_log` VALUES ('1823', '5', '55', '2021-06-03 03:55:39');
+INSERT INTO `ci_activity_log` VALUES ('1824', '4', '55', '2021-06-03 03:55:45');
+INSERT INTO `ci_activity_log` VALUES ('1825', '5', '55', '2021-06-03 03:55:57');
+INSERT INTO `ci_activity_log` VALUES ('1826', '4', '55', '2021-06-03 03:56:14');
+INSERT INTO `ci_activity_log` VALUES ('1827', '5', '55', '2021-06-03 03:58:39');
+INSERT INTO `ci_activity_log` VALUES ('1828', '4', '56', '2021-06-03 03:59:54');
+INSERT INTO `ci_activity_log` VALUES ('1829', '5', '56', '2021-06-03 04:02:46');
+INSERT INTO `ci_activity_log` VALUES ('1830', '4', '56', '2021-06-03 04:03:07');
+INSERT INTO `ci_activity_log` VALUES ('1831', '5', '56', '2021-06-03 04:03:18');
+INSERT INTO `ci_activity_log` VALUES ('1832', '4', '57', '2021-06-03 04:03:58');
+INSERT INTO `ci_activity_log` VALUES ('1833', '6', '57', '2021-06-02 17:04:40');
+INSERT INTO `ci_activity_log` VALUES ('1834', '7', '57', '2021-06-02 17:05:01');
+INSERT INTO `ci_activity_log` VALUES ('1835', '6', '57', '2021-06-02 17:08:18');
+INSERT INTO `ci_activity_log` VALUES ('1836', '6', '57', '2021-06-02 17:08:34');
+INSERT INTO `ci_activity_log` VALUES ('1837', '6', '57', '2021-06-02 17:51:16');
+INSERT INTO `ci_activity_log` VALUES ('1838', '6', '57', '2021-06-02 17:52:01');
+INSERT INTO `ci_activity_log` VALUES ('1839', '7', '57', '2021-06-02 17:55:28');
+INSERT INTO `ci_activity_log` VALUES ('1840', '1', '57', '2021-06-02 18:25:16');
+INSERT INTO `ci_activity_log` VALUES ('1841', '1', '57', '2021-06-02 18:25:22');
+INSERT INTO `ci_activity_log` VALUES ('1842', '1', '57', '2021-06-02 18:25:22');
+INSERT INTO `ci_activity_log` VALUES ('1843', '1', '57', '2021-06-02 18:28:48');
+INSERT INTO `ci_activity_log` VALUES ('1844', '1', '57', '2021-06-02 18:29:30');
+INSERT INTO `ci_activity_log` VALUES ('1845', '1', '57', '2021-06-02 18:29:31');
+INSERT INTO `ci_activity_log` VALUES ('1846', '1', '57', '2021-06-02 18:29:36');
+INSERT INTO `ci_activity_log` VALUES ('1847', '7', '57', '2021-06-02 18:53:09');
+INSERT INTO `ci_activity_log` VALUES ('1848', '7', '57', '2021-06-02 18:54:38');
+INSERT INTO `ci_activity_log` VALUES ('1849', '7', '57', '2021-06-02 18:55:42');
+INSERT INTO `ci_activity_log` VALUES ('1850', '5', '57', '2021-06-03 05:55:47');
+INSERT INTO `ci_activity_log` VALUES ('1851', '4', '57', '2021-06-03 05:55:53');
+INSERT INTO `ci_activity_log` VALUES ('1852', '1', '57', '2021-06-02 18:56:08');
+INSERT INTO `ci_activity_log` VALUES ('1853', '1', '57', '2021-06-02 18:56:10');
+INSERT INTO `ci_activity_log` VALUES ('1854', '1', '57', '2021-06-02 18:56:13');
+INSERT INTO `ci_activity_log` VALUES ('1855', '1', '57', '2021-06-02 18:56:16');
+INSERT INTO `ci_activity_log` VALUES ('1856', '1', '57', '2021-06-02 18:56:30');
+INSERT INTO `ci_activity_log` VALUES ('1857', '23', '57', '2021-06-02 18:58:04');
+INSERT INTO `ci_activity_log` VALUES ('1858', '1', '57', '2021-06-02 18:59:53');
+INSERT INTO `ci_activity_log` VALUES ('1859', '23', '57', '2021-06-02 19:00:05');
+INSERT INTO `ci_activity_log` VALUES ('1860', '1', '57', '2021-06-02 19:04:32');
+INSERT INTO `ci_activity_log` VALUES ('1861', '1', '57', '2021-06-02 19:04:34');
+INSERT INTO `ci_activity_log` VALUES ('1862', '23', '57', '2021-06-02 19:04:42');
+INSERT INTO `ci_activity_log` VALUES ('1863', '1', '57', '2021-06-02 19:05:53');
+INSERT INTO `ci_activity_log` VALUES ('1864', '1', '57', '2021-06-02 19:05:54');
+INSERT INTO `ci_activity_log` VALUES ('1865', '1', '57', '2021-06-02 19:05:54');
+INSERT INTO `ci_activity_log` VALUES ('1866', '23', '57', '2021-06-02 19:06:01');
+INSERT INTO `ci_activity_log` VALUES ('1867', '1', '57', '2021-06-02 19:06:24');
+INSERT INTO `ci_activity_log` VALUES ('1868', '1', '57', '2021-06-02 19:06:26');
+INSERT INTO `ci_activity_log` VALUES ('1869', '1', '57', '2021-06-02 19:06:26');
+INSERT INTO `ci_activity_log` VALUES ('1870', '1', '57', '2021-06-02 19:06:30');
+INSERT INTO `ci_activity_log` VALUES ('1871', '4', '43', '2021-06-03 10:09:02');
+INSERT INTO `ci_activity_log` VALUES ('1872', '5', '43', '2021-06-03 10:09:05');
+INSERT INTO `ci_activity_log` VALUES ('1873', '4', '43', '2021-06-03 10:09:08');
+INSERT INTO `ci_activity_log` VALUES ('1874', '6', '43', '2021-06-02 23:16:11');
+INSERT INTO `ci_activity_log` VALUES ('1875', '23', '43', '2021-06-02 23:18:07');
+INSERT INTO `ci_activity_log` VALUES ('1876', '23', '43', '2021-06-02 23:30:36');
+INSERT INTO `ci_activity_log` VALUES ('1877', '23', '43', '2021-06-02 23:30:41');
+INSERT INTO `ci_activity_log` VALUES ('1878', '23', '43', '2021-06-02 23:30:45');
+INSERT INTO `ci_activity_log` VALUES ('1879', '23', '43', '2021-06-02 23:30:48');
+INSERT INTO `ci_activity_log` VALUES ('1880', '1', '43', '2021-06-02 23:32:30');
+INSERT INTO `ci_activity_log` VALUES ('1881', '1', '43', '2021-06-03 00:22:47');
+INSERT INTO `ci_activity_log` VALUES ('1882', '1', '43', '2021-06-03 00:33:03');
+INSERT INTO `ci_activity_log` VALUES ('1883', '1', '43', '2021-06-03 00:37:19');
+INSERT INTO `ci_activity_log` VALUES ('1884', '1', '43', '2021-06-03 00:39:16');
+INSERT INTO `ci_activity_log` VALUES ('1885', '1', '43', '2021-06-03 00:40:46');
+INSERT INTO `ci_activity_log` VALUES ('1886', '1', '43', '2021-06-03 00:44:51');
+INSERT INTO `ci_activity_log` VALUES ('1887', '1', '43', '2021-06-03 00:46:53');
+INSERT INTO `ci_activity_log` VALUES ('1888', '1', '43', '2021-06-03 00:46:59');
+INSERT INTO `ci_activity_log` VALUES ('1889', '1', '43', '2021-06-03 00:48:48');
+INSERT INTO `ci_activity_log` VALUES ('1890', '1', '43', '2021-06-03 00:48:57');
+INSERT INTO `ci_activity_log` VALUES ('1891', '1', '43', '2021-06-03 00:49:38');
+INSERT INTO `ci_activity_log` VALUES ('1892', '1', '43', '2021-06-03 00:49:44');
+INSERT INTO `ci_activity_log` VALUES ('1893', '1', '43', '2021-06-03 00:49:50');
+INSERT INTO `ci_activity_log` VALUES ('1894', '1', '43', '2021-06-03 00:49:56');
+INSERT INTO `ci_activity_log` VALUES ('1895', '1', '43', '2021-06-03 00:51:16');
+INSERT INTO `ci_activity_log` VALUES ('1896', '1', '43', '2021-06-03 00:51:19');
+INSERT INTO `ci_activity_log` VALUES ('1897', '1', '43', '2021-06-03 00:51:22');
+INSERT INTO `ci_activity_log` VALUES ('1898', '1', '43', '2021-06-03 00:51:25');
+INSERT INTO `ci_activity_log` VALUES ('1899', '1', '43', '2021-06-03 00:51:30');
+INSERT INTO `ci_activity_log` VALUES ('1900', '1', '43', '2021-06-03 00:52:48');
+INSERT INTO `ci_activity_log` VALUES ('1901', '1', '43', '2021-06-03 00:52:53');
+INSERT INTO `ci_activity_log` VALUES ('1902', '1', '43', '2021-06-03 00:52:58');
+INSERT INTO `ci_activity_log` VALUES ('1903', '1', '43', '2021-06-03 00:53:00');
+INSERT INTO `ci_activity_log` VALUES ('1904', '1', '43', '2021-06-03 00:53:05');
+INSERT INTO `ci_activity_log` VALUES ('1905', '1', '43', '2021-06-03 00:54:26');
+INSERT INTO `ci_activity_log` VALUES ('1906', '1', '43', '2021-06-03 00:54:32');
+INSERT INTO `ci_activity_log` VALUES ('1907', '1', '43', '2021-06-03 00:54:36');
+INSERT INTO `ci_activity_log` VALUES ('1908', '1', '43', '2021-06-03 00:55:37');
+INSERT INTO `ci_activity_log` VALUES ('1909', '1', '43', '2021-06-03 00:55:42');
+INSERT INTO `ci_activity_log` VALUES ('1910', '1', '43', '2021-06-03 01:00:12');
+INSERT INTO `ci_activity_log` VALUES ('1911', '1', '43', '2021-06-03 01:00:24');
+INSERT INTO `ci_activity_log` VALUES ('1912', '1', '43', '2021-06-03 01:01:34');
+INSERT INTO `ci_activity_log` VALUES ('1913', '1', '43', '2021-06-03 01:02:08');
+INSERT INTO `ci_activity_log` VALUES ('1914', '1', '43', '2021-06-03 01:02:12');
+INSERT INTO `ci_activity_log` VALUES ('1915', '1', '43', '2021-06-03 01:02:27');
+INSERT INTO `ci_activity_log` VALUES ('1916', '1', '43', '2021-06-03 01:03:31');
+INSERT INTO `ci_activity_log` VALUES ('1917', '1', '43', '2021-06-03 01:03:38');
+INSERT INTO `ci_activity_log` VALUES ('1918', '1', '43', '2021-06-03 01:04:03');
+INSERT INTO `ci_activity_log` VALUES ('1919', '1', '43', '2021-06-03 01:05:30');
+INSERT INTO `ci_activity_log` VALUES ('1920', '1', '43', '2021-06-03 01:05:35');
+INSERT INTO `ci_activity_log` VALUES ('1921', '1', '43', '2021-06-03 01:05:37');
+INSERT INTO `ci_activity_log` VALUES ('1922', '1', '43', '2021-06-03 01:05:47');
+INSERT INTO `ci_activity_log` VALUES ('1923', '1', '43', '2021-06-03 01:05:50');
+INSERT INTO `ci_activity_log` VALUES ('1924', '1', '43', '2021-06-03 01:08:17');
+INSERT INTO `ci_activity_log` VALUES ('1925', '1', '43', '2021-06-03 01:09:10');
+INSERT INTO `ci_activity_log` VALUES ('1926', '1', '43', '2021-06-03 01:12:23');
+INSERT INTO `ci_activity_log` VALUES ('1927', '1', '43', '2021-06-03 01:13:06');
+INSERT INTO `ci_activity_log` VALUES ('1928', '1', '43', '2021-06-03 01:13:22');
+INSERT INTO `ci_activity_log` VALUES ('1929', '1', '43', '2021-06-03 01:13:25');
+INSERT INTO `ci_activity_log` VALUES ('1930', '1', '43', '2021-06-03 01:13:34');
+INSERT INTO `ci_activity_log` VALUES ('1931', '1', '43', '2021-06-03 01:13:36');
+INSERT INTO `ci_activity_log` VALUES ('1932', '1', '43', '2021-06-03 01:13:46');
+INSERT INTO `ci_activity_log` VALUES ('1933', '1', '43', '2021-06-03 01:20:22');
+INSERT INTO `ci_activity_log` VALUES ('1934', '23', '43', '2021-06-03 01:20:25');
+INSERT INTO `ci_activity_log` VALUES ('1935', '1', '43', '2021-06-03 01:32:37');
+INSERT INTO `ci_activity_log` VALUES ('1936', '1', '43', '2021-06-03 01:32:46');
+INSERT INTO `ci_activity_log` VALUES ('1937', '1', '43', '2021-06-03 01:32:52');
+INSERT INTO `ci_activity_log` VALUES ('1938', '1', '43', '2021-06-03 01:32:57');
+INSERT INTO `ci_activity_log` VALUES ('1939', '1', '43', '2021-06-03 01:33:05');
+INSERT INTO `ci_activity_log` VALUES ('1940', '1', '43', '2021-06-03 01:33:12');
+INSERT INTO `ci_activity_log` VALUES ('1941', '1', '43', '2021-06-03 01:47:17');
 
 -- ----------------------------
 -- Table structure for `ci_activity_status`
@@ -1696,7 +2019,7 @@ CREATE TABLE `ci_comments` (
   `user_id` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of ci_comments
@@ -1713,7 +2036,6 @@ INSERT INTO `ci_comments` VALUES ('9', 'this is test tttt.', '56', '43', '2021-0
 INSERT INTO `ci_comments` VALUES ('10', 'great test.', '56', '43', '2021-05-27 01:20:56');
 INSERT INTO `ci_comments` VALUES ('11', 'got it....', '71', '43', '2021-05-27 01:21:37');
 INSERT INTO `ci_comments` VALUES ('12', 'got it ok?', '56', '43', '2021-05-27 01:24:53');
-INSERT INTO `ci_comments` VALUES ('13', 'test is Okay', '64', '43', '2021-05-27 01:25:16');
 INSERT INTO `ci_comments` VALUES ('14', 'Wonderful!', '56', '43', '2021-05-27 01:26:54');
 INSERT INTO `ci_comments` VALUES ('15', 'Great!', '71', '43', '2021-05-27 01:31:04');
 INSERT INTO `ci_comments` VALUES ('16', 'FInd note', '74', '43', '2021-05-29 02:04:51');
@@ -1721,7 +2043,18 @@ INSERT INTO `ci_comments` VALUES ('17', 'aaaa', '74', '43', '2021-05-29 02:08:01
 INSERT INTO `ci_comments` VALUES ('19', 'King developer is good!', '9', '43', '2021-05-29 02:17:45');
 INSERT INTO `ci_comments` VALUES ('21', 'dfg', '71', '43', '2021-05-29 02:19:12');
 INSERT INTO `ci_comments` VALUES ('22', 'This is Owner comment!', '9', '48', '2021-05-29 02:20:25');
-INSERT INTO `ci_comments` VALUES ('23', 'werwer\r\n', '9', '43', '2021-05-29 08:37:16');
+INSERT INTO `ci_comments` VALUES ('24', 'sssd', '68', '43', '2021-05-29 10:20:15');
+INSERT INTO `ci_comments` VALUES ('25', 'test\r\nsss', '7', '43', '2021-05-31 22:43:50');
+INSERT INTO `ci_comments` VALUES ('43', 'asdfdas', '73', '43', '2021-06-01 00:13:07');
+INSERT INTO `ci_comments` VALUES ('44', 'asdfasd', '73', '43', '2021-06-01 00:13:08');
+INSERT INTO `ci_comments` VALUES ('46', 'bbbbb', '21', '43', '2021-06-01 00:25:47');
+INSERT INTO `ci_comments` VALUES ('47', 'adfasdfdasf', '5', '43', '2021-06-01 00:26:13');
+INSERT INTO `ci_comments` VALUES ('48', 'dsdsdsds', '9', '48', '2021-06-01 00:38:18');
+INSERT INTO `ci_comments` VALUES ('49', 'werwerew', '99', '43', '2021-06-01 18:55:10');
+INSERT INTO `ci_comments` VALUES ('50', 'aaa\r\n', '104', '57', '2021-06-02 18:56:28');
+INSERT INTO `ci_comments` VALUES ('51', 'test', '95', '57', '2021-06-02 18:56:34');
+INSERT INTO `ci_comments` VALUES ('53', 'ttttt', '73', '43', '2021-06-03 01:01:46');
+INSERT INTO `ci_comments` VALUES ('54', 'aaaaa', '99', '43', '2021-06-03 01:32:55');
 
 -- ----------------------------
 -- Table structure for `ci_customers`
@@ -2495,7 +2828,7 @@ CREATE TABLE `ci_tags` (
   `created_at` datetime NOT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of ci_tags
@@ -2544,6 +2877,8 @@ INSERT INTO `ci_tags` VALUES ('51', 'ssss', '2021-05-25 18:54:24', '43');
 INSERT INTO `ci_tags` VALUES ('52', 'car', '2021-05-27 11:04:52', '43');
 INSERT INTO `ci_tags` VALUES ('53', 'www', '2021-05-29 08:13:01', '43');
 INSERT INTO `ci_tags` VALUES ('54', 'wwwr', '2021-05-29 08:13:07', '43');
+INSERT INTO `ci_tags` VALUES ('55', 'sdfsd', '2021-05-29 10:14:45', '43');
+INSERT INTO `ci_tags` VALUES ('56', 'ddd', '2021-05-29 10:20:02', '43');
 
 -- ----------------------------
 -- Table structure for `ci_templates`
@@ -2559,27 +2894,35 @@ CREATE TABLE `ci_templates` (
   `tags` varchar(255) NOT NULL,
   `is_active` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=75 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=109 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of ci_templates
 -- ----------------------------
 INSERT INTO `ci_templates` VALUES ('1', 'Your Submission Has Been Received', '<p>aaaaa</p>\n', '2021-01-29 03:10:09', '2021-05-03 05:41:37', '0', '', '0');
 INSERT INTO `ci_templates` VALUES ('2', 'Your Online Payment Request Has Been Received', '<p><span style=\"font-size:36px\"><strong>This is test note.</strong></span></p>\n', '2021-01-29 03:10:12', '2021-05-03 06:19:27', '0', '', '0');
-INSERT INTO `ci_templates` VALUES ('5', ' Empir soy in the Roman Empir', '<p>ggg I was thinking about this the other day. &nbsp;An important <strong>distinction</strong> to be made when discussing the impact of Roman pie making vs the the cultural impact of chatbots.</p>\n\n<ul>\n	<li>Shrimp paste</li>\n	<li>Intel</li>\n	<li>Ceaser</li>\n</ul>\n', '2021-04-07 09:29:10', '2021-05-29 08:35:44', '50', '', '1');
+INSERT INTO `ci_templates` VALUES ('5', ' Empir soy in the Roman Empir', '<p>ggg I was thinking about this the other day. &nbsp;An important <strong>distinction</strong> to be made when discussing the impact of Roman pie making vs the the cultural impact of chatbots.</p>\n\n<ul>\n	<li>Shrimp paste</li>\n	<li>Intel</li>\n	<li>Ceaser</li>\n</ul>\n', '2021-04-07 09:29:10', '2021-05-30 17:33:48', '50', '', '1');
 INSERT INTO `ci_templates` VALUES ('6', 'Making donuts with a typewriter', '<p>aaaa</p>\n', '2021-04-07 09:32:01', '2021-05-25 01:54:21', '50', '', '1');
-INSERT INTO `ci_templates` VALUES ('7', 'cccaaa', '<p>aaaaaaaerer</p>\n', '2021-04-07 12:46:22', '2021-04-13 05:04:08', '43', '5,4,6,8', '1');
-INSERT INTO `ci_templates` VALUES ('8', 'Test', '', '2021-04-10 01:59:09', '2021-05-28 23:11:52', '43', '1,4,3,5', '1');
-INSERT INTO `ci_templates` VALUES ('9', '', '<p>wqqqqeee</p>\n', '2021-04-10 03:30:50', '2021-05-29 08:32:19', '48', '3', '1');
-INSERT INTO `ci_templates` VALUES ('21', 'test', '<p>tttaaa</p>\n', '2021-04-10 04:03:20', '2021-05-28 23:00:29', '43', '6', '1');
-INSERT INTO `ci_templates` VALUES ('68', 'aaae', '<p>ertretwwww</p>\n', '2021-05-25 00:43:46', '2021-05-29 08:36:50', '43', '53', '1');
-INSERT INTO `ci_templates` VALUES ('71', 'rrrrwerwe', '<p>tttaaarrrrrrrreerer</p>\n', '2021-05-25 00:44:54', '2021-05-29 08:26:34', '43', '26,46', '1');
-INSERT INTO `ci_templates` VALUES ('72', 'testtest', '', '2021-05-28 23:20:25', '2021-05-28 23:20:35', '43', '', '1');
-INSERT INTO `ci_templates` VALUES ('73', 'aaarrr', '<p>were</p>\n', '2021-05-28 23:22:08', '2021-05-28 23:22:19', '43', '26', '1');
-INSERT INTO `ci_templates` VALUES ('74', 'wwrew', '<p>qqqqqqwwww</p>\n', '2021-05-29 01:15:18', '2021-05-29 08:37:07', '43', '53,54', '1');
-INSERT INTO `ci_templates` VALUES ('37', 'Create test', '<p>aaaaa</p>\n', '2021-04-19 16:08:55', '2021-05-10 17:25:18', '43', '2,14,15', '1');
-INSERT INTO `ci_templates` VALUES ('64', 'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww', '<p>aaaaaaarrrrtrtertertert</p>\n', '2021-05-12 06:27:04', '2021-05-29 08:32:25', '43', '2,4,3', '1');
-INSERT INTO `ci_templates` VALUES ('53', 'www', '', '2021-05-04 07:14:36', '2021-05-28 23:08:08', '43', '26', '1');
+INSERT INTO `ci_templates` VALUES ('95', 'asdfsdaf', '<p>Test</p>\n', '2021-05-29 10:56:23', '2021-06-03 01:04:03', '43', '', '1');
+INSERT INTO `ci_templates` VALUES ('7', 'cccaaa', '<p>aaaaaaaerer</p>\n', '2021-04-07 12:46:22', '2021-05-31 22:49:05', '43', '5,4,6,8', '1');
+INSERT INTO `ci_templates` VALUES ('9', 'DDD', '<p>wqqqqeee</p>\n', '2021-04-10 03:30:50', '2021-06-01 00:47:48', '48', '3', '1');
+INSERT INTO `ci_templates` VALUES ('97', '1112232123', '<p>121212asdfdasfasd</p>\n', '2021-05-29 11:05:38', '2021-05-31 22:49:15', '43', '2', '1');
+INSERT INTO `ci_templates` VALUES ('80', 'asdfdasf', '', '2021-05-29 10:28:40', '2021-05-29 10:28:55', '43', '', '1');
+INSERT INTO `ci_templates` VALUES ('81', 'asdfadsf', '', '2021-05-29 10:28:57', '2021-05-29 10:31:32', '43', '', '1');
+INSERT INTO `ci_templates` VALUES ('21', 'testtesaaadfeeeeeeeewwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwerewrwereweeeeeeessssssssssssseeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeweeeeeeeeeeeeeetttt', '<p>tttaaa</p>\n', '2021-04-10 04:03:20', '2021-06-03 00:51:19', '43', '6', '1');
+INSERT INTO `ci_templates` VALUES ('99', 'testtt', '<p>aaaaaarrrrr</p>\n\n<p>aesrewrewraaa</p>\n', '2021-05-29 12:21:34', '2021-06-03 01:33:12', '43', '8,26,10', '1');
+INSERT INTO `ci_templates` VALUES ('68', 'aaae', '<p>ertretwwww</p>\n', '2021-05-25 00:43:46', '2021-05-29 10:20:23', '43', '53,56', '1');
+INSERT INTO `ci_templates` VALUES ('108', 'test', '', '2021-06-02 19:06:24', '2021-06-02 19:06:30', '57', '26', '1');
+INSERT INTO `ci_templates` VALUES ('86', 'testtest', '<p>qweqweqw</p>\n', '2021-05-29 10:34:12', '2021-05-30 17:10:30', '43', '', '1');
+INSERT INTO `ci_templates` VALUES ('71', 'rrrrwerwe', '<p>0</p>\n\n<p>&nbsp;</p>\n', '2021-05-25 00:44:54', '2021-06-03 00:54:26', '43', '26,46', '1');
+INSERT INTO `ci_templates` VALUES ('72', 'testtest', '', '2021-05-28 23:20:25', '2021-05-31 22:49:47', '43', '', '1');
+INSERT INTO `ci_templates` VALUES ('73', 'aaarrr', '<p>aaaa</p>\n', '2021-05-28 23:22:08', '2021-06-03 01:47:17', '43', '26', '1');
+INSERT INTO `ci_templates` VALUES ('74', 'wwrewwerwe', '<p>qqqqqqwwwwwerew</p>\n', '2021-05-29 01:15:18', '2021-05-29 09:49:36', '43', '53,54', '1');
+INSERT INTO `ci_templates` VALUES ('75', 'aaaaa', '<p>werewrwdsdfdsfdfsdfds</p>\n', '2021-05-29 09:40:32', '2021-05-29 10:15:02', '43', '55', '1');
+INSERT INTO `ci_templates` VALUES ('37', 'Create test', '<p>aaaaa</p>\n', '2021-04-19 16:08:55', '2021-05-31 22:49:43', '43', '2,14,15', '1');
+INSERT INTO `ci_templates` VALUES ('64', 'www', '<p>aaaaaaarrrrtrtertertert</p>\n', '2021-05-12 06:27:04', '2021-06-03 01:32:37', '43', '2,4,3', '1');
+INSERT INTO `ci_templates` VALUES ('96', 'werewr', '<p>werewrwe</p>\n', '2021-05-29 10:56:33', '2021-05-30 17:34:44', '43', '', '1');
+INSERT INTO `ci_templates` VALUES ('53', 'www', '', '2021-05-04 07:14:36', '2021-05-31 22:49:36', '43', '26', '1');
 INSERT INTO `ci_templates` VALUES ('54', 'tester', '<p>test</p>\n\n<p>&nbsp;</p>\n', '2021-05-05 16:46:36', '2021-05-06 18:52:51', '53', '26', '1');
 
 -- ----------------------------
@@ -2624,16 +2967,17 @@ CREATE TABLE `ci_users` (
   `company` varchar(50) NOT NULL,
   `expertise` varchar(50) NOT NULL,
   `bio` varchar(500) NOT NULL,
+  `photo` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=56 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=58 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of ci_users
 -- ----------------------------
-INSERT INTO `ci_users` VALUES ('3', 'Jsully', 'Judith', 'Sully', 'Judiths@gempawn.net', '', '$2y$10$YCokJeCfh8KdAqH31Iob7eCS0CCjuzMsFRaUnN2Cq4WUVn.OIlMC2', '', '1', '0', '1', '1', '', '', '', '2017-09-29 10:09:44', '2021-01-27 09:01:39', '', 'Horse', '', '');
-INSERT INTO `ci_users` VALUES ('43', 'grant', '', '', 'grantlarocca4@gmail.com', '', '$2y$10$3Rsam3RMqkxRwM26DpAu1..BcRXKHcqI5WCszUuBnUfWPERj/Gnni', '', '2', '1', '1', '1', '', '', '', '2021-01-10 00:00:00', '2021-04-23 23:29:17', 'Gatekeeper', 'Blue Bridge', 'Color theory', 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit');
-INSERT INTO `ci_users` VALUES ('54', 'test', '', '', 'test@gmail.com', '', '$2y$10$XRmT9tYos/9O8wcquS/5i.TSAJaTBuLdmvLgwN.I2aYGf6dhVWv7u', '', '1', '1', '1', '0', '', '', '', '2021-05-05 17:01:07', '2021-05-05 17:01:07', 'Gatekeeper', '123', 'Color theory', 'asfadsf');
-INSERT INTO `ci_users` VALUES ('48', 'ddd', 'Evan', 'Sanderson', 'kingdeveloper@yahoo.com', '', '$2y$10$M81TzOrtzxHbSskzX9ACU.TPCIPYk78zKt0LQxMTFs0ZPdofundym', '', '1', '1', '1', '0', '', '', '', '2021-03-26 12:59:07', '2021-03-26 12:59:07', 'Tester', 'Horse', 'Sky', '');
-INSERT INTO `ci_users` VALUES ('49', 'rrr', 'Dan', 'Crutis', 'cole@danrite.com', '', '$2y$10$/Ot4uIESDKyJzqctNjHjXO7muT0ijwjVQxSnX72H.NyPvmVmouT3O', '', '1', '1', '1', '0', '', '', '', '2021-03-26 13:08:50', '2021-03-26 13:08:50', '', '', '', '');
-INSERT INTO `ci_users` VALUES ('50', 'administrator', 'Administrator', 'Developer', 'lignepolaris@gmail.com', '', '$2y$10$FWK.wZSKDmdvZ2UoF4TSGOdXMcY/ZlXag07difCK1/ZkZ5gCRjOSi', '', '1', '1', '1', '1', '', '', '', '2021-03-26 13:11:00', '2021-03-26 13:11:00', 'Boss', 'OrangeLine', 'King', '');
-INSERT INTO `ci_users` VALUES ('55', 'Tester', 'Cool', 'Man', 'wojin0707@gmail.com', '', '$2y$10$4rOZW8khFe7d1GTbesPLs.9/2i1hs.pLCy1NhFYAYYcLaA/w7s.xu', '', '1', '1', '0', '0', '093f65e080a295f8076b1c5722a46aa2', '', '', '2021-05-21 11:27:43', '2021-05-21 11:27:43', '', '', '', '');
+INSERT INTO `ci_users` VALUES ('3', 'Jsully', 'Judith', 'Sully', 'Judiths@gempawn.net', '', '$2y$10$YCokJeCfh8KdAqH31Iob7eCS0CCjuzMsFRaUnN2Cq4WUVn.OIlMC2', '', '1', '0', '1', '1', '', '', '', '2017-09-29 10:09:44', '2021-01-27 09:01:39', '', 'Horse', '', '', null);
+INSERT INTO `ci_users` VALUES ('43', 'grant', 'Evan', 'Sanderson', 'grantlarocca4@gmail.com', '', '$2y$10$3Rsam3RMqkxRwM26DpAu1..BcRXKHcqI5WCszUuBnUfWPERj/Gnni', '', '2', '1', '1', '1', '', '', '', '2021-01-10 00:00:00', '2021-06-02 23:16:11', 'Gatekeeper', 'Blue Bridge', 'Color theory', 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit', 'public/images/Pretty-girl-jade-jade-jade-41833370-725-720.jpg');
+INSERT INTO `ci_users` VALUES ('54', 'test', '', '', 'test@gmail.com', '', '$2y$10$XRmT9tYos/9O8wcquS/5i.TSAJaTBuLdmvLgwN.I2aYGf6dhVWv7u', '', '1', '1', '1', '0', '', '', '', '2021-05-05 17:01:07', '2021-05-05 17:01:07', 'Gatekeeper', '123', 'Color theory', 'asfadsf', null);
+INSERT INTO `ci_users` VALUES ('48', 'ddd', 'Evan', 'Sanderson', 'kingdeveloper@yahoo.com', '', '$2y$10$iUySOG6KJ9HH71erm/4/v.Slu0/RYSeql5Z39yajkIMk0oCVOrTYO', '', '1', '1', '1', '0', '', '', '', '2021-03-26 12:59:07', '2021-03-26 12:59:07', 'Tester', 'Horse', 'Sky', '', null);
+INSERT INTO `ci_users` VALUES ('49', 'rrr', 'Dan', 'Crutis', 'cole@danrite.com', '', '$2y$10$/Ot4uIESDKyJzqctNjHjXO7muT0ijwjVQxSnX72H.NyPvmVmouT3O', '', '1', '1', '1', '0', '', '', '', '2021-03-26 13:08:50', '2021-03-26 13:08:50', '', '', '', '', null);
+INSERT INTO `ci_users` VALUES ('50', 'administrator', 'Administrator', 'Developer', 'lignepolaris@gmail.com', '', '$2y$10$FWK.wZSKDmdvZ2UoF4TSGOdXMcY/ZlXag07difCK1/ZkZ5gCRjOSi', '', '1', '1', '1', '1', '', '', '', '2021-03-26 13:11:00', '2021-03-26 13:11:00', 'Boss', 'OrangeLine', 'King', '', null);
+INSERT INTO `ci_users` VALUES ('57', 'Tester1', 'Wo1', 'Jin1', 'wojin0707@gmail.com', '', '$2y$10$DQxrRCPRqGO54OFoftTIMewzYXLtfhsJXL20FOl74nMliElF/TBQS', '', '1', '1', '1', '0', 'd67d8ab4f4c10bf22aa353e27879133c', '', '', '2021-06-03 04:03:42', '2021-06-02 17:52:01', 'Tester1', 'aaa1', 'bbb1', 'aaaaaaaaaaa1', 'public/images/kostiaAnton.jpg');
