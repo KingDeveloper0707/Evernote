@@ -164,7 +164,7 @@
                                     <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <input type="text" name="confirm_pwd" class="form-control" placeholder="Enter your confirm_pwd" required>
+                                                <input type="text" name="confirm_pwd" class="form-control" placeholder="Enter your confirm password" required>
                                             </div>
                                         </div>
                                     </div>
@@ -381,7 +381,7 @@
    
 
     <div class="action_bar_wrap">
-        <div class="action_bar_title"><span class="my_cur_notes_counts"><?= $counts; ?></span> NOTES</div>
+        <div class="action_bar_title"><span class="my_total_notes_counts"><?= $counts; ?></span> NOTES</div>
 
         <div class="action_bar_btns">
              <div class="action_bar_action" id="edit_notes_btn">Edit</div>
@@ -462,6 +462,7 @@
                                 <th class="show_tag_name">TAG NAME</th>
                                 <th>DATED ADDED</th> 
                                 <th class="show_tag_user">ADDED BY</th>
+                                <th class="usage_count">USER USAGES</th>
                                 <th class="hide_tag_id">Tag ID</th>                                
                             </tr>
                             </thead>
@@ -821,6 +822,7 @@ $(document).ready(function() {
         "deferRender": true,   
         "order": [[ 2, "desc" ]],   
         "select": true,
+        "bInfo" : false,
         "iDisplayLength": 25,
         "language": {
             "lengthMenu": "Display _MENU_ Notes per page",
@@ -828,6 +830,9 @@ $(document).ready(function() {
             "info": "Showing page _PAGE_ of _PAGES_ ",
             "infoEmpty": "No notes available",
             "infoFiltered": "(filtered from _MAX_ total notes)"
+        },
+        "oLanguage": {
+        "sEmptyTable": "No notes"
         },
         "ajax": "<?=base_url('admin/admin_settings/datatable_json')?>",       
         "columnDefs": [
@@ -961,6 +966,14 @@ $(document).ready(function() {
                   "targets": [ 4 ],
                   "visible": true,
                   "orderable": true,
+                  "searchable": true,
+                  "width":"20%",
+                  "className": "usage_count"
+              },
+              {
+                  "targets": [ 5 ],
+                  "visible": true,
+                  "orderable": true,
                   "searchable": false,
                   "width":"20%",
                   "className": "hide_tag_id"
@@ -988,6 +1001,9 @@ $(document).ready(function() {
             "info": "Showing page _PAGE_ of _PAGES_ ",
             "infoEmpty": "No notes available",
             "infoFiltered": "(filtered from _MAX_ total notes)"
+        },
+        "oLanguage": {
+        "sEmptyTable": "No notes"
         },
         "ajax":{
           "url" :  "<?=base_url('admin/admin_settings/datatable_selected_user_json')?>", 
@@ -1266,6 +1282,11 @@ $(document).ready(function() {
                                     $(".my_total_notes_counts").text(show_note_datatable.rows().count()-1);
                                     $(".my_cur_notes_counts").text(note_datatable.rows().count());
 
+                                    $("#show_user_datatable tbody tr.selected_tr .total_notes_users").text(note_datatable.rows().count());
+
+                                    show_note_datatable.ajax.reload();
+
+                                  
                                     //$(".total_notes_users").text(show_note_datatable.rows().count());
                                     
 
@@ -1636,6 +1657,11 @@ $(document).ready(function() {
         var ajax_url = '<?php echo base_url();?>admin/admin_settings/rename_tags';
         var tag_id = $("#show_tag_datatable tbody tr.selected_tr .hide_tag_id").text();
         var tag_name = $("#show_tag_datatable .selected_tr .input_tag_name").val();
+        if (tag_name == ""){
+            bootbox.alert("Please add some text!");
+            $("#show_tag_datatable .selected_tr .input_tag_name").focus();
+            $("#show_tag_datatable .selected_tr .edit_btn").trigger("click");
+        }
 
 
         $.ajax({
@@ -1778,16 +1804,17 @@ $(document).ready(function() {
 
        
 		$( "#show_tag_datatable tr" ).each(function( index ) {
-		if ($(this).hasClass("selected_tr"))
-			$(this).removeClass("selected_tr");
+            if ($(this).hasClass("selected_tr"))
+                $(this).removeClass("selected_tr");
             $(this).find(".chkclass").prop('checked', false);  
 		});
 
         var new_row = '<tr role="row" class="selected_tr new_tag_row">';
         new_row += '<td><input type="checkbox" class="chkclass" value=""></td>';
-        new_row += '<td class=" show_tag_names"><input type="text" name="tagname" value="" class="input_tag_name" id="new_tag_item"> <i class="material-icons edit_btn">edit</i></td>';
-        new_row += '<td class="show_tag_added sorting_1"></td>';
+        new_row += '<td class=" show_tag_names"><div class="hide_tag_name"></div><input type="text" name="tagname" value="" class="input_tag_name" id="new_tag_item"> <i class="material-icons edit_btn">edit</i></td>';
+        new_row += '<td class="show_tag_added sorting_1"><div class="hide_tag_name"></div></td>';
         new_row += '<td class=" show_tag_user "></td>';
+        new_row += '<td class=" usage_count "></td>';
         new_row += '<td class=" hide_tag_id"></td>';
         new_row += '</tr>';
         
@@ -1803,9 +1830,10 @@ $(document).ready(function() {
 
         show_tag_datatable.row.add([
             '<td><input type="checkbox" class="chkclass" value=""></td>',
-            '<td class=" show_tag_names"><input type="text" name="tagname" value="" class="input_tag_name" id="new_tag_item"> <i class="material-icons edit_btn">edit</i></td>',
-            '<td class="show_tag_added">'+""+'</td>',
+            '<td class=" show_tag_names"><div class="hide_tag_name"></div><input type="text" name="tagname" value="" class="input_tag_name" id="new_tag_item"> <i class="material-icons edit_btn">edit</i></td>',
+            '<td class="show_tag_added"><div class="hide_tag_name"></div>'+""+'</td>',
             '<td class=" show_tag_user">'+" "+'</td>',
+            '<td class=" usage_count">'+" "+'</td>',
             '<td class=" hide_tag_id">'+ " "+'</td>',
           ]).draw(false);
 
@@ -1995,11 +2023,14 @@ $(document).ready(function() {
                                         show_note_datatable.row( $(this).parents('tr') ).remove().draw();
                                     });                           
 
-                                    $(".my_total_notes_counts").text(show_note_datatable.rows().count());
-                                    $(".my_cur_notes_counts").text(show_note_datatable.rows().count());
+                                  
                                     
 
-                                   
+                                    show_user_datatable.ajax.reload();
+                                    show_note_datatable.ajax.reload(function () {
+                                        $(".my_total_notes_counts").text(show_note_datatable.rows().count());
+                                        $(".my_cur_notes_counts").text(show_note_datatable.rows().count());
+                                    });
 
                                     }, error: function(res) {
                                         console.log('error');

@@ -1203,17 +1203,51 @@ $('#createtag_popup').keypress(function (e) {
 });
 
 $('#update_note_form').submit(function(e){
-  console.log("create_tags______");
+        console.log("create_tags______");
         e.preventDefault(); 
-          console.log("create_tags");
+        
         var ajax_url = '<?php echo base_url();?>admin/my_notes/update_notes';
-        var data = new FormData(this);
 
-          //Replace Editor contents
         var editor1 = CKEDITOR.instances.ckeditor; //fck is just my instance name you will need to replace that with yours
 
         var edata = editor1.getData();
+        var stripedHtml = $("<div>").html(edata).text();
+      
+        var set_First_title = stripedHtml.substring(0,1);
 
+        if ($("#subject").val() == ""){
+          $("#subject").val(set_First_title);
+        }
+
+
+        /*
+        function stripHtml(html){
+            // Create a new div element
+            var temporalDivElement = document.createElement("div");
+            // Set the HTML content with the providen
+            temporalDivElement.innerHTML = html;
+            // Retrieve the text property of the element (cross-browser support)
+            return temporalDivElement.textContent || temporalDivElement.innerText || "";
+        }
+
+        var htmlString= "<div><h1>Hello World</h1>\n<p>It's me, Mario</p></div>";
+
+        //Hello World
+        //It's me, Mario
+        console.log(stripHtml(htmlString));
+
+        var htmlString= "<div><h1>Hello World</h1>\n<p>It's me, Mario</p></div>";
+
+        var stripedHtml = htmlString.replace(/<[^>]+>/g, '');
+
+        //Hello World
+        //It's me, Mario
+        console.log(stripedHtml);
+        */
+        var data = new FormData(this);
+
+          //Replace Editor contents
+       
         data.append("e_content", edata);
        
          $.ajax({

@@ -277,6 +277,9 @@ class Admin_settings extends MY_Controller {
 
 		//get tags information
 		$tags_info = $this->admin_settings_model->get_tags_info_by_id();
+
+		//get tag_list from ci_templates
+		$tags_list = $this->admin_settings_model->get_all_tag_list();
 		
 
 		foreach ($tags_info as $row)
@@ -288,13 +291,30 @@ class Admin_settings extends MY_Controller {
 					$cur_user_name = "";
 				}
 
+
+				//getting usage count
 				
+
+				$usage_count = 0;
+				foreach ($tags_list as $tag_list) {
+					$tag_collection = explode(",",$tag_list['tags']);
+					foreach ($tag_collection as $tag) { 
+						if ($tag == $row['id']){
+							$usage_count = $usage_count + 1;
+						}
+					}
+				}
+				
+
+				
+		        $newDate = date(" M d, Y", strtotime($row['created_at']));  
 
 				$data[] = array(
 					'<input type="checkbox" class="chkclass"  value="'. $row['id'] .'">',
-					'<input type="text" name="tagname"  value="'.$row['tagname'].'" class="input_tag_name" disabled> <i class="material-icons edit_btn">edit</i>',					
-					$row['created_at'],							
+					'<div class="hide_tag_name">'.$row['tagname'].'</div><input type="text" name="tagname"  value="'.$row['tagname'].'" class="input_tag_name" disabled> <i class="material-icons edit_btn">edit</i>',					
+					'<div class="hide_tag_name">'.$row['created_at'].'</div>'.$newDate,							
 					$cur_user_name,
+					$usage_count,
 					$row['id'],
 				);
 			
@@ -404,8 +424,13 @@ class Admin_settings extends MY_Controller {
  
 		$records = $this->admin_settings_model->del($ids);
 
-		if ($records)
+
+
+		if ($records){
+			$this->activity_model->add(23);
 			echo json_encode(['success'=>"Item Deleted successfully."]);
+		}
+			
 	}
 
 	//-------------------------------------------------------------------------
@@ -618,10 +643,13 @@ class Admin_settings extends MY_Controller {
 					$cur_user_name = "";
 				}
 
+
+		$orgDate = date('Y-m-d H:i:s');  
+		$newDate = date(" M d, Y", strtotime($orgDate));  
 		
 		$send_data = array(
 			'tagname' => $tag_name,
-			'created_at' => date('Y-m-d H:i:s'),
+			'created_at' => $newDate,
 			'user_name' => $user_name,
 			'tag_id' => $new_tag_id,
 		);	

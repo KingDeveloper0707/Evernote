@@ -625,6 +625,9 @@ $(document).ready(function() {
             "infoEmpty": "No notes available",
             "infoFiltered": "(filtered from _MAX_ total notes)"
         },
+        "oLanguage": {
+        "sEmptyTable": "No notes"
+        },
         "ajax":{
           "url" :  "<?=base_url('admin/profile/datatable_json')?>", 
           "type": "POST"

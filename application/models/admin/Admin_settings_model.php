@@ -78,6 +78,17 @@
 			return $result = $query->result_array();
 		}
 
+
+		//Get all tag list
+		public function get_all_tag_list() {
+				
+			$this->db->select('tags');
+			$this->db->from('ci_templates');			
+			
+			$query = $this->db->get();
+			return $result = $query->result_array();
+		}
+
 		//Delete Notes
 		public function del($ids){
 			

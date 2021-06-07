@@ -9808,6 +9808,22 @@ input[type="text"]:disabled {
   border-bottom-width: 1px;
 }
 
+.input_tag_name {
+  color: black ! important;
+}
+
+.selected_tr .input_tag_name {
+  color: black ! important;
+}
+
+.selected_tr .input_tag_name:disabled {
+  color: white ! important;
+}
+
+.hide_tag_name {
+  display: none;
+}
+
 @media (min-width: 768px){
   #myModal .modal-dialog {
     width: 1049px;

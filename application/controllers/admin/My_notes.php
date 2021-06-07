@@ -386,10 +386,13 @@
 		
 				$records = $this->notes_model->del($ids);
 
-				$this->activity_model->add(23);
+				
 
-				if ($records)
+				if ($records){
+					$this->activity_model->add(23);
 					echo json_encode(['success'=>"Item Deleted successfully."]);
+				}
+					
 			}
 	
 		
