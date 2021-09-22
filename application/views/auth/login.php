@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title><?=isset($title)?$title:'SignIn - Care Equity Insights' ?></title>
+    <title><?=isset($title)?$title:'Sign In - Care Equity Insights Tool' ?></title>
     <!-- Favicon-->
     <link rel="icon" href="<?= base_url() ?>public/images/favicon.png" type="image/x-icon">
     <!-- Google Fonts -->
@@ -26,9 +26,11 @@
 
 <body class="login-page">
     <div class="login-box">
+    <!--
         <div class="logo">
             <a href="javascript:void(0);"><img src="<?php echo base_url('public/images/brain_logo.png');?>" /></a>
         </div>
+        -->
         <?php if(isset($msg) || validation_errors() !== ''): ?>
             <div class="alert alert-warning alert-dismissible">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -89,14 +91,14 @@
                     
                     <div class="row">
                         <div class="col-xs-12 login-wrap">
-                            <input type="submit" name="submit" id="submit" class="btn btn-block btn-success waves-effect" value="Submit">
+                            <input type="submit" name="submit" id="submit" class="btn btn-block btn-success waves-effect" value="Insights">
                         </div>
                     </div>
-
+<!--
                     <div class="m-t-25 align-center">
                         <a href="<?= base_url('auth/register'); ?>">Create an account</a>
                     </div>
-
+-->
                 <?php echo form_close(); ?>
             </div>
         </div>

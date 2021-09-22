@@ -80,6 +80,60 @@
 			return $result = $query->result_array();
 		}
 
+
+		//Get Companies info 
+		public function get_companies_info_by_id(){
+			
+						
+			$query = $this->db->get('ci_companies');
+			
+			return $result = $query->result_array();
+		}
+
+
+		//Get Note types info 
+		public function get_notetypes_info_by_id(){
+			
+						
+			$query = $this->db->get('ci_notetypes');
+			
+			return $result = $query->result_array();
+		}
+
+
+		//Get current companynames
+		public function get_current_companyname($id){
+			
+			$this->db->select('companies');
+			$this->db->where('id', $id);
+			$query = $this->db->get('ci_templates');
+			return $result = $query->row();
+		}
+
+		//Get current notetypenames
+		public function get_current_notetypename($id){
+			
+			$this->db->select('notetypes');
+			$this->db->where('id', $id);
+			$query = $this->db->get('ci_templates');
+			return $result = $query->row();
+		}
+
+		//add comapnies table
+		public function insert_companies($data){
+			$this->db->insert('ci_companies', $data);
+			$new_id = $this->db->insert_id();
+			return $new_id;
+		}
+
+
+		//add comapnies table
+		public function insert_notetypes($data){
+			$this->db->insert('ci_notetypes', $data);
+			$new_id = $this->db->insert_id();
+			return $new_id;
+		}
+
 		// get last notes with id for server-side datatable processing (ajax based)
 		public function get_last_notes_by_id($id){
 			

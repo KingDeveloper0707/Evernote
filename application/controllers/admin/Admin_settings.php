@@ -1,24 +1,29 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
-class Admin_settings extends MY_Controller {
-	public function __construct(){
+<?php defined('BASEPATH') or exit('No direct script access allowed');
+class Admin_settings extends MY_Controller
+{
+	public function __construct()
+	{
 		parent::__construct();
 		$this->load->model('admin/admin_settings_model', 'admin_settings_model');
-		$this->load->model('activity_model','activity_model');
+		$this->load->model('activity_model', 'activity_model');
 	}
 	//-------------------------------------------------------------------------
-	public function index(){
-		if($this->input->post('submit')){
+	public function index()
+	{
+		if ($this->input->post('submit')) {
 
 			$this->form_validation->set_rules('email', 'Email', 'trim|valid_email|is_unique[ci_users.email]|required');
 			$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[5]');
 			$this->form_validation->set_rules('confirm_pwd', 'Password Confirmation', 'trim|required|matches[password]');
 
 			if ($this->form_validation->run() == FALSE) {
-					$this->session->set_flashdata('error', 'Profile has some problems!');
-					redirect(base_url('admin/admin_settings'), 'refresh');
-			}else{
+				$this->session->set_flashdata('error', 'Profile has some problems!');
+				redirect(base_url('admin/admin_settings'), 'refresh');
+			} else {
 				$data = array(
 					'username' => $this->input->post('username'),
+					'firstname' => $this->input->post('firstname'),
+					'lastname' => $this->input->post('lastname'),
 					'position_title' => $this->input->post('position_title'),
 					'company' => $this->input->post('company'),
 					'email' => $this->input->post('email'),
@@ -26,63 +31,63 @@ class Admin_settings extends MY_Controller {
 					'bio' => $this->input->post('bio'),
 					'password' =>  password_hash($this->input->post('password'), PASSWORD_BCRYPT),
 					'is_active' => 1,
-					'is_verify' => 1,				
+					'is_verify' => 1,
 					'last_ip' => '',
 					'created_at' => date('Y-m-d H:i:s'),
 					'updated_at' => date('Y-m-d H:i:s'),
 				);
-	
-				
+
+
 				$data = $this->security->xss_clean($data);
 				$result = $this->admin_settings_model->register($data);
-				if($result){
-	
+				if ($result) {
+
 					// Add User Activity
 					$this->activity_model->add(6);
-	
+
 					$this->session->set_flashdata('msg', 'Profile has been Updated Successfully!');
 					redirect(base_url('admin/admin_settings'), 'refresh');
 				}
 			}
-			
-		}
-		else{
+		} else {
 			$id = $this->session->userdata('admin_id');
 
 			$comments_info = $this->admin_settings_model->get_comments_info();
 
 			$data['user'] = $this->admin_settings_model->get_user_detail();
-			$data['counts'] = $this->admin_settings_model->get_all_counts_notes ();
-			$data['tag_counts'] = $this->admin_settings_model->get_all_counts_tags ();
-			$data['user_counts'] = $this->admin_settings_model->get_all_counts_users ();
+			$data['counts'] = $this->admin_settings_model->get_all_counts_notes();
+			$data['tag_counts'] = $this->admin_settings_model->get_all_counts_tags();
+			$data['company_counts'] = $this->admin_settings_model->get_all_counts_companies();
+			$data['notetype_counts'] = $this->admin_settings_model->get_all_counts_notetypes();
+			$data['user_counts'] = $this->admin_settings_model->get_all_counts_users();
 			$data['last_activity'] = $this->admin_settings_model->get_last_login($id);
 			$data['delete_count'] = $this->admin_settings_model->get_my_counts_delete_notes_by_id($id);
 			$data['comments_data'] = $comments_info;
 			$data['title'] = 'Admin';
 			$data['view'] = 'admin/Admin_settings/Admin_settings';
-			
+
 			$this->load->view('layout', $data);
 		}
 	}
 
 	//-------------------------------------------------------------------------
-	public function change_pwd(){
+	public function change_pwd()
+	{
 		$id = $this->session->userdata('admin_id');
-		if($this->input->post('submit')){
+		if ($this->input->post('submit')) {
 			$this->form_validation->set_rules('password', 'Password', 'trim|required');
 			$this->form_validation->set_rules('confirm_pwd', 'Confirm Password', 'trim|required|matches[password]');
 			if ($this->form_validation->run() == FALSE) {
 				$data['user'] = $this->admin_settings_model->get_user_detail();
 				$data['view'] = 'admin/profile';
 				$this->load->view('layout', $data);
-			}
-			else{
+			} else {
 				$data = array(
 					'password' => password_hash($this->input->post('password'), PASSWORD_BCRYPT)
 				);
 				$data = $this->security->xss_clean($data);
 				$result = $this->admin_settings_model->change_pwd($data, $id);
-				if($result){
+				if ($result) {
 
 					// Add User Activity
 					$this->activity_model->add(7);
@@ -91,188 +96,243 @@ class Admin_settings extends MY_Controller {
 					redirect(base_url('admin/profile'));
 				}
 			}
-		}
-		else{
+		} else {
 			$id = $this->session->userdata('admin_id');
 
 			$data['user'] = $this->admin_settings_model->get_user_detail();
-			$data['counts'] = $this->admin_settings_model->get_my_counts_notes_by_id ($id);
+			$data['counts'] = $this->admin_settings_model->get_my_counts_notes_by_id($id);
 			$data['title'] = 'Admin';
 			$data['view'] = 'admin/Admin_settings/Admin_settings';
 			$this->load->view('layout', $data);
 		}
 	}
 
-	public function datatable_selected_user_json () {
+	public function datatable_selected_user_json()
+	{
 		$id = $this->input->post('user_id');
 
 		$records = $this->admin_settings_model->get_all_notes_by_id($id);
 
 		$data = array();
-		
+
 
 		//get tags information
 		$tags_info = $this->admin_settings_model->get_tags_info_by_id();
 		$tags_array = array();
-		$i= 0;
-		foreach($tags_info as $row){
+		$i = 0;
+		foreach ($tags_info as $row) {
 			$tags_array[$i] = array($row['id'], $row['tagname']);
 			$i++;
 		}
 
+		//get companies information
+		$companies_info = $this->admin_settings_model->get_companies_info_by_id();
+		$companies_array = array();
+		$i = 0;
+		foreach ($companies_info as $row) {
+			$companies_array[$i] = array($row['id'], $row['company_name']);
+			$i++;
+		}
 
-		foreach ($records as $row)
-		{
-			if ($row['subject'] == ""){
+		//get note types information
+		$notetypes_info = $this->admin_settings_model->get_notetypes_info_by_id();
+		$notetypes_array = array();
+		$i = 0;
+		foreach ($notetypes_info as $row) {
+			$notetypes_array[$i] = array($row['id'], $row['notetype_name']);
+			$i++;
+		}
+
+
+		foreach ($records as $row) {
+			if ($row['subject'] == "") {
 				$current_title = "Untitled";
-			}else{
+			} else {
 				$current_title = $row['subject'];
 			}
 			$tag_list = explode(",", $row['tags']);
-			
-			$tag_full_name = "<div class='tag_list_wrap'>";
 
-			foreach ($tag_list as $v) { 
-				foreach ($tags_array as $tag_data){
-					if ($tag_data[0] == $v){
-					  $tag_full_name .= '<div class="tag_list">'.$tag_data[1]. '</div>' ;
 
+			$tag_full_name = "<div class='tag_list_wrap' base_url='" . base_url() . "' >";
+
+			foreach ($tag_list as $v) {
+				foreach ($tags_array as $tag_data) {
+					if ($tag_data[0] == $v) {
+						$tag_full_name .= '<div class="tag_list" tag_id="' . $tag_data[0] . '">' . $tag_data[1] . '<div class="del_tag"><img src="' . base_url() . 'public/images/tag_delete.png"></div></div>';
 					}
 				}
 			}
 
 			$tag_full_name .= "</div>";
 
-					$title_class = "show_note_title";
+			//companies and notetypes
+			$get_company_list = explode(",", $row['companies']);
+			$company_full_name = "<div class='company_list_wrap' base_url='" . base_url() . "' >";
 
-						if ($row['is_active'] == 0)  
-							$title_class = $title_class." inactive_title";
+			foreach ($get_company_list as $v) {
+				foreach ($companies_array as $company_data) {
+					if ($company_data[0] == $v) {
+						$company_full_name .= '<div class="company_list" company_id="' . $company_data[0] . '">' . $company_data[1] . '<div class="del_company"><img src="' . base_url() . 'public/images/tag_delete.png"></div></div>';
+					}
+				}
+			}
+
+			$company_full_name .= '</div>';
+			//note type
+			$notetype_list = explode(",", $row['notetypes']);
+			$company_full_name .= "<div class='notetype_list_wrap' base_url='" . base_url() . "' >";
+
+			foreach ($notetype_list as $v) {
+				foreach ($notetypes_array as $notetype_data) {
+					if ($notetype_data[0] == $v) {
+						$company_full_name .= '<div class="notetype_list" notetype_id="' . $notetype_data[0] . '">' . $notetype_data[1] . '<div class="del_notetype"><img src="' . base_url() . 'public/images/tag_delete.png"></div></div>';
+					}
+				}
+			}
+
+			$company_full_name .= '</div>';
 
 
-					$user_name = $this->admin_settings_model->get_current_username($row['user_id']);
-						if($user_name != null){
-							$cur_user_name = $user_name->username;
-						}else {
-							$cur_user_name = "";
-						}
+			$title_class = "show_note_title";
 
-						$updated_time =  date(" M d, Y", strtotime($row['updated_at']));
-				$data[] = array(
-					'<div class="show_create_date">'.$updated_time.'</div><div class="'.$title_class.'">'.$current_title.'</div><div class="admin_showing_editors_wrap"><i class="material-icons">person</i>'.$cur_user_name.'</div>',
-					
-					$row['created_at'],
-					$row['updated_at'],
-					$tag_full_name,
-					$row['id'],
-					$row['content'],
-					$row['user_id'],
-					$cur_user_name,
-					$row['is_active'],
-				);
-			
-				
+			if ($row['is_active'] == 0)
+				$title_class = $title_class . " inactive_title";
+
+
+			$user_name = $this->admin_settings_model->get_current_username($row['user_id']);
+			if ($user_name != null) {
+				$cur_user_name = $user_name->username;
+			} else {
+				$cur_user_name = "";
+			}
+
+			$updated_time =  date(" M d, Y", strtotime($row['updated_at']));
+			$data[] = array(
+				'<div class="show_create_date">' . $updated_time . '</div><div class="' . $title_class . '">' . $current_title . '</div><div class="admin_showing_editors_wrap"><i class="material-icons">person</i>' . $cur_user_name . '</div><div class="active_note_hide">' . $row['is_active'] . '</div>',
+
+				$row['created_at'],
+				$row['updated_at'],
+				$tag_full_name,
+				$row['id'],
+				$row['content'],
+				$row['user_id'],
+				$cur_user_name,
+				$company_full_name,
+			);
 		}
 
 		$recods["data"] = $data;
-	
-		echo json_encode($recods);	
+
+		echo json_encode($recods);
 	}
 
 
 
-	
 
-	public function datatable_users_json() {
-        $id = $this->session->userdata('admin_id');
 
-      
-		
+	public function datatable_users_json()
+	{
+		$id = $this->session->userdata('admin_id');
+
+
+
 		$data = array();
 
 		//get tags information
 		$tags_info = $this->admin_settings_model->get_info_users();
-		
-
-		foreach ($tags_info as $row)
-		{
-			
-
-			$active_state = "";
-			$title_class = "show_note_title";
 
 
-			if ($row['is_active'] == 0){
-				$title_class = $title_class." inactive_title";
-				$active_state = "Inactive";
-			}else {
-				$active_state = "Active";
-			} 
-				
+		if (count($tags_info)) {
+			foreach ($tags_info as $row) {
 
-			$add_Date = date(" M d, Y", strtotime($row['created_at']));  
 
-			$login_activity = $this->admin_settings_model->get_last_login($row['id']);
+				$active_state = "";
+				$title_class = "show_note_title";
 
-			if ($login_activity) {
-				$last_activity = date(" M d, Y", strtotime($login_activity['created_at']));
-			}
-			 
 
-			if ($row['photo']){
-				$photo_url = base_url().$row['photo'];
-			}else {
-				$photo_url = base_url()."public/images/user.png";
-			}
+				if ($row['is_active'] == 0) {
+					$title_class = $title_class . " inactive_title";
+					$active_state = "Inactive";
+				} else {
+					$active_state = "Active";
+				}
+
+
+				$add_Date = date(" M d, Y", strtotime($row['created_at']));
+
+				$login_activity = $this->admin_settings_model->get_last_login($row['userid']);
+
+				if ($login_activity) {
+					$last_activity = date(" M d, Y", strtotime($login_activity['created_at']));
+				} else {
+					$last_activity = "";
+				}
+
+
+				if ($row['photo']) {
+					$photo_url = base_url() . $row['photo'];
+				} else {
+					$photo_url = base_url() . "public/images/user.png";
+				}
+
+				if ($row['note_counts'] === null) {
+					$row['note_counts'] = 0;
+				}
+
+				if ($row['note_updated'] === null) {
+					$row['note_updated'] = "";
+				}
+
+
 
 				$data[] = array(
-					'<input type="checkbox" class="chkclass"  value="'. $row['id'] .'">',
-					'<div class="'.$title_class.'">'.$row['username'].'</div> <div class="hide_last_activity">'.$last_activity.'</div><div class="hide_photo_url">'.$photo_url.'</div>',
-					'<span>'.$row['created_at'].'</span>'.'<div>'.$add_Date.'</div>',
-					$row['note_counts'],						
+					'<input type="checkbox" class="chkclass"  value="' . $row['userid'] . '">',
+					'<div class="' . $title_class . '">' . $row['username'] . '</div> <div class="hide_last_activity">' . $last_activity . '</div><div class="hide_photo_url">' . $photo_url . '</div>',
+					'<span>' . $row['created_at'] . '</span>' . '<div>' . $add_Date . '</div>',
+					$row['note_counts'],
 					$row['email'],
 					$active_state,
 					$row['company'],
 					$row['position_title'],
-					$row['id'],
+					$row['userid'],
 					$row['note_updated'],
 				);
-			
-				
+			}
 		}
 
+
 		$recods["data"] = $data;
-	
-		echo json_encode($recods);	
+
+		echo json_encode($recods);
 	}
 
 	//active users
-	public function active_users() {
+	public function active_users()
+	{
 		$id = $this->input->post('user_id');
 		$active_val = $this->input->post('active_val');
 
-		if ($active_val == "Active" ){
+		if ($active_val == "Active") {
 			$data = array(
 				'is_active' => 0,
 			);
-		}else {
+		} else {
 			$data = array(
 				'is_active' => 1,
 			);
 		}
-		
+
 
 		$edit = $this->admin_settings_model->active_inactive_users($id, $data);
-
-
-
 	}
 
 
-	public function datatable_tags_json() {
-        $id = $this->session->userdata('admin_id');
+	public function datatable_tags_json()
+	{
+		$id = $this->session->userdata('admin_id');
 
-      
-		
+
+
 		$data = array();
 
 		//get tags information
@@ -280,54 +340,52 @@ class Admin_settings extends MY_Controller {
 
 		//get tag_list from ci_templates
 		$tags_list = $this->admin_settings_model->get_all_tag_list();
-		
-
-		foreach ($tags_info as $row)
-		{
-				$user_name = $this->admin_settings_model->get_current_username($row['user_id']);
-				if($user_name != null){
-					$cur_user_name = $user_name->username;
-				}else {
-					$cur_user_name = "";
-				}
 
 
-				//getting usage count
-				
+		foreach ($tags_info as $row) {
+			$user_name = $this->admin_settings_model->get_current_username($row['user_id']);
+			if ($user_name != null) {
+				$cur_user_name = $user_name->username;
+			} else {
+				$cur_user_name = "";
+			}
 
-				$usage_count = 0;
-				foreach ($tags_list as $tag_list) {
-					$tag_collection = explode(",",$tag_list['tags']);
-					foreach ($tag_collection as $tag) { 
-						if ($tag == $row['id']){
-							$usage_count = $usage_count + 1;
-						}
+
+			//getting usage count
+
+
+			$usage_count = 0;
+			foreach ($tags_list as $tag_list) {
+				$tag_collection = explode(",", $tag_list['tags']);
+				foreach ($tag_collection as $tag) {
+					if ($tag == $row['id']) {
+						$usage_count = $usage_count + 1;
 					}
 				}
-				
+			}
 
-				
-		        $newDate = date(" M d, Y", strtotime($row['created_at']));  
 
-				$data[] = array(
-					'<input type="checkbox" class="chkclass"  value="'. $row['id'] .'">',
-					'<div class="hide_tag_name">'.$row['tagname'].'</div><input type="text" name="tagname"  value="'.$row['tagname'].'" class="input_tag_name" disabled> <i class="material-icons edit_btn">edit</i>',					
-					'<div class="hide_tag_name">'.$row['created_at'].'</div>'.$newDate,							
-					$cur_user_name,
-					$usage_count,
-					$row['id'],
-				);
-			
-				
+
+			$newDate = date(" M d, Y", strtotime($row['created_at']));
+
+			$data[] = array(
+				'<input type="checkbox" class="chkclass"  value="' . $row['id'] . '">',
+				'<div class="hide_tag_name">' . $row['tagname'] . '</div><input type="text" name="tagname"  value="' . $row['tagname'] . '" class="input_tag_name" disabled> <i class="material-icons edit_btn">edit</i>',
+				'<div class="hide_tag_name">' . $row['created_at'] . '</div>' . $newDate,
+				$cur_user_name,
+				$usage_count,
+				$row['id'],
+			);
 		}
 
 		$recods["data"] = $data;
-	
-		echo json_encode($recods);	
+
+		echo json_encode($recods);
 	}
 
 
-	public function rename_tags() {
+	public function rename_tags()
+	{
 		$id = $this->input->post('tag_id');
 		$active_val = $this->input->post('tag_name');
 
@@ -336,274 +394,656 @@ class Admin_settings extends MY_Controller {
 		);
 
 		$edit = $this->admin_settings_model->rename_tags($id, $data);
-
 	}
 
 
-	public function datatable_json(){		
-			
-        
-        $id = $this->session->userdata('admin_id');
-
-        $records = $this->admin_settings_model->get_all_notes();
-
-				$data = array();
-				
-
-				//get tags information
-				$tags_info = $this->admin_settings_model->get_tags_info_by_id();
-				$tags_array = array();
-				$i= 0;
-				foreach($tags_info as $row){
-					$tags_array[$i] = array($row['id'], $row['tagname']);
-					$i++;
-				}
+	public function datatable_companies_json()
+	{
+		$id = $this->session->userdata('admin_id');
 
 
-				foreach ($records as $row)
-				{
-					if ($row['subject'] == ""){
-						$current_title = "Untitled";
-					}else{
-						$current_title = $row['subject'];
+
+		$data = array();
+
+		//get tags information
+		$companies_info = $this->admin_settings_model->get_companies_info_by_id();
+
+		//get tag_list from ci_templates
+		$companies_list = $this->admin_settings_model->get_all_company_list();
+
+
+		foreach ($companies_info as $row) {
+			$user_name = $this->admin_settings_model->get_current_username($row['user_id']);
+			if ($user_name != null) {
+				$cur_user_name = $user_name->username;
+			} else {
+				$cur_user_name = "";
+			}
+
+
+			//getting usage count
+
+
+			$usage_count = 0;
+			foreach ($companies_list as $company_list) {
+				$company_collection = explode(",", $company_list['companies']);
+				foreach ($company_collection as $company) {
+					if ($company == $row['id']) {
+						$usage_count = $usage_count + 1;
 					}
-					$tag_list = explode(",", $row['tags']);
-					$tag_full_name = "<div class='tag_list_wrap'>";
-
-					foreach ($tag_list as $v) { 
-						foreach ($tags_array as $tag_data){
-							if ($tag_data[0] == $v){
-							  $tag_full_name .= '<div class="tag_list">'.$tag_data[1]. '</div>' ;
-
-							}
-						}
-					}
-
-					$tag_full_name .= "</div>";
-
-					$user_name = $this->admin_settings_model->get_current_username($row['user_id']);
-						if($user_name != null){
-							$cur_user_name = $user_name->username;
-						}else {
-							$cur_user_name = "";
-						}
-					
-						$title_class = "show_note_title";
-
-						if ($row['is_active'] == 0)  
-							$title_class = $title_class." inactive_title";
-
-
-						$add_Date = date(" M d, Y", strtotime($row['created_at']));
-						$updated_Date = date(" M d, Y", strtotime($row['updated_at']));
-
-						$data[] = array(
-                            '<input type="checkbox" class="chkclass"  value="'. $row['id'] .'">',
-							'<div class="'.$title_class.'">'.$current_title.'</div>',							
-							'<span>'.$row['created_at'].'</span>'.'<div>'.$add_Date.'</div>',
-							'<span>'.$row['updated_at'].'</span>'.'<div>'.$updated_Date.'</div>',						
-							$tag_full_name,
-							$row['id'],
-							$row['content'],
-							$row['user_id'],
-							
-							$row['is_active'],
-						);
-					
-						
 				}
+			}
 
-				$recods["data"] = $data;
-			
-				echo json_encode($recods);		
+
+
+			$newDate = date(" M d, Y", strtotime($row['created_at']));
+
+			$data[] = array(
+				'<input type="checkbox" class="chkclass"  value="' . $row['id'] . '">',
+				'<div class="hide_company_name">' . $row['company_name'] . '</div><input type="text" name="companyname"  value="' . $row['company_name'] . '" class="input_company_name" disabled> <i class="material-icons edit_btn">edit</i>',
+				'<div class="hide_company_name">' . $row['created_at'] . '</div>' . $newDate,
+				$cur_user_name,
+				$usage_count,
+				$row['id'],
+			);
+		}
+
+		$recods["data"] = $data;
+
+		echo json_encode($recods);
+	}
+
+
+	public function rename_companies()
+	{
+		$id = $this->input->post('company_id');
+		$active_val = $this->input->post('company_name');
+
+		$data = array(
+			'company_name' => $active_val,
+		);
+
+		$edit = $this->admin_settings_model->rename_companies($id, $data);
+	}
+
+
+
+	public function datatable_notetypes_json()
+	{
+		$id = $this->session->userdata('admin_id');
+
+
+
+		$data = array();
+
+		//get tags information
+		$notetypes_info = $this->admin_settings_model->get_notetypes_info_by_id();
+
+		//get tag_list from ci_templates
+		$notetypes_list = $this->admin_settings_model->get_all_notetype_list();
+
+
+		foreach ($notetypes_info as $row) {
+			$user_name = $this->admin_settings_model->get_current_username($row['user_id']);
+			if ($user_name != null) {
+				$cur_user_name = $user_name->username;
+			} else {
+				$cur_user_name = "";
+			}
+
+
+			//getting usage count
+
+
+			$usage_count = 0;
+			foreach ($notetypes_list as $notetype_list) {
+				$notetype_collection = explode(",", $notetype_list['notetypes']);
+				foreach ($notetype_collection as $notetype) {
+					if ($notetype == $row['id']) {
+						$usage_count = $usage_count + 1;
+					}
+				}
+			}
+
+
+
+			$newDate = date(" M d, Y", strtotime($row['created_at']));
+
+			$data[] = array(
+				'<input type="checkbox" class="chkclass"  value="' . $row['id'] . '">',
+				'<div class="hide_notetype_name">' . $row['notetype_name'] . '</div><input type="text" name="notetypename"  value="' . $row['notetype_name'] . '" class="input_notetype_name" disabled> <i class="material-icons edit_btn">edit</i>',
+				'<div class="hide_notetype_name">' . $row['created_at'] . '</div>' . $newDate,
+				$cur_user_name,
+				$usage_count,
+				$row['id'],
+			);
+		}
+
+		$recods["data"] = $data;
+
+		echo json_encode($recods);
+	}
+
+
+	public function rename_notetypes()
+	{
+		$id = $this->input->post('notetype_id');
+		$active_val = $this->input->post('notetype_name');
+
+		$data = array(
+			'notetype_name' => $active_val,
+		);
+
+		$edit = $this->admin_settings_model->rename_notetypes($id, $data);
+	}
+
+
+	public function datatable_json()
+	{
+
+
+		$id = $this->session->userdata('admin_id');
+
+		$records = $this->admin_settings_model->get_all_notes();
+
+		$data = array();
+
+
+		//get tags information
+		$tags_info = $this->admin_settings_model->get_tags_info_by_id();
+		$tags_array = array();
+		$i = 0;
+		foreach ($tags_info as $row) {
+			$tags_array[$i] = array($row['id'], $row['tagname']);
+			$i++;
+		}
+
+
+		//get companies information
+		$companies_info = $this->admin_settings_model->get_companies_info_by_id();
+		$companies_array = array();
+		$i = 0;
+		foreach ($companies_info as $row) {
+			$companies_array[$i] = array($row['id'], $row['company_name']);
+			$i++;
+		}
+
+		//get note types information
+		$notetypes_info = $this->admin_settings_model->get_notetypes_info_by_id();
+		$notetypes_array = array();
+		$i = 0;
+		foreach ($notetypes_info as $row) {
+			$notetypes_array[$i] = array($row['id'], $row['notetype_name']);
+			$i++;
+		}
+
+
+		foreach ($records as $row) {
+			if ($row['subject'] == "") {
+				$current_title = "Untitled";
+			} else {
+				$current_title = $row['subject'];
+			}
+			$tag_list = explode(",", $row['tags']);
+
+			$tag_full_name = "<div class='tag_list_wrap' base_url='" . base_url() . "' >";
+
+			foreach ($tag_list as $v) {
+				foreach ($tags_array as $tag_data) {
+					if ($tag_data[0] == $v) {
+						$tag_full_name .= '<div class="tag_list" tag_id="' . $tag_data[0] . '">' . $tag_data[1] . '<div class="del_tag"><img src="' . base_url() . 'public/images/tag_delete.png"></div></div>';
+					}
+				}
+			}
+
+			$tag_full_name .= "</div>";
+
+
+			//companies and notetypes
+			$get_company_list = explode(",", $row['companies']);
+			$company_full_name = "<div class='company_list_wrap' base_url='" . base_url() . "' >";
+
+			foreach ($get_company_list as $v) {
+				foreach ($companies_array as $company_data) {
+					if ($company_data[0] == $v) {
+						$company_full_name .= '<div class="company_list" company_id="' . $company_data[0] . '">' . $company_data[1] . '<div class="del_company"><img src="' . base_url() . 'public/images/tag_delete.png"></div></div>';
+					}
+				}
+			}
+
+			$company_full_name .= '</div>';
+			//note type
+			$notetype_list = explode(",", $row['notetypes']);
+			$company_full_name .= "<div class='notetype_list_wrap' base_url='" . base_url() . "' >";
+
+			foreach ($notetype_list as $v) {
+				foreach ($notetypes_array as $notetype_data) {
+					if ($notetype_data[0] == $v) {
+						$company_full_name .= '<div class="notetype_list" notetype_id="' . $notetype_data[0] . '">' . $notetype_data[1] . '<div class="del_notetype"><img src="' . base_url() . 'public/images/tag_delete.png"></div></div>';
+					}
+				}
+			}
+
+			$company_full_name .= '</div>';
+
+
+
+			$user_name = $this->admin_settings_model->get_current_username($row['user_id']);
+			if ($user_name != null) {
+				$cur_user_name = $user_name->username;
+			} else {
+				$cur_user_name = "";
+			}
+
+			$title_class = "show_note_title";
+
+			if ($row['is_active'] == 0)
+				$title_class = $title_class . " inactive_title";
+
+
+			$add_Date = date(" M d, Y", strtotime($row['created_at']));
+			$updated_Date = date(" M d, Y", strtotime($row['updated_at']));
+
+			$data[] = array(
+				'<input type="checkbox" class="chkclass"  value="' . $row['id'] . '"><div class="active_note_hide">' . $row['is_active'] . '</div>',
+				'<div class="' . $title_class . '">' . $current_title . '</div>',
+				'<span>' . $row['created_at'] . '</span>' . '<div>' . $add_Date . '</div>',
+				'<span>' . $row['updated_at'] . '</span>' . '<div>' . $updated_Date . '</div>',
+				$tag_full_name,
+				$row['id'],
+				$row['content'],
+				$row['user_id'],
+
+				$company_full_name,
+			);
+		}
+
+		$recods["data"] = $data;
+
+		echo json_encode($recods);
 	}
 
 	//-------------------------------------------------------------------------
-	public function delete_notes(){
+	public function delete_notes()
+	{
 		$ids = $this->input->post('ids');
- 
+
 		$records = $this->admin_settings_model->del($ids);
 
 
 
-		if ($records){
+		if ($records) {
 			$this->activity_model->add(23);
-			echo json_encode(['success'=>"Item Deleted successfully."]);
+			echo json_encode(['success' => "Item Deleted successfully."]);
 		}
-			
 	}
 
 	//-------------------------------------------------------------------------
-	public function delete_tags(){
+	public function delete_tags()
+	{
 		$id = $this->input->post('tag_id');
 		$active_val = $this->input->post('tag_name');
-	
+
 		$records = $this->admin_settings_model->del_tag($id);
 
 		if ($records)
-			echo json_encode(['success'=>"Item Deleted successfully."]);
+			echo json_encode(['success' => "Item Deleted successfully."]);
+	}
+
+
+	//-------------------------------------------------------------------------
+	public function delete_companies()
+	{
+		$id = $this->input->post('company_id');
+		$active_val = $this->input->post('company_name');
+
+		$records = $this->admin_settings_model->del_company($id);
+
+		if ($records)
+			echo json_encode(['success' => "Item Deleted successfully."]);
+	}
+
+
+	//-------------------------------------------------------------------------
+	public function delete_notetypes()
+	{
+		$id = $this->input->post('notetype_id');
+		$active_val = $this->input->post('notetype_name');
+
+		$records = $this->admin_settings_model->del_notetype($id);
+
+		if ($records)
+			echo json_encode(['success' => "Item Deleted successfully."]);
 	}
 
 	//delete users
-	public function delete_users () {
+	public function delete_users()
+	{
 		$id = $this->input->post('user_id');
-		
-	
+
+
 		$records = $this->admin_settings_model->del_user($id);
 
 		if ($records)
-			echo json_encode(['success'=>"Item Deleted successfully."]);
+			echo json_encode(['success' => "Item Deleted successfully."]);
 	}
-	
+
 
 	//----Active/Inacitve Notes
-	public function active_inactive_notes() {
+	public function active_inactive_notes()
+	{
 		$id = $this->input->post('note_id');
 		$active_val = $this->input->post('active_val');
 
-		if ($active_val == 0 ){
+		if ($active_val == 0) {
 			$data = array(
 				'is_active' => 1,
 			);
-		}else {
+		} else {
 			$data = array(
 				'is_active' => 0,
 			);
 		}
-		
+
 
 		$edit = $this->admin_settings_model->active_inactive_notes($id, $data);
 	}
 
 	//---update notes
-	public function update_notes () {
+	public function update_notes()
+	{
 		//if($this->input->post('submit')){
-			//$this->form_validation->set_rules('subject', 'Subject', 'trim|required');
-			//$this->form_validation->set_rules('content', 'Content', 'required');
-			$this->form_validation->set_rules('curid', 'Curid', 'required');
+		//$this->form_validation->set_rules('subject', 'Subject', 'trim|required');
+		//$this->form_validation->set_rules('content', 'Content', 'required');
+		$this->form_validation->set_rules('curid', 'Curid', 'required');
 
-			if ($this->form_validation->run() == FALSE) {
-							
-				$id = $this->session->userdata('admin_id');
+		if ($this->form_validation->run() == FALSE) {
 
-				//get notes information
-				$records = $this->notes_model->get_last_notes_by_id($id);
-				//get user information
-				$user_info = $this->notes_model->get_user_info_by_id($id);
+			$id = $this->session->userdata('admin_id');
+
+			//get notes information
+			$records = $this->notes_model->get_last_notes_by_id($id);
+			//get user information
+			$user_info = $this->notes_model->get_user_info_by_id($id);
 
 
-				$data['title'] = 'My_Notes';
-				$data['view'] = 'admin/my_notes/my_notes';
-				$data['note_data'] = $records;
-				$data['user_data'] = $user_info;
-				$this->load->view('layout', $data);
+			$data['title'] = 'My_Notes';
+			$data['view'] = 'admin/my_notes/my_notes';
+			$data['note_data'] = $records;
+			$data['user_data'] = $user_info;
+			$this->load->view('layout', $data);
+		} else {
+
+			$id = $this->session->userdata('admin_id');
+			// Add User Activity
+			$this->activity_model->add(1);
+
+			//get tags information
+			$tags_info = $this->admin_settings_model->get_tags_info_by_id();
+
+			$i = 0;
+
+			foreach ($tags_info as $row) {
+				if ($row['tagname'] == $this->input->post('create_tag')) {
+					$i = $row['id'];
+				}
 			}
-			else{
-				
-				$id = $this->session->userdata('admin_id');
-				// Add User Activity
-				$this->activity_model->add(1);
 
-				//get tags information
-				$tags_info = $this->admin_settings_model->get_tags_info_by_id();
-				
-				$i= 0;
-				
-				foreach($tags_info as $row){
-					if ($row['tagname'] == $this->input->post('create_tag') ){
-						$i = $row['id'];	
-					}
-				}
+			$new_tag_id = "";
+			$send_tag_id = "";
 
-				$new_tag_id="";
-				$send_tag_id = "";
-
-				if ($i == 0){//new tag
-					if ($this->input->post('create_tag') != "" ){
-						$tag_data = array(
-							'tagname' => $this->input->post('create_tag'),
-							'created_at' => date('Y-m-d H:i:s'),
-							'user_id' => $id,
-						);	
-						$new_tag_id = $this->admin_settings_model->insert_tags($tag_data);
-						$send_tag_id = $new_tag_id;
-					}
-					
-				}else{
-					$new_tag_id = $i; //exsiting tag
-				}
-				
-				$i=0;
-				$current_tag_name = $this->admin_settings_model->get_current_tagname($this->input->post('curid'));
-				$all_tags = "";
-				$all_tags .= $current_tag_name->tags;
-				if (strlen($all_tags) > 0){ //exsiting tag
-
-					$tag_list = explode(",", $current_tag_name->tags);
-					$same_tag = "";
-					if(count($tag_list) > 0){
-						foreach ($tag_list as $v) { 
-						if($v == $new_tag_id){
-							$same_tag = $v;
-						}
-						}
-					}
-
-					if(strlen($same_tag) > 0){
-						//exsiting tag and inserted tag
-					}else{
-						if ($new_tag_id != "")
-							$all_tags .= ",".$new_tag_id;
-							$send_tag_id = $new_tag_id;
-					}
-					
-				}else{
-					//new first tag
-					$all_tags .= $new_tag_id;
+			if ($i == 0) { //new tag
+				if ($this->input->post('create_tag') != "") {
+					$tag_data = array(
+						'tagname' => $this->input->post('create_tag'),
+						'created_at' => date('Y-m-d H:i:s'),
+						'user_id' => $id,
+					);
+					$new_tag_id = $this->admin_settings_model->insert_tags($tag_data);
 					$send_tag_id = $new_tag_id;
 				}
+			} else {
+				$new_tag_id = $i; //exsiting tag
+			}
 
+			$i = 0;
+			$current_tag_name = $this->admin_settings_model->get_current_tagname($this->input->post('curid'));
+			$all_tags = "";
+			$all_tags .= $current_tag_name->tags;
+			if (strlen($all_tags) > 0) { //exsiting tag
 
-
-				$data = array(
-					'subject' => $this->input->post('subject'),
-					'content' => $this->input->post('e_content'),
-					'updated_at' => date('Y-m-d H:i:s'),
-					'tags' =>$all_tags,
-				);
-
-				$this->admin_settings_model->edit_template($data, $this->input->post('curid'));
-				
-
-
-				//get tags information
-				$all_tags_info = $this->admin_settings_model->get_tags_info_by_id();
-
-				//get sending tag name
-				$send_tag_name = "";
-				foreach($all_tags_info as $row){
-					if ($row['id'] == $send_tag_id ){
-						$send_tag_name = $row['tagname'];	
+				$tag_list = explode(",", $current_tag_name->tags);
+				$same_tag = "";
+				if (count($tag_list) > 0) {
+					foreach ($tag_list as $v) {
+						if ($v == $new_tag_id) {
+							$same_tag = $v;
+						}
 					}
 				}
 
-
-				
-				$send_data = array(
-					'subject' => $this->input->post('subject'),
-					'content' => $this->input->post('e_content'),
-					'updated_at_conv' => date(" M d, Y", strtotime(date('Y-m-d H:i:s'))) ,
-					'updated_at' => date('Y-m-d H:i:s') ,
-					'tags' =>$all_tags,
-					'all_tag_list' => $all_tags_info,
-					'new_tag_name' =>$send_tag_name,
-				);
-				
-				
-				echo json_encode($send_data);	
-				//$this->session->set_flashdata('msg', 'Template has been updated successfully!');
-				//redirect(base_url('admin/my_notes/update_notes'));
+				if (strlen($same_tag) > 0) {
+					//exsiting tag and inserted tag
+				} else {
+					if ($new_tag_id != "")
+						$all_tags .= "," . $new_tag_id;
+					$send_tag_id = $new_tag_id;
+				}
+			} else {
+				//new first tag
+				$all_tags .= $new_tag_id;
+				$send_tag_id = $new_tag_id;
 			}
+
+
+
+			$data = array(
+				'subject' => $this->input->post('subject'),
+				'content' => $this->input->post('e_content'),
+				'updated_at' => date('Y-m-d H:i:s'),
+				'tags' => $all_tags,
+			);
+
+			$this->admin_settings_model->edit_template($data, $this->input->post('curid'));
+
+
+
+			//get tags information
+			$all_tags_info = $this->admin_settings_model->get_tags_info_by_id();
+
+			//get sending tag name
+			$send_tag_name = "";
+			foreach ($all_tags_info as $row) {
+				if ($row['id'] == $send_tag_id) {
+					$send_tag_name = $row['tagname'];
+				}
+			}
+
+			//get comapnies information
+			$companies_info = $this->admin_settings_model->get_companies_info_by_id();
+
+			$i = 0;
+
+			foreach ($companies_info as $row) {
+				if ($row['company_name'] == $this->input->post('create_company')) {
+					$i = $row['id'];
+				}
+			}
+
+			$new_company_id = "";
+			$send_company_id = "";
+
+			if ($i == 0) { //new tag
+				if ($this->input->post('create_company') != "") {
+					$company_data = array(
+						'company_name' => $this->input->post('create_company'),
+						'created_at' => date('Y-m-d H:i:s'),
+						'user_id' => $id,
+					);
+					$new_company_id = $this->admin_settings_model->insert_companies($company_data);
+					$send_company_id = $new_company_id;
+				}
+			} else {
+				$new_company_id = $i; //exsiting tag
+			}
+
+			$i = 0;
+			$current_company_name = $this->admin_settings_model->get_current_companyname($this->input->post('curid'));
+			$all_companies = "";
+			$all_companies .= $current_company_name->companies;
+			if (strlen($all_companies) > 0) { //exsiting tag
+
+				$company_list = explode(",", $current_company_name->companies);
+				$same_company = "";
+				if (count($company_list) > 0) {
+					foreach ($company_list as $v) {
+						if ($v == $new_company_id) {
+							$same_company = $v;
+						}
+					}
+				}
+
+				if (strlen($same_company) > 0) {
+					//exsiting tag and inserted tag
+				} else {
+					if ($new_company_id != "")
+						$all_companies .= "," . $new_company_id;
+					$send_company_id = $new_company_id;
+				}
+			} else {
+				//new first tag
+				$all_companies .= $new_company_id;
+				$send_company_id = $new_company_id;
+			}
+
+
+
+			$data = array(
+				'subject' => $this->input->post('subject'),
+				'content' => $this->input->post('e_content'),
+				'updated_at' => date('Y-m-d H:i:s'),
+				'companies' => $all_companies,
+			);
+
+			$this->admin_settings_model->edit_template($data, $this->input->post('curid'));
+
+
+
+			//get all companies information
+			$all_companies_info = $this->admin_settings_model->get_companies_info_by_id();
+
+			//get sending company name
+			$send_company_name = "";
+			foreach ($all_companies_info as $row) {
+				if ($row['id'] == $send_company_id) {
+					$send_company_name = $row['company_name'];
+				}
+			}
+
+
+
+			//get Note types information
+			$notetypes_info = $this->admin_settings_model->get_notetypes_info_by_id();
+
+			$i = 0;
+
+			foreach ($notetypes_info as $row) {
+				if ($row['notetype_name'] == $this->input->post('create_notetype')) {
+					$i = $row['id'];
+				}
+			}
+
+			$new_notetype_id = "";
+			$send_notetype_id = "";
+
+			if ($i == 0) { //new tag
+				if ($this->input->post('create_notetype') != "") {
+					$notetype_data = array(
+						'notetype_name' => $this->input->post('create_notetype'),
+						'created_at' => date('Y-m-d H:i:s'),
+						'user_id' => $id,
+					);
+					$new_notetype_id = $this->admin_settings_model->insert_notetypes($notetype_data);
+					$send_notetype_id = $new_notetype_id;
+				}
+			} else {
+				$new_notetype_id = $i; //exsiting tag
+			}
+
+			$i = 0;
+			$current_notetype_name = $this->admin_settings_model->get_current_notetypename($this->input->post('curid'));
+			$all_notetypes = "";
+			$all_notetypes .= $current_notetype_name->notetypes;
+			if (strlen($all_notetypes) > 0) { //exsiting tag
+
+				$notetype_list = explode(",", $current_notetype_name->notetypes);
+				$same_notetype = "";
+				if (count($notetype_list) > 0) {
+					foreach ($notetype_list as $v) {
+						if ($v == $new_notetype_id) {
+							$same_notetype = $v;
+						}
+					}
+				}
+
+				if (strlen($same_notetype) > 0) {
+					//exsiting tag and inserted tag
+				} else {
+					if ($new_notetype_id != "")
+						$all_notetypes .= "," . $new_notetype_id;
+					$send_notetype_id = $new_notetype_id;
+				}
+			} else {
+				//new first tag
+				$all_notetypes .= $new_notetype_id;
+				$send_notetype_id = $new_notetype_id;
+			}
+
+
+
+			$data = array(
+				'subject' => $this->input->post('subject'),
+				'content' => $this->input->post('e_content'),
+				'updated_at' => date('Y-m-d H:i:s'),
+				'notetypes' => $all_notetypes,
+			);
+
+			$this->admin_settings_model->edit_template($data, $this->input->post('curid'));
+
+
+
+			//get all notetypes information
+			$all_notetypes_info = $this->admin_settings_model->get_notetypes_info_by_id();
+
+			//get sending notetype name
+			$send_notetype_name = "";
+			foreach ($all_notetypes_info as $row) {
+				if ($row['id'] == $send_notetype_id) {
+					$send_notetype_name = $row['notetype_name'];
+				}
+			}
+
+
+			$send_data = array(
+				'subject' => $this->input->post('subject'),
+				'content' => $this->input->post('e_content'),
+				'updated_at_conv' => date(" M d, Y", strtotime(date('Y-m-d H:i:s'))),
+				'updated_at' => date('Y-m-d H:i:s'),
+				'tags' => $all_tags,
+				'all_tag_list' => $all_tags_info,
+				'new_tag_id' => $send_tag_id,
+				'new_tag_name' => $send_tag_name,
+				'new_company_id' => $send_company_id,
+				'new_company_name' => $send_company_name,
+				'new_notetype_id' => $send_notetype_id,
+				'new_notetype_name' => $send_notetype_name,
+			);
+
+
+			echo json_encode($send_data);
+			//$this->session->set_flashdata('msg', 'Template has been updated successfully!');
+			//redirect(base_url('admin/my_notes/update_notes'));
+		}
 		//}
 		/*
 		else{
@@ -623,9 +1063,10 @@ class Admin_settings extends MY_Controller {
 			$this->load->view('layout', $data);
 		}*/
 	}
-			
 
-	public function add_new_tag() {
+
+	public function add_new_tag()
+	{
 		$id = $this->session->userdata('admin_id');
 		$tag_name = $this->input->post('tag_name');
 
@@ -633,31 +1074,101 @@ class Admin_settings extends MY_Controller {
 			'tagname' => $tag_name,
 			'created_at' => date('Y-m-d H:i:s'),
 			'user_id' => $id,
-		);	
+		);
 		$new_tag_id = $this->admin_settings_model->insert_tags($tag_data);
 
 		$user_name = $this->admin_settings_model->get_current_username($id);
-				if($user_name != null){
-					$cur_user_name = $user_name->username;
-				}else {
-					$cur_user_name = "";
-				}
+		if ($user_name != null) {
+			$cur_user_name = $user_name->username;
+		} else {
+			$cur_user_name = "";
+		}
 
 
-		$orgDate = date('Y-m-d H:i:s');  
-		$newDate = date(" M d, Y", strtotime($orgDate));  
-		
+		$orgDate = date('Y-m-d H:i:s');
+		$newDate = date(" M d, Y", strtotime($orgDate));
+
 		$send_data = array(
 			'tagname' => $tag_name,
 			'created_at' => $newDate,
 			'user_name' => $user_name,
 			'tag_id' => $new_tag_id,
-		);	
+		);
 
-		echo json_encode($send_data);	
+		echo json_encode($send_data);
 	}
 
-	public function create_comments () {
+
+	public function add_new_company()
+	{
+		$id = $this->session->userdata('admin_id');
+		$company_name = $this->input->post('company_name');
+
+		$company_data = array(
+			'company_name' => $company_name,
+			'created_at' => date('Y-m-d H:i:s'),
+			'user_id' => $id,
+		);
+		$new_company_id = $this->admin_settings_model->insert_companies($company_data);
+
+		$user_name = $this->admin_settings_model->get_current_username($id);
+		if ($user_name != null) {
+			$cur_user_name = $user_name->username;
+		} else {
+			$cur_user_name = "";
+		}
+
+
+		$orgDate = date('Y-m-d H:i:s');
+		$newDate = date(" M d, Y", strtotime($orgDate));
+
+		$send_data = array(
+			'companyname' => $company_name,
+			'created_at' => $newDate,
+			'user_name' => $user_name,
+			'company_id' => $new_company_id,
+		);
+
+		echo json_encode($send_data);
+	}
+
+
+	
+	public function add_new_notetype()
+	{
+		$id = $this->session->userdata('admin_id');
+		$notetype_name = $this->input->post('notetype_name');
+
+		$notetype_data = array(
+			'notetype_name' => $notetype_name,
+			'created_at' => date('Y-m-d H:i:s'),
+			'user_id' => $id,
+		);
+		$new_notetype_id = $this->admin_settings_model->insert_notetypes($notetype_data);
+
+		$user_name = $this->admin_settings_model->get_current_username($id);
+		if ($user_name != null) {
+			$cur_user_name = $user_name->username;
+		} else {
+			$cur_user_name = "";
+		}
+
+
+		$orgDate = date('Y-m-d H:i:s');
+		$newDate = date(" M d, Y", strtotime($orgDate));
+
+		$send_data = array(
+			'notetypename' => $notetype_name,
+			'created_at' => $newDate,
+			'user_name' => $user_name,
+			'notetype_id' => $new_notetype_id,
+		);
+
+		echo json_encode($send_data);
+	}
+
+	public function create_comments()
+	{
 		$editer_id = $this->session->userdata('admin_id');
 		$content = $this->input->post('comment_field');
 		$note_id = $this->input->post('curid');
@@ -669,14 +1180,14 @@ class Admin_settings extends MY_Controller {
 			'created_at' => date('Y-m-d H:i:s'),
 			'user_id' => $editer_id,
 			'note_id' => $note_id,
-		);	
+		);
 
 		$inputed_id = $this->admin_settings_model->create_comment($comment_data);
 
 		$comments_data = $this->admin_settings_model->get_comments_info();
 
-		$orgDate = date('Y-m-d H:i:s');  
-		$newDate = date(" M d, Y", strtotime($orgDate));  
+		$orgDate = date('Y-m-d H:i:s');
+		$newDate = date(" M d, Y", strtotime($orgDate));
 
 
 		$send_data = array(
@@ -684,28 +1195,163 @@ class Admin_settings extends MY_Controller {
 			'content' => $content,
 			'created_at' => $newDate,
 			'user_id' => $editer_id,
-			'note_id' => $note_id,		
-			'username' =>$user_info['username'],				
+			'note_id' => $note_id,
+			'username' => $user_info['username'],
 		);
 
 		echo json_encode($send_data);
-
-
 	}
 
 
-		// Delete comment
-		public function delete_comments() {
-			$ids = $this->input->post('ids');
-	
-			$records = $this->admin_settings_model->del_comment($ids);
+	// Delete comment
+	public function delete_comments()
+	{
+		$ids = $this->input->post('ids');
 
-			if ($records)
-				echo json_encode(['success'=>"Item Deleted successfully."]);
+		$records = $this->admin_settings_model->del_comment($ids);
+
+		if ($records)
+			echo json_encode(['success' => "Item Deleted successfully."]);
+	}
 
 
+	//-------------------------------------------------------------------------
+	public function delete_tag_one()
+	{
+		$id = $this->input->post('id');
+		$tag_id = $this->input->post('tag_id');
+
+		$i = 0;
+		$current_tag_name = $this->admin_settings_model->get_current_tagname($id);
+		$all_tags = "";
+		$all_tags .= $current_tag_name->tags;
+
+		$same_tag = "";
+
+		if (strlen($all_tags) > 0) { //exsiting tag
+
+			$tag_list = explode(",", $current_tag_name->tags);
+
+			if (count($tag_list) > 0) {
+				foreach ($tag_list as $v) {
+					if ($v != $tag_id) {
+						if ($same_tag == "") {
+							$same_tag .= $v;
+						} else {
+							$same_tag .= "," . $v;
+						}
+					} else {
+					}
+				}
+			}
 		}
 
-}
+		$data = array(
+			'updated_at' => date('Y-m-d H:i:s'),
+			'tags' => $same_tag,
+		);
 
-?>	
+		$this->admin_settings_model->edit_template($data, $id);
+
+		$send_data = array(
+
+			'tags' => $same_tag,
+		);
+
+		echo json_encode($send_data);
+	}
+
+	//-------------------------------------------------------------------------
+	public function delete_company_one()
+	{
+		$id = $this->input->post('id');
+		$company_id = $this->input->post('company_id');
+
+		$i = 0;
+		$current_tag_name = $this->admin_settings_model->get_current_companyname($id);
+		$all_tags = "";
+		$all_tags .= $current_tag_name->companies;
+
+		$same_tag = "";
+
+		if (strlen($all_tags) > 0) { //exsiting tag
+
+			$tag_list = explode(",", $current_tag_name->companies);
+
+			if (count($tag_list) > 0) {
+				foreach ($tag_list as $v) {
+					if ($v != $company_id) {
+						if ($same_tag == "") {
+							$same_tag .= $v;
+						} else {
+							$same_tag .= "," . $v;
+						}
+					} else {
+					}
+				}
+			}
+		}
+
+		$data = array(
+			'updated_at' => date('Y-m-d H:i:s'),
+			'companies' => $same_tag,
+		);
+
+		$this->admin_settings_model->edit_template($data, $id);
+
+		$send_data = array(
+
+			'companies' => $same_tag,
+		);
+
+		echo json_encode($send_data);
+	}
+
+
+	
+	//-------------------------------------------------------------------------
+	public function delete_notetype_one()
+	{
+		$id = $this->input->post('id');
+		$notetype_id = $this->input->post('notetype_id');
+
+		$i = 0;
+		$current_tag_name = $this->admin_settings_model->get_current_notetypename($id);
+		$all_tags = "";
+		$all_tags .= $current_tag_name->notetypes;
+
+		$same_tag = "";
+
+		if (strlen($all_tags) > 0) { //exsiting tag
+
+			$tag_list = explode(",", $current_tag_name->notetypes);
+
+			if (count($tag_list) > 0) {
+				foreach ($tag_list as $v) {
+					if ($v != $notetype_id) {
+						if ($same_tag == "") {
+							$same_tag .= $v;
+						} else {
+							$same_tag .= "," . $v;
+						}
+					} else {
+					}
+				}
+			}
+		}
+
+		$data = array(
+			'updated_at' => date('Y-m-d H:i:s'),
+			'notetypes' => $same_tag,
+		);
+
+		$this->admin_settings_model->edit_template($data, $id);
+
+		$send_data = array(
+
+			'notetypes' => $same_tag,
+		);
+
+		echo json_encode($send_data);
+	}
+}

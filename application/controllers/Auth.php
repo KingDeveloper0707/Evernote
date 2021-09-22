@@ -12,7 +12,7 @@ class Auth extends CI_Controller {
 	public function index(){
 		if($this->session->has_userdata('is_admin_login'))
 		{
-			redirect('admin/my_notes');
+			redirect('admin/find_notes');
 		}
 		if($this->session->has_userdata('is_user_login'))
 		{
@@ -74,7 +74,7 @@ class Auth extends CI_Controller {
 						// Add User Activity
 						$this->activity_model->add(4);
 
-						redirect(base_url('admin/my_notes'), 'refresh');
+						redirect(base_url('admin/find_notes'), 'refresh');
 					//}
 					/*
 					if ($result['is_admin'] == 0){
@@ -126,7 +126,7 @@ class Auth extends CI_Controller {
 			$this->form_validation->set_rules('confirm_password', 'Password Confirmation', 'trim|required|matches[password]');
 
 			if ($this->form_validation->run() == FALSE) {
-				$data['title'] = 'Create an Account';
+				$data['title'] = 'Register - Care Equity Insights Tool';
 				$this->load->view('auth/register', $data);
 			}
 			else{
@@ -148,7 +148,7 @@ class Auth extends CI_Controller {
 				if($result){
 					//sending welcome email to user
 					$name = $data['firstname'].' '.$data['lastname'];
-					$email_verification_link = base_url('auth/verify/').'/'.$data['token'];
+					$email_verification_link = base_url('auth/verify').'/'.$data['token'];
 					$body = $this->mailer->Tpl_Registration($name, $email_verification_link);
 					$this->load->helper('email_helper');
 					$to = $data['email'];
@@ -167,7 +167,7 @@ class Auth extends CI_Controller {
 			}
 		}
 		else{
-			$data['title'] = 'Create an Account';
+			$data['title'] = 'Register - Care Equity Insights Tool';
 			$this->load->view('auth/register', $data);
 		}
 	}
@@ -239,7 +239,7 @@ class Auth extends CI_Controller {
 			}
 		}
 		else{
-			$data['title'] = 'Forget Password';
+			$data['title'] = 'Forgot Password - Care Equity Insights Tool';
 			$this->load->view('auth/forget_password',$data);	
 		}
 	}

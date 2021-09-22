@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title><?=isset($title)?$title:'Forget Password - Care Equity Insights' ?></title>
+    <title><?=isset($title)?$title:'Forgot Password - Care Equity Insights Tool' ?></title>
     <!-- Favicon-->
     <link rel="icon" href="<?= base_url() ?>public/images/favicon.png" type="image/x-icon">
     <!-- Google Fonts -->
@@ -26,9 +26,12 @@
 
 <body class="login-page">
     <div class="login-box">
+    <!--
         <div class="logo">
             <a href="javascript:void(0);"><img src="<?php echo base_url('public/images/brain_logo.png');?>" /></a>
         </div>
+
+        -->
         <?php if($this->session->flashdata('success')): ?>
               <div class="alert alert-success">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>

@@ -13,7 +13,7 @@
 			return $result = $query->result_array();
 			*/
 
-			$this->db->select('ci_templates.id, ci_templates.subject, ci_templates.content, ci_templates.created_at, ci_templates.updated_at, ci_templates.user_id, ci_templates.tags, ci_users.username, ci_users.position_title, ci_users.company, ci_users.expertise, ci_users.is_admin');
+			$this->db->select('ci_templates.id, ci_templates.subject, ci_templates.content, ci_templates.created_at, ci_templates.updated_at, ci_templates.user_id, ci_templates.tags, ci_templates.companies, ci_templates.notetypes, ci_users.username, ci_users.position_title, ci_users.company, ci_users.expertise, ci_users.is_admin');
 			$this->db->from('ci_templates');
 			$this->db->where('ci_templates.is_active', 1);	
 			$this->db->join('ci_users', 'ci_templates.user_id = ci_users.id', 'left');
@@ -93,11 +93,39 @@
 			return $result = $query->row_array();
 		}
 
+		// get Note info by id
+		public function get_note_info_by_id($id){
+			
+			$this->db->where('id', $id);			
+			$query = $this->db->get('ci_templates');
+			
+			return $result = $query->row_array();
+		}
+
 		//Get Tags info 
 		public function get_tags_info_by_id(){
 			
 						
 			$query = $this->db->get('ci_tags');
+			
+			return $result = $query->result_array();
+		}
+
+		//Get Companies info 
+		public function get_companies_info_by_id(){
+			
+						
+			$query = $this->db->get('ci_companies');
+			
+			return $result = $query->result_array();
+		}
+
+
+		//Get Note types info 
+		public function get_notetypes_info_by_id(){
+			
+						
+			$query = $this->db->get('ci_notetypes');
 			
 			return $result = $query->result_array();
 		}
@@ -174,10 +202,44 @@
 			return $new_id;
 		}
 
+
+		//add comapnies table
+		public function insert_companies($data){
+			$this->db->insert('ci_companies', $data);
+			$new_id = $this->db->insert_id();
+			return $new_id;
+		}
+
+
+		//add comapnies table
+		public function insert_notetypes($data){
+			$this->db->insert('ci_notetypes', $data);
+			$new_id = $this->db->insert_id();
+			return $new_id;
+		}
+		
 		//Get current tagnames
 		public function get_current_tagname($id){
 			
 			$this->db->select('tags');
+			$this->db->where('id', $id);
+			$query = $this->db->get('ci_templates');
+			return $result = $query->row();
+		}
+
+		//Get current companynames
+		public function get_current_companyname($id){
+			
+			$this->db->select('companies');
+			$this->db->where('id', $id);
+			$query = $this->db->get('ci_templates');
+			return $result = $query->row();
+		}
+
+		//Get current notetypenames
+		public function get_current_notetypename($id){
+			
+			$this->db->select('notetypes');
 			$this->db->where('id', $id);
 			$query = $this->db->get('ci_templates');
 			return $result = $query->row();

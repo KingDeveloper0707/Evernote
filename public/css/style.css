@@ -2977,7 +2977,7 @@ section.content {
     }
     .card .header .header-dropdown {
       position: absolute;
-      top: 20px;
+      top: 15px;
       right: 15px;
       list-style: none; }
       .card .header .header-dropdown .dropdown-menu li {
@@ -8382,6 +8382,11 @@ tr.unread {
   border-right-width: 0px ! important;
 }
 
+
+#note_datatable .show_real_info_notes {
+  border-right-width: 1px ! important;
+}
+
 #note_datatable .hide_tags_notes {
   border-right-width: 1px ! important;
   border-left-width: 0px ! important;
@@ -8409,7 +8414,7 @@ table.dataTable tbody tr.selected_tr {
   display: flex;
   align-items: flex-start;
   justify-content: normal;
- 
+  position: relative;
   padding-top: 5px;
   padding-bottom: 5px;
 }
@@ -8474,6 +8479,7 @@ table.dataTable tbody tr.selected_tr {
 .create_new_tag_btn_wrap {
   display: flex;
   align-items: center;
+  margin-right: 50px;
 }
 
 .create_new_tag_btn {
@@ -8513,10 +8519,64 @@ table.dataTable tbody tr.selected_tr {
   line-height: 1.2em;
   text-align: center;
   padding: 5px;
-  margin-right: 5px; 
-  margin-bottom: 5px;
+  margin-right: 10px; 
+  margin-bottom: 10px;
+  position: relative;
 }
 
+.del_tag {
+  position: absolute;
+  color: black;
+  top: -8px;
+  right: -5px;
+  font-size: 18px;
+  font-weight: 600;
+  font-family: 'Inter';
+  cursor: pointer;
+  display: none;
+}
+
+.tag_list:hover {
+  background: black;
+  cursor:pointer;
+}
+
+.tag_list:hover .del_tag {
+  display: block;
+}
+
+
+.download_pdf_btn, .download_search_pdf_btn {
+  background: black;
+  color: white;
+  padding: 5px 10px;
+  margin-right: 20px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+
+
+
+/*
+.tag_list::after {
+  content: "x";
+  background-color: transparent;
+  color: black;
+  font-weight: bold;
+  position: absolute;
+  top: 0;
+  right: 2px;
+  font-size: 18px;
+  cursor: pointer;
+  display: none;
+}
+
+
+.tag_list:hover::after {
+  display: block;
+}
+*/
 /* width */
 ::-webkit-scrollbar {
   width: 10px;
@@ -8779,7 +8839,7 @@ table.dataTable tbody tr.selected_tr {
 }
 
 
-.notes_row_wrap, .tags_row_wrap {
+.notes_row_wrap, .tags_row_wrap, .companies_row_wrap, .notetypes_row_wrap {
   display: none;
 }
 
@@ -8837,7 +8897,7 @@ table.dataTable tbody tr.selected_tr {
   background: #707070;
 }
 
-#show_note_datatable_filter, #note_datatable_filter {
+#show_note_datatable_filter, #note_datatable_filter, #show_company_datatable_filter, #show_notetype_datatable_filter {
   display: none ! important;
 }
 
@@ -8898,7 +8958,14 @@ table.dataTable tbody tr.selected_tr {
 
 .selected_tr .show_tag_names:hover .edit_btn{
   visibility:visible;
+}
 
+.selected_tr .show_company_names:hover .edit_btn{
+  visibility:visible;
+}
+
+.selected_tr .show_notetype_names:hover .edit_btn{
+  visibility:visible;
 }
 
 input[type="text"]:disabled {
@@ -9112,7 +9179,7 @@ input[type="text"]:disabled {
   display: none;
 }
 
-#show_tag_datatable .hide_tag_id {
+#show_tag_datatable .hide_tag_id, .hide_company_id, .hide_notetype_id  {
   display: none;
 }
 
@@ -9134,7 +9201,7 @@ input[type="text"]:disabled {
   display: none ! important;
 }
 
-#cke_42, .cke_toolbar_break, .cke_toolbar_separator{
+.cke_toolbar_break, .cke_toolbar_separator{
   display: none ! important;  
 }
 
@@ -9158,6 +9225,7 @@ input[type="text"]:disabled {
 
 .user-info .image img {
   border-radius: 100%;  
+  display: none;
 }
 
 
@@ -9167,7 +9235,7 @@ input[type="text"]:disabled {
 }
 
 .nav_logout .dropdown-menu.pull-right {
-  width: 185px;
+  width: 160px;
   top: 65px;
   background: black;
 }
@@ -9194,7 +9262,7 @@ input[type="text"]:disabled {
 .nav_logout .info-container {
   display: flex;
   align-items: center;
-  width: 150px;
+  width: 155px;
   text-align: center;
   justify-content: flex-end;
   cursor: pointer;
@@ -9296,6 +9364,11 @@ input[type="text"]:disabled {
   position: relative;
 }
 
+
+.find_note_details_wrap .del_tag {
+  display: none ! important;
+}
+
 .showing_modal_dig{
     background: black;
     color: white;
@@ -9305,10 +9378,26 @@ input[type="text"]:disabled {
     position: absolute;
     right: 25px;
     cursor: pointer;
+    z-index: 1;
 }
 
 .subject_note {
   border: none ! important;
+}
+
+.header_logo_text {
+  font-size: 22px;
+    color: white;
+    font-weight: 600;
+    line-height: 1.2em;
+    margin-left: 14px;
+    padding-top: 42px;
+    padding-bottom: 42px;
+    font-family: "Inter";
+}
+
+.sidebar-logo-link {
+  text-decoration: none ! important;
 }
 
 .pop_row .card {
@@ -9374,6 +9463,7 @@ input[type="text"]:disabled {
   border-radius: 100%;
   font-size: 10px;
   width: 20px;
+  min-width: 20px;
   display: table;
   text-align: center;
   line-height: 18px;
@@ -9432,7 +9522,7 @@ input[type="text"]:disabled {
 .delete_note_show_dot {
   color: white;
   text-decoration: none ! important;
-  z-index: 9999;
+  z-index: 9;
   position: absolute;
 }
 
@@ -9808,6 +9898,18 @@ input[type="text"]:disabled {
   border-bottom-width: 1px;
 }
 
+#show_company_datatable td {
+  border-right-width: 0 ! important;
+  border-left-width: 0 ! important;
+  border-bottom-width: 1px;
+}
+
+#show_notetype_datatable td {
+  border-right-width: 0 ! important;
+  border-left-width: 0 ! important;
+  border-bottom-width: 1px;
+}
+
 .input_tag_name {
   color: black ! important;
 }
@@ -9820,9 +9922,133 @@ input[type="text"]:disabled {
   color: white ! important;
 }
 
-.hide_tag_name {
+
+.input_company_name {
+  color: black ! important;
+}
+
+.selected_tr .input_company_name {
+  color: black ! important;
+}
+
+.selected_tr .input_company_name:disabled {
+  color: white ! important;
+}
+
+.input_notetype_name {
+  color: black ! important;
+}
+
+.selected_tr .input_notetype_name {
+  color: black ! important;
+}
+
+.selected_tr .input_notetype_name:disabled {
+  color: white ! important;
+}
+
+
+.hide_tag_name, .hide_company_name, .hide_notetype_name {
   display: none;
 }
+
+.copyright a{
+  font-size: 11px;
+  font-weight: 400 ! important;
+}
+
+.create_new_company_btn, .create_new_notetype_btn {
+  background: black;
+  color: white;
+  height: 24px;
+  width: 24px;
+  cursor: pointer;
+}
+
+#create_Company, #create_Notetype {
+    height: 24px;
+    margin-right: 5px;
+    width: 80px;
+    display: none;
+}
+
+.user_name_hide, .active_note_hide {
+  display: none;
+}
+
+.create_new_company_btn_popup, .create_new_notetype_btn_popup {
+  background: black;
+  color: white;
+  height: 24px;
+  width: 24px;
+  cursor: pointer;
+}
+
+#create_Company_popup, #create_Notetype_popup , #createtag_popup{
+    height: 24px;
+    margin-right: 5px;
+    width: 80px;
+    display: none;
+}
+
+.showing_comp_note_wrap, .showing_comp_note_wrap_popup {
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+}
+
+.showing_comp_note, .showing_comp_note_popup {
+  display: block;
+}
+
+.hiding_comp_note, .hiding_comp_note_popup, .show_hide_com_note_wrap, .show_hide_com_note_wrap_popup {
+  display: none;
+}
+
+
+.company_list, .notetype_list {
+    font-size: 11px;
+    background: #C7C7C7;
+    color: white;
+    line-height: 1.2em;
+    text-align: center;
+    padding: 5px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.company_list:hover, .notetype_list:hover {
+  background: black;
+  cursor: pointer;
+}
+
+
+.del_company, .del_notetype {
+  position: absolute;
+    color: black;
+    top: -8px;
+    right: -5px;
+    font-size: 18px;
+    font-weight: 600;
+    font-family: 'Inter';
+    cursor: pointer;
+    display: none;
+}
+
+.company_list:hover .del_company, .notetype_list:hover .del_notetype {
+  display: block;
+}
+
+.right_title_companies, .right_title_notetypes {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: right;
+}
+
 
 @media (min-width: 768px){
   #myModal .modal-dialog {
@@ -9850,6 +10076,9 @@ input[type="text"]:disabled {
     display: none;
   }
 
+  .sidebar-logo img {
+    margin-top: 10px;
+  }
   
   #log_out, #profile {
     display: block;
@@ -9902,7 +10131,7 @@ input[type="text"]:disabled {
   }
 
   .navbar-brand img {
-    width: 80%;
+    width: 74%;
   }
 
   .search_field.show_btn {
@@ -9919,6 +10148,16 @@ input[type="text"]:disabled {
 
   .hide_nav_top_bar {
     display: none;
+  }
+
+  .header_logo_text {
+    font-size: 14px;
+    color: white;
+    font-weight: 600;
+    line-height: 1.2em;
+    margin-left: 1px;
+    padding-bottom: 42px;
+    padding-top: 0;
   }
 }
 

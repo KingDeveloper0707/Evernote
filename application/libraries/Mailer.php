@@ -11,7 +11,7 @@ class Mailer
     $login_link = base_url('auth/login');  
 
 		$tpl = '<h3>Hi ' .strtoupper($username).'</h3>
-            <p>Welcome to Care Equity Insights!</p>
+            <p>Welcome to the Care Equity Insights tool!</p>
             <p>Activate your account with the link above.</p>  
             <p><a href="'.$email_verification_link.'">'.$email_verification_link.'</a></p>
 
@@ -19,7 +19,7 @@ class Mailer
             <br>
 
             <p>Regards, <br> 
-            Care Equity Insights Team <br> 
+            Care Equity Insights tool <br> 
             </p>
     ';
 		return $tpl;		
@@ -29,7 +29,7 @@ class Mailer
 	function Tpl_PwdResetLink($username, $reset_link)
 	{
 		$tpl = '<h3>Hi ' .strtoupper($username).'</h3>
-            <p>Welcome to Care Equity Insights!</p>
+            <p>Welcome to the Care Equity Insights tool!</p>
             <p>We have received a request to reset your password. If you did not initiate this request, you can simply ignore this message and no action will be taken.</p> 
             <p>To reset your password, please click the link below:</p> 
             <p><a href="'.$reset_link.'">'.$reset_link.'</a></p>
@@ -37,7 +37,7 @@ class Mailer
             <br>
             <br>
 
-            <p>© 2021 Care Equity Insights - All rights reserved</p>
+            <p>&#169; 2021 Care Equity Insights tool - All rights reserved</p>
     ';
 		return $tpl;		
 	}

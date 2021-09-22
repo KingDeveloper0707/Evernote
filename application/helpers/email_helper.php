@@ -4,14 +4,17 @@
 	{
 		$controller =& get_instance();
        	$controller->load->helper('path'); 
-		
+		   
+
 		$config = array();
         $config['useragent']            = "GEM";
         $config['protocol']             = "smtp";
-        $config['smtp_host']            = "ssl://smtp.googlemail.com";
+       // $config['smtp_host']            = "ssl://smtp.googlemail.com";
+	    $config['smtp_host']            = "mail.insights.careequity.com";
         $config['smtp_port']            = "465";
 		$config['smtp_timeout'] 		= '30';
-		$config['smtp_user']    		= "lignepolaris@gmail.com";
+		//$config['smtp_user']    		= "lignepolaris@gmail.com";
+		$config['smtp_user']    		= "insights@insights.careequity.com";
 		$config['smtp_pass']    		= "fufxoc-nybwi7-gahVyq";
 		$config['smtp_crypto'] 			= 'security';
         $config['mailtype'] 			= 'html';
@@ -23,7 +26,7 @@
 
         $controller->email->initialize($config);
 			
-		$controller->email->from( 'info@careequity.com' , 'Care Equity Insights' );
+		$controller->email->from( 'careequityinsightstool@insights.careequity.com' , 'Care Equity Insights tool' );
 		
 		$controller->email->to($to);
 		
@@ -49,7 +52,7 @@
     }
     
     function sendEmail($to = '', $subject, $message, $cc = '') {
-		$from_email = 'Care Equity Insights <info@careequity.com>';
+		$from_email = 'Care Equity Insights tool <careequityinsightstool@insights.careequity.com>';
 		
 		// To send HTML mail, the Content-type header must be set
 		$headers[] = 'MIME-Version: 1.0';

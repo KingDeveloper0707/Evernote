@@ -18,7 +18,10 @@
         <div class="navbar-header">
             <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
             <a href="javascript:void(0);" class="bars"></a>
-            <a class="navbar-brand" href="<?= base_url('admin/dashboard');?>"><img src="<?php echo base_url('public/images/brain_logo.png');?>"/></a>
+            <a class="navbar-brand" href="<?= base_url('admin/dashboard');?>">
+            <!--<img src="<?php echo base_url('public/images/brain_logo.png');?>"/> -->
+            <div class="header_logo_text">Care Equity <br>Insights Tool</div>
+            </a>
         </div>
         <div class="collapse navbar-collapse" id="navbar-collapse">
 
